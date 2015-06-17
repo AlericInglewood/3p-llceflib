@@ -31,26 +31,16 @@ stage="$(pwd)/stage"
 
 build=${AUTOBUILD_BUILD_ID:=0}
 
-pushd "$OPENJPEG_SOURCE_DIR"
+pushd "$LLCEFLIB_SOURCE_DIR"
     case "$AUTOBUILD_PLATFORM" in
         "windows")
 
-            # echo "${OPENJPEG_VERSION}.${build}" > "${stage}/VERSION.txt"
+            # version number combines LLCefLib version & CEF version/bit width
+            # echo "${LLCEFLIB_VERSION}.${CEF_VERSION_WIN}.${build}" > "${stage}/VERSION.txt"
 
             # load_vsvars
 
-            # cmake . -G"Visual Studio 12" -DCMAKE_INSTALL_PREFIX=$stage
-
-            # build_sln "OPENJPEG.sln" "Release|Win32"
-            # build_sln "OPENJPEG.sln" "Debug|Win32"
-            # mkdir -p "$stage/lib/debug"
-            # mkdir -p "$stage/lib/release"
-            # cp bin/Release/openjpeg{.dll,.lib} "$stage/lib/release"
-            # cp bin/Debug/openjpeg.dll "$stage/lib/debug/openjpegd.dll"
-            # cp bin/Debug/openjpeg.lib "$stage/lib/debug/openjpegd.lib"
-            # cp bin/Debug/openjpeg.pdb "$stage/lib/debug/openjpegd.pdb"
-            # mkdir -p "$stage/include/openjpeg"
-            # cp libopenjpeg/openjpeg.h "$stage/include/openjpeg"
+            # build_sln "llceflib.sln" "Release|Win32"
         ;;
         "darwin")
             # version number combines LLCefLib version & CEF version/bit width

@@ -7,8 +7,12 @@ set -x
 # make errors fatal
 set -e
 
-OPENJPEG_VERSION="1.4"
-OPENJPEG_SOURCE_DIR="openjpeg_v1_4_sources_r697"
+LLCEFLIB_VERSION="1.0.0"
+LLCEFLIB_SOURCE_DIR="src"
+CEF_SOURCE_DIR_OSX="cef_2171_OSX_32"
+
+CEF_VERSION_WIN="TBD"
+CEF_VERSION_OSX="(CEF 3.2171.2069-32)"
 
 if [ -z "$AUTOBUILD" ] ; then 
     fail
@@ -26,50 +30,54 @@ set -x
 stage="$(pwd)/stage"
 
 build=${AUTOBUILD_BUILD_ID:=0}
-echo "${OPENJPEG_VERSION}.${build}" > "${stage}/VERSION.txt"
 
 pushd "$OPENJPEG_SOURCE_DIR"
     case "$AUTOBUILD_PLATFORM" in
         "windows")
-            load_vsvars
 
-            cmake . -G"Visual Studio 12" -DCMAKE_INSTALL_PREFIX=$stage
+            # echo "${OPENJPEG_VERSION}.${build}" > "${stage}/VERSION.txt"
 
-            build_sln "OPENJPEG.sln" "Release|Win32"
-            build_sln "OPENJPEG.sln" "Debug|Win32"
-            mkdir -p "$stage/lib/debug"
-            mkdir -p "$stage/lib/release"
-            cp bin/Release/openjpeg{.dll,.lib} "$stage/lib/release"
-            cp bin/Debug/openjpeg.dll "$stage/lib/debug/openjpegd.dll"
-            cp bin/Debug/openjpeg.lib "$stage/lib/debug/openjpegd.lib"
-            cp bin/Debug/openjpeg.pdb "$stage/lib/debug/openjpegd.pdb"
-            mkdir -p "$stage/include/openjpeg"
-            cp libopenjpeg/openjpeg.h "$stage/include/openjpeg"
+            # load_vsvars
+
+            # cmake . -G"Visual Studio 12" -DCMAKE_INSTALL_PREFIX=$stage
+
+            # build_sln "OPENJPEG.sln" "Release|Win32"
+            # build_sln "OPENJPEG.sln" "Debug|Win32"
+            # mkdir -p "$stage/lib/debug"
+            # mkdir -p "$stage/lib/release"
+            # cp bin/Release/openjpeg{.dll,.lib} "$stage/lib/release"
+            # cp bin/Debug/openjpeg.dll "$stage/lib/debug/openjpegd.dll"
+            # cp bin/Debug/openjpeg.lib "$stage/lib/debug/openjpegd.lib"
+            # cp bin/Debug/openjpeg.pdb "$stage/lib/debug/openjpegd.pdb"
+            # mkdir -p "$stage/include/openjpeg"
+            # cp libopenjpeg/openjpeg.h "$stage/include/openjpeg"
         ;;
         "darwin")
-	    cmake . -GXcode -D'CMAKE_OSX_ARCHITECTURES:STRING=i386;ppc' -D'BUILD_SHARED_LIBS:bool=off' -D'BUILD_CODEC:bool=off' -DCMAKE_INSTALL_PREFIX=$stage
-	    xcodebuild -configuration Release -target openjpeg -project openjpeg.xcodeproj
-	    xcodebuild -configuration Release -target install -project openjpeg.xcodeproj
+            # version number combines LLCefLib version & CEF version/bit width
+            echo "${LLCEFLIB_VERSION}.${CEF_VERSION_OSX}.${build}" > "${stage}/VERSION.txt"
+
+            # xcode project is set up to build in a folder
+            cd ${LLCEFLIB_SOURCE_DIR}
+            xcodebuild -workspace llceflib.xcworkspace -scheme LLCefLib -configuration Release -derivedDataPath build_mac
+            cd ..
+
+            mkdir -p "$stage/include/"
             mkdir -p "$stage/lib/release"
-	    cp "$stage/lib/libopenjpeg.a" "$stage/lib/release/libopenjpeg.a"
-            mkdir -p "$stage/include/openjpeg"
-	    cp "$stage/include/openjpeg-$OPENJPEG_VERSION/openjpeg.h" "$stage/include/openjpeg"
-	  
+
+            cp "$LLCEFLIB_SOURCE_DIR/build_mac/Build/Products/Release/libLLCefLib.a" "$stage/lib/release/"
+            cp "$LLCEFLIB_SOURCE_DIR/llceflib.h" "$stage/include/"
+            cp -R "$LLCEFLIB_SOURCE_DIR/build_mac/Build/Products/Release/LLCefLib Helper EH.app" "$stage/lib/release"
+            cp -R "$LLCEFLIB_SOURCE_DIR/build_mac/Build/Products/Release/LLCefLib Helper.app" "$stage/lib/release"
+
+            cp "$CEF_SOURCE_DIR_OSX/build/libcef_dll/Release/libcef_dll_wrapper.a" "$stage/lib/release"
+            cp -R "$CEF_SOURCE_DIR_OSX/Release/Chromium Embedded Framework.framework" "$stage/lib/release"
         ;;
         "linux")
-            CFLAGS="-m32" CPPFLAGS="-m32" LDFLAGS="-m32" ./configure --target=i686-linux-gnu --prefix="$stage" --enable-png=no --enable-lcms1=no --enable-lcms2=no --enable-tiff=no
-            make
-            make install
-
-            mv "$stage/include/openjpeg-$OPENJPEG_VERSION" "$stage/include/openjpeg"
-
-            mv "$stage/lib" "$stage/release"
-            mkdir -p "$stage/lib"
-            mv "$stage/release" "$stage/lib"
         ;;
     esac
+
     mkdir -p "$stage/LICENSES"
-    cp LICENSE "$stage/LICENSES/openjpeg.txt"
+    cp -R "$LLCEFLIB_SOURCE_DIR/LICENSES" "$stage"
 popd
 
 pass

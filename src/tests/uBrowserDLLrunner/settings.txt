@@ -1,0 +1,3 @@
+enable_plugins=0
+enable_javascript=0
+enable_cookies=1

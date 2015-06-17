@@ -1,0 +1,382 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		564D5A591B04C2E700C49BB0 /* llcontexthandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 564D5A581B04C2E700C49BB0 /* llcontexthandler.h */; };
+		569974B91AFFE14000D26A20 /* llbrowserclient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 569974AF1AFFE14000D26A20 /* llbrowserclient.cpp */; };
+		569974BA1AFFE14000D26A20 /* llbrowserclient.h in Headers */ = {isa = PBXBuildFile; fileRef = 569974B01AFFE14000D26A20 /* llbrowserclient.h */; };
+		569974BB1AFFE14000D26A20 /* llbrowserevents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 569974B11AFFE14000D26A20 /* llbrowserevents.cpp */; };
+		569974BC1AFFE14000D26A20 /* llbrowserevents.h in Headers */ = {isa = PBXBuildFile; fileRef = 569974B21AFFE14000D26A20 /* llbrowserevents.h */; };
+		569974BD1AFFE14000D26A20 /* llceflib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 569974B31AFFE14000D26A20 /* llceflib.cpp */; };
+		569974BE1AFFE14000D26A20 /* llceflib.h in Headers */ = {isa = PBXBuildFile; fileRef = 569974B41AFFE14000D26A20 /* llceflib.h */; };
+		569974BF1AFFE14000D26A20 /* llceflibimpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 569974B51AFFE14000D26A20 /* llceflibimpl.cpp */; };
+		569974C01AFFE14000D26A20 /* llceflibimpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 569974B61AFFE14000D26A20 /* llceflibimpl.h */; };
+		569974C11AFFE14000D26A20 /* llrenderhandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 569974B71AFFE14000D26A20 /* llrenderhandler.cpp */; };
+		569974C21AFFE14000D26A20 /* llrenderhandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 569974B81AFFE14000D26A20 /* llrenderhandler.h */; };
+		56CA9FC81B01FD12004F4044 /* llceflibplatform.h in Headers */ = {isa = PBXBuildFile; fileRef = 56CA9FC71B01FD12004F4044 /* llceflibplatform.h */; };
+		56CA9FCB1B0204B2004F4044 /* llschemehandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56CA9FC91B0204B2004F4044 /* llschemehandler.cpp */; };
+		56CA9FCC1B0204B2004F4044 /* llschemehandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 56CA9FCA1B0204B2004F4044 /* llschemehandler.h */; };
+		56CA9FCE1B0280BD004F4044 /* llceflibimpl_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 56CA9FCD1B0280BD004F4044 /* llceflibimpl_mac.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		569974C71AFFE24100D26A20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 569974C31AFFE24000D26A20 /* LLCefLib Helper.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5601146E1AFEB505003D8D24;
+			remoteInfo = "LlCefLib Helper";
+		};
+		569974C91AFFE24C00D26A20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 569974C31AFFE24000D26A20 /* LLCefLib Helper.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5601146D1AFEB505003D8D24;
+			remoteInfo = "LlCefLib Helper";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		5634D8C41AFFE06900EB109F /* libLLCefLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLLCefLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		564D5A581B04C2E700C49BB0 /* llcontexthandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llcontexthandler.h; sourceTree = SOURCE_ROOT; };
+		569974AF1AFFE14000D26A20 /* llbrowserclient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llbrowserclient.cpp; sourceTree = SOURCE_ROOT; };
+		569974B01AFFE14000D26A20 /* llbrowserclient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llbrowserclient.h; sourceTree = SOURCE_ROOT; };
+		569974B11AFFE14000D26A20 /* llbrowserevents.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llbrowserevents.cpp; sourceTree = SOURCE_ROOT; };
+		569974B21AFFE14000D26A20 /* llbrowserevents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llbrowserevents.h; sourceTree = SOURCE_ROOT; };
+		569974B31AFFE14000D26A20 /* llceflib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llceflib.cpp; sourceTree = SOURCE_ROOT; };
+		569974B41AFFE14000D26A20 /* llceflib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llceflib.h; sourceTree = SOURCE_ROOT; };
+		569974B51AFFE14000D26A20 /* llceflibimpl.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = llceflibimpl.cpp; sourceTree = SOURCE_ROOT; };
+		569974B61AFFE14000D26A20 /* llceflibimpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llceflibimpl.h; sourceTree = SOURCE_ROOT; };
+		569974B71AFFE14000D26A20 /* llrenderhandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llrenderhandler.cpp; sourceTree = SOURCE_ROOT; };
+		569974B81AFFE14000D26A20 /* llrenderhandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llrenderhandler.h; sourceTree = SOURCE_ROOT; };
+		569974C31AFFE24000D26A20 /* LLCefLib Helper.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "LLCefLib Helper.xcodeproj"; path = "llceflib_host/mac/LLCefLib Helper.xcodeproj"; sourceTree = "<group>"; };
+		56CA9FC71B01FD12004F4044 /* llceflibplatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llceflibplatform.h; sourceTree = SOURCE_ROOT; };
+		56CA9FC91B0204B2004F4044 /* llschemehandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llschemehandler.cpp; sourceTree = SOURCE_ROOT; };
+		56CA9FCA1B0204B2004F4044 /* llschemehandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llschemehandler.h; sourceTree = SOURCE_ROOT; };
+		56CA9FCD1B0280BD004F4044 /* llceflibimpl_mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = llceflibimpl_mac.mm; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5634D8C11AFFE06900EB109F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5634D8BB1AFFE06900EB109F = {
+			isa = PBXGroup;
+			children = (
+				569974C31AFFE24000D26A20 /* LLCefLib Helper.xcodeproj */,
+				5634D8C61AFFE06900EB109F /* LLCefLib */,
+				5634D8C51AFFE06900EB109F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5634D8C51AFFE06900EB109F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5634D8C41AFFE06900EB109F /* libLLCefLib.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5634D8C61AFFE06900EB109F /* LLCefLib */ = {
+			isa = PBXGroup;
+			children = (
+				569974AF1AFFE14000D26A20 /* llbrowserclient.cpp */,
+				569974B01AFFE14000D26A20 /* llbrowserclient.h */,
+				56CA9FC71B01FD12004F4044 /* llceflibplatform.h */,
+				569974B11AFFE14000D26A20 /* llbrowserevents.cpp */,
+				569974B21AFFE14000D26A20 /* llbrowserevents.h */,
+				569974B31AFFE14000D26A20 /* llceflib.cpp */,
+				569974B41AFFE14000D26A20 /* llceflib.h */,
+				56CA9FCD1B0280BD004F4044 /* llceflibimpl_mac.mm */,
+				569974B51AFFE14000D26A20 /* llceflibimpl.cpp */,
+				569974B61AFFE14000D26A20 /* llceflibimpl.h */,
+				569974B71AFFE14000D26A20 /* llrenderhandler.cpp */,
+				569974B81AFFE14000D26A20 /* llrenderhandler.h */,
+				56CA9FC91B0204B2004F4044 /* llschemehandler.cpp */,
+				56CA9FCA1B0204B2004F4044 /* llschemehandler.h */,
+				564D5A581B04C2E700C49BB0 /* llcontexthandler.h */,
+			);
+			path = LLCefLib;
+			sourceTree = "<group>";
+		};
+		569974C41AFFE24000D26A20 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				569974C81AFFE24100D26A20 /* LLCefLib Helper.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		5634D8C21AFFE06900EB109F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				569974BC1AFFE14000D26A20 /* llbrowserevents.h in Headers */,
+				569974BA1AFFE14000D26A20 /* llbrowserclient.h in Headers */,
+				569974BE1AFFE14000D26A20 /* llceflib.h in Headers */,
+				564D5A591B04C2E700C49BB0 /* llcontexthandler.h in Headers */,
+				569974C21AFFE14000D26A20 /* llrenderhandler.h in Headers */,
+				56CA9FCC1B0204B2004F4044 /* llschemehandler.h in Headers */,
+				56CA9FC81B01FD12004F4044 /* llceflibplatform.h in Headers */,
+				569974C01AFFE14000D26A20 /* llceflibimpl.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		5634D8C31AFFE06900EB109F /* LLCefLib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5634D8CF1AFFE06900EB109F /* Build configuration list for PBXNativeTarget "LLCefLib" */;
+			buildPhases = (
+				5634D8C01AFFE06900EB109F /* Sources */,
+				5634D8C11AFFE06900EB109F /* Frameworks */,
+				5634D8C21AFFE06900EB109F /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				569974CA1AFFE24C00D26A20 /* PBXTargetDependency */,
+			);
+			name = LLCefLib;
+			productName = LLCefLib;
+			productReference = 5634D8C41AFFE06900EB109F /* libLLCefLib.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5634D8BC1AFFE06900EB109F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "Charles De Meulenaer";
+				TargetAttributes = {
+					5634D8C31AFFE06900EB109F = {
+						CreatedOnToolsVersion = 6.2;
+					};
+				};
+			};
+			buildConfigurationList = 5634D8BF1AFFE06900EB109F /* Build configuration list for PBXProject "LLCefLib" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5634D8BB1AFFE06900EB109F;
+			productRefGroup = 5634D8C51AFFE06900EB109F /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 569974C41AFFE24000D26A20 /* Products */;
+					ProjectRef = 569974C31AFFE24000D26A20 /* LLCefLib Helper.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				5634D8C31AFFE06900EB109F /* LLCefLib */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		569974C81AFFE24100D26A20 /* LLCefLib Helper.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "LLCefLib Helper.app";
+			remoteRef = 569974C71AFFE24100D26A20 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5634D8C01AFFE06900EB109F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				569974BF1AFFE14000D26A20 /* llceflibimpl.cpp in Sources */,
+				569974BD1AFFE14000D26A20 /* llceflib.cpp in Sources */,
+				569974B91AFFE14000D26A20 /* llbrowserclient.cpp in Sources */,
+				56CA9FCB1B0204B2004F4044 /* llschemehandler.cpp in Sources */,
+				56CA9FCE1B0280BD004F4044 /* llceflibimpl_mac.mm in Sources */,
+				569974BB1AFFE14000D26A20 /* llbrowserevents.cpp in Sources */,
+				569974C11AFFE14000D26A20 /* llrenderhandler.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		569974CA1AFFE24C00D26A20 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "LlCefLib Helper";
+			targetProxy = 569974C91AFFE24C00D26A20 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		5634D8CD1AFFE06900EB109F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		5634D8CE1AFFE06900EB109F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		5634D8D01AFFE06900EB109F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../cef_2171_OSX_32,
+					./include,
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = build;
+				VALID_ARCHS = i386;
+			};
+			name = Debug;
+		};
+		5634D8D11AFFE06900EB109F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../cef_2171_OSX_32,
+					./include,
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = build;
+				VALID_ARCHS = i386;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5634D8BF1AFFE06900EB109F /* Build configuration list for PBXProject "LLCefLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5634D8CD1AFFE06900EB109F /* Debug */,
+				5634D8CE1AFFE06900EB109F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5634D8CF1AFFE06900EB109F /* Build configuration list for PBXNativeTarget "LLCefLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5634D8D01AFFE06900EB109F /* Debug */,
+				5634D8D11AFFE06900EB109F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5634D8BC1AFFE06900EB109F /* Project object */;
+}

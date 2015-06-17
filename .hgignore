@@ -1,0 +1,14 @@
+syntax: glob
+
+./build_mac/
+llceflib.sdf
+llceflib.opensdf
+llceflib.v12.suo
+llceflib.wwdb
+testgl\testgl.wwdb
+./Debug/
+./Release/
+testGLrunner/debug.log
+*.orig
+*.wwdb
+.DS_Store

@@ -46,8 +46,7 @@ pushd "$LLCEFLIB_SOURCE_DIR"
             # version number combines LLCefLib version & CEF version/bit width
             echo "${LLCEFLIB_VERSION}.${CEF_VERSION_OSX}.${build}" > "${stage}/VERSION.txt"
 
-            # xcode project is set up to build in a folder
-            cd ${LLCEFLIB_SOURCE_DIR}
+            # xcode project is set up to build in the llcef source folder
             xcodebuild -workspace llceflib.xcworkspace -scheme LLCefLib -configuration Release -derivedDataPath build_mac
             cd ..
 

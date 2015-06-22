@@ -42,7 +42,7 @@
             <string>LICENSES/LICENSE-source.txt</string>
             <string>LICENSES/CEF_BSD.txt</string>
             <string>LICENSES/CEF_LICENSE.txt</string>
-            <string>include/llceflib.h</string>
+            <string>include/cef/llceflib.h</string>
           </array>
           <key>name</key>
           <string>common</string>
@@ -87,6 +87,8 @@
           <key>manifest</key>
           <array>
             <string>lib/release/*</string>
+            <string>bin/release/*</string>
+            <string>resources/*</string>
           </array>
           <key>name</key>
           <string>windows</string>

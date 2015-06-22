@@ -1,0 +1,13 @@
+﻿Build started 6/18/2015 4:45:47 PM.
+     1>Project "C:\work\3p-llceflib\cef_2272_WIN_32\build\ZERO_CHECK.vcxproj" on node 2 (Build target(s)).
+     1>CustomBuild:
+         Checking Build System
+         CMake does not need to re-run because C:/work/3p-llceflib/cef_2272_WIN_32/build/CMakeFiles/generate.stamp is up-to-date.
+         CMake does not need to re-run because C:/work/3p-llceflib/cef_2272_WIN_32/build/libcef_dll/CMakeFiles/generate.stamp is up-to-date.
+         CMake does not need to re-run because C:/work/3p-llceflib/cef_2272_WIN_32/build/cefclient/CMakeFiles/generate.stamp is up-to-date.
+         CMake does not need to re-run because C:/work/3p-llceflib/cef_2272_WIN_32/build/cefsimple/CMakeFiles/generate.stamp is up-to-date.
+     1>Done Building Project "C:\work\3p-llceflib\cef_2272_WIN_32\build\ZERO_CHECK.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.12

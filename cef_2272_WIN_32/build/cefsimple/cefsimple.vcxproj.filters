@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\simple_app.cc">
+      <Filter>cefsimple</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\simple_handler.cc">
+      <Filter>cefsimple</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\cefsimple_win.cc">
+      <Filter>cefsimple</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\simple_handler_win.cc">
+      <Filter>cefsimple</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\simple_app.h">
+      <Filter>cefsimple</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\simple_handler.h">
+      <Filter>cefsimple</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\resource.h">
+      <Filter>cefsimple</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\cefsimple.exe.manifest">
+      <Filter>cefsimple</Filter>
+    </None>
+    <None Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\res\cefsimple.ico">
+      <Filter>cefsimple\res</Filter>
+    </None>
+    <None Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\res\small.ico">
+      <Filter>cefsimple\res</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\work\3p-llceflib\cef_2272_WIN_32\cefsimple\cefsimple.rc">
+      <Filter>cefsimple</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="cefsimple\res">
+      <UniqueIdentifier>{B8503623-3661-4C51-80A5-CBBAE666706D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cefsimple">
+      <UniqueIdentifier>{2FAED0EF-0A98-4519-A609-2B028185CEF5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

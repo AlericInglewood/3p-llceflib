@@ -22,3 +22,7 @@ these notes might help you:
   5) Other C++ flags: -mmacosx-version-min=10.6 -> -mmacosx-version-min=10.7 
 * Set libcef_dll_wrapper as the build project
 * Build libcef_dll_wrapper Release configurations
+
+Additional note: './Debug' folder was removed because it's huge (~500MB) and 
+we not used because we don't build a debug version. It is available in the 
+package from http://cefbuilds.com

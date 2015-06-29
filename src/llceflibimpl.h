@@ -67,7 +67,16 @@ class LLCEFLibImpl :
         void setOnTitleChangeCallback(boost::function<void(std::string)> callback);
         void onTitleChange(std::string title);
 
-        void mouseButton(int button, bool is_down, int x, int y);
+		void setOnLoadStartCallback(boost::function<void()> callback);
+		void onLoadStart();
+
+		void setOnLoadEndCallback(boost::function<void(int)> callback);
+		void onLoadEnd(int httpStatusCode);
+
+		void setOnNavigateURLCallback(boost::function<void(std::string)> callback);
+		void onNavigateURL(std::string url);
+
+		void mouseButton(int button, bool is_down, int x, int y);
         void mouseMove(int x, int y);
 
         void keyPress(int code, bool is_down);
@@ -95,7 +104,10 @@ class LLCEFLibImpl :
         boost::function<void(std::string)> mOnCustomSchemeURLCallbackFunc;
         boost::function<void(std::string, std::string, int line)> mOnConsoleMessageCallbackFunc;
         boost::function<void(std::string)> mOnStatusMessageCallbackFunc;
-        boost::function<void(std::string)> mOnTitleChangeCallbackFunc;
+		boost::function<void(std::string)> mOnTitleChangeCallbackFunc;
+		boost::function<void()> mOnLoadStartCallbackFunc;
+		boost::function<void(int)> mOnLoadEndCallbackFunc;
+		boost::function<void(std::string)> mOnNavigateURLCallbackFunc;
 
         IMPLEMENT_REFCOUNTING(LLCEFLibImpl);
 };

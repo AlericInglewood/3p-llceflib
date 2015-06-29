@@ -97,19 +97,33 @@ bool LLBrowserEvents::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefS
 void LLBrowserEvents::OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value)
 {
     CEF_REQUIRE_UI_THREAD();
-    std::string t = value;
-    std::cout << "Status changed to " << t << std::endl;
 }
 
 void LLBrowserEvents::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
 {
     CEF_REQUIRE_UI_THREAD();
-    std::string t = title;
-    std::cout << "Title changed to " << t << std::endl;
 }
 
 bool LLBrowserEvents::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text)
 {
     CEF_REQUIRE_UI_THREAD();
     return true;
+}
+
+void LLBrowserEvents::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
+{
+}
+
+void LLBrowserEvents::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
+{
+}
+
+void LLBrowserEvents::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)
+{
+}
+
+bool LLBrowserEvents::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
+{
+	CEF_REQUIRE_UI_THREAD();
+	return true;
 }

@@ -69,3 +69,32 @@ void LLBrowserClient::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefStri
     std::string title_str = title;
     mParent->onTitleChange(title_str);
 }
+
+void LLBrowserClient::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
+{
+	CEF_REQUIRE_UI_THREAD();
+	if (frame->IsMain())
+		mParent->onLoadStart();
+}
+
+void LLBrowserClient::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
+{
+	CEF_REQUIRE_UI_THREAD();
+	if (frame->IsMain())
+		mParent->onLoadEnd(httpStatusCode);
+}
+
+void LLBrowserClient::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)
+{
+}
+
+bool LLBrowserClient::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
+{
+	CEF_REQUIRE_UI_THREAD();
+	std::string url = request->GetURL();
+
+	mParent->onNavigateURL(url);
+
+	// continue with navigation
+	return false;
+}

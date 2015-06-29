@@ -55,11 +55,15 @@ class LLMediaSimpleTest
 
         bool init(int init_width, int init_height)
         {
+			std::cout << "TestGL(DLL) starting - version:" << LLCEFLIB_VERSION << std::endl;
             mLLCEFLib->setPageChangedCallback(boost::bind(&LLMediaSimpleTest::pageChangedCallback, this, _1, _2, _3));
             mLLCEFLib->setOnCustomSchemeURLCallback(boost::bind(&LLMediaSimpleTest::onCustomSchemeURLCallback, this, _1));
             mLLCEFLib->setOnConsoleMessageCallback(boost::bind(&LLMediaSimpleTest::onConsoleMessageCallback, this, _1, _2, _3));
             mLLCEFLib->setOnStatusMessageCallback(boost::bind(&LLMediaSimpleTest::onStatusMessageCallback, this, _1));
-            mLLCEFLib->setOnTitleChangeCallback(boost::bind(&LLMediaSimpleTest::onTitleChangeCallback, this, _1));
+			mLLCEFLib->setOnTitleChangeCallback(boost::bind(&LLMediaSimpleTest::onTitleChangeCallback, this, _1));
+			mLLCEFLib->setOnLoadStartCallback(boost::bind(&LLMediaSimpleTest::onLoadStartCallback, this));
+			mLLCEFLib->setOnLoadEndCallback(boost::bind(&LLMediaSimpleTest::onLoadEndCallback, this, _1));
+			mLLCEFLib->setOnNavigateURLCallback(boost::bind(&LLMediaSimpleTest::onNavigateURLCallback, this, _1));
 
             LLCEFLibSettings settings;
             settings.inital_width = mBrowserWidth;
@@ -96,12 +100,27 @@ class LLMediaSimpleTest
             std::cout << "TestGL - status changed to " << value << std::endl;
         }
 
-        void onTitleChangeCallback(std::string title)
-        {
-            std::cout << "TestGL - title changed to " << title << std::endl;
-        }
+		void onTitleChangeCallback(std::string title)
+		{
+			std::cout << "TestGL - title changed to " << title << std::endl;
+		}
 
-        void display()
+		void onLoadStartCallback()
+		{
+			std::cout << "TestGL - Load started" << std::endl;
+		}
+
+		void onLoadEndCallback(int httpStatusCode)
+		{
+			std::cout << "TestGL - Load ended with HTTP status code of " << httpStatusCode << std::endl;
+		}
+
+		void onNavigateURLCallback(std::string url)
+		{
+			std::cout << "TestGL - navigate to " << url << std::endl;
+		}
+
+		void display()
         {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

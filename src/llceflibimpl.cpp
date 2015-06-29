@@ -131,7 +131,7 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
     CefRefPtr<CefRequestContext> rc = CefRequestContext::CreateContext( new LLContextHandler(cookiePath.c_str()) );
 #endif
     
-    CefString url = "about:blank";
+    CefString url = "";
     mBrowser = CefBrowserHost::CreateBrowserSync(window_info, mBrowserClient.get(), url, browser_settings, rc);
     
     return true;
@@ -164,7 +164,22 @@ void LLCEFLibImpl::setOnStatusMessageCallback(boost::function<void(std::string)>
 
 void LLCEFLibImpl::setOnTitleChangeCallback(boost::function<void(std::string)> callback)
 {
-    mOnTitleChangeCallbackFunc = callback;
+	mOnTitleChangeCallbackFunc = callback;
+}
+
+void LLCEFLibImpl::setOnLoadStartCallback(boost::function<void()> callback)
+{
+	mOnLoadStartCallbackFunc = callback;
+}
+
+void LLCEFLibImpl::setOnLoadEndCallback(boost::function<void(int)> callback)
+{
+	mOnLoadEndCallbackFunc = callback;
+}
+
+void LLCEFLibImpl::setOnNavigateURLCallback(boost::function<void(std::string)> callback)
+{
+	mOnNavigateURLCallbackFunc = callback;
 }
 
 void LLCEFLibImpl::setSize(int width, int height)
@@ -213,8 +228,26 @@ void LLCEFLibImpl::onStatusMessage(std::string value)
 
 void LLCEFLibImpl::onTitleChange(std::string title)
 {
-    if(mOnTitleChangeCallbackFunc)
-        mOnTitleChangeCallbackFunc(title);
+	if (mOnTitleChangeCallbackFunc)
+		mOnTitleChangeCallbackFunc(title);
+}
+
+void LLCEFLibImpl::onLoadStart()
+{
+	if (mOnLoadStartCallbackFunc)
+		mOnLoadStartCallbackFunc();
+}
+
+void LLCEFLibImpl::onLoadEnd(int httpStatusCode)
+{
+	if (mOnLoadEndCallbackFunc)
+		mOnLoadEndCallbackFunc(httpStatusCode);
+}
+
+void LLCEFLibImpl::onNavigateURL(std::string url)
+{
+	if (mOnNavigateURLCallbackFunc)
+		mOnNavigateURLCallbackFunc(url);
 }
 
 int LLCEFLibImpl::getDepth()

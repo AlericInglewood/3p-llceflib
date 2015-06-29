@@ -32,6 +32,16 @@
 
 class LLCEFLibImpl;
 
+// version information
+const std::string LLCEFLIB_BASE_VERSION = "1.0.0";
+const std::string CEF_VERSION_WIN = "(CEF-WIN-3.2272.gbda8dc7-32)";
+const std::string CEF_VERSION_OSX = "(CEF-OSX-3.2171.2069-32)";
+#ifdef _MSC_VER
+const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_WIN;
+#elif
+const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_OSX;
+#endif
+
 // used to pass in various settings during initialization
 struct LLCEFLibSettings
 {
@@ -84,7 +94,10 @@ class LLCEFLib
         void setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback);
         void setOnConsoleMessageCallback(boost::function<void(std::string, std::string, int)> callback);
         void setOnStatusMessageCallback(boost::function<void(std::string)> callback);
-        void setOnTitleChangeCallback(boost::function<void(std::string)> callback);
+		void setOnTitleChangeCallback(boost::function<void(std::string)> callback);
+		void setOnLoadStartCallback(boost::function<void()> callback);
+		void setOnLoadEndCallback(boost::function<void(int)> callback);
+		void setOnNavigateURLCallback(boost::function<void(std::string)> callback);
 
     private:
         std::auto_ptr <LLCEFLibImpl> mImpl;

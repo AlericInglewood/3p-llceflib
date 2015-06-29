@@ -83,7 +83,22 @@ void LLCEFLib::setOnStatusMessageCallback(boost::function<void(std::string value
 
 void LLCEFLib::setOnTitleChangeCallback(boost::function<void(std::string title)> callback)
 {
-    mImpl->setOnTitleChangeCallback(callback);
+	mImpl->setOnTitleChangeCallback(callback);
+}
+
+void LLCEFLib::setOnLoadStartCallback(boost::function<void()> callback)
+{
+	mImpl->setOnLoadStartCallback(callback);
+}
+
+void LLCEFLib::setOnLoadEndCallback(boost::function<void(int)> callback)
+{
+	mImpl->setOnLoadEndCallback(callback);
+}
+
+void LLCEFLib::setOnNavigateURLCallback(boost::function<void(std::string title)> callback)
+{
+	mImpl->setOnNavigateURLCallback(callback);
 }
 
 void LLCEFLib::reset()

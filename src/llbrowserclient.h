@@ -49,6 +49,14 @@ class LLBrowserClient :
         void OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value) OVERRIDE;
         void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) OVERRIDE;
 
+		// LLBrowserEvents/CefLoadHandler overrides
+		void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;
+		void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) OVERRIDE;
+		void OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl) OVERRIDE;
+
+		// LLBrowserEvents/CefRequestHandler overrides
+		bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
+
     private:
         LLCEFLibImpl* mParent;
 

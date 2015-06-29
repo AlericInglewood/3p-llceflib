@@ -33,13 +33,13 @@
 class LLBrowserEvents :
     public CefClient,
     public CefLifeSpanHandler,
-    public CefDisplayHandler
+    public CefDisplayHandler,
+	public CefLoadHandler,
+	public CefRequestHandler
 {
     public:
         // CefLifeSpanHandler overrides
-        CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() {
-            return this;
-        }
+        CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() { return this; }
         bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
                            CefRefPtr<CefFrame> frame,
                            const CefString& target_url,
@@ -60,6 +60,16 @@ class LLBrowserEvents :
         void OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value) OVERRIDE;
         void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) OVERRIDE;
         bool OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text) OVERRIDE;
+
+		// CefLoadHandler overrides
+		CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }
+		void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;
+		void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) OVERRIDE;
+		void OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl) OVERRIDE;
+
+		// CefRequestHandler overrides
+		CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE{ return this; }
+		bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
 
     public:
         IMPLEMENT_REFCOUNTING(LLBrowserEvents);

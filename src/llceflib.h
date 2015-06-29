@@ -38,7 +38,7 @@ const std::string CEF_VERSION_WIN = "(CEF-WIN-3.2272.gbda8dc7-32)";
 const std::string CEF_VERSION_OSX = "(CEF-OSX-3.2171.2069-32)";
 #ifdef _MSC_VER
 const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_WIN;
-#elif
+#else
 const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_OSX;
 #endif
 

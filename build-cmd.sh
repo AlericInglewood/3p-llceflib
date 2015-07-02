@@ -42,7 +42,6 @@ pushd "$LLCEFLIB_SOURCE_DIR"
             build_sln "llceflib.sln" "Release|Win32"
 
             cd ..
-
             mkdir -p "$stage/include/cef"
             mkdir -p "$stage/lib/release"
             mkdir -p "$stage/bin/release"
@@ -75,7 +74,6 @@ pushd "$LLCEFLIB_SOURCE_DIR"
             # xcode project is set up to build in the llcef source folder
             xcodebuild -workspace llceflib.xcworkspace -scheme LLCefLib -configuration Release -derivedDataPath build_mac
             cd ..
-
             mkdir -p "$stage/include/cef"
             mkdir -p "$stage/lib/release"
 

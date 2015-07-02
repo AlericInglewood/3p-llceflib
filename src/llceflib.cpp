@@ -61,6 +61,11 @@ void LLCEFLib::navigate(std::string url)
     mImpl->navigate(url);
 }
 
+void LLCEFLib::setPageZoom(double zoom_val)
+{
+	mImpl->setPageZoom(zoom_val);
+}
+
 void LLCEFLib::setPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback)
 {
     mImpl->setPageChangedCallback(callback);

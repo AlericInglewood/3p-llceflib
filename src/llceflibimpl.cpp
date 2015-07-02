@@ -266,6 +266,17 @@ void LLCEFLibImpl::navigate(std::string url)
     }
 }
 
+void LLCEFLibImpl::setPageZoom(double zoom_val)
+{
+	if (mBrowser)
+	{
+		if (mBrowser->GetHost())
+		{
+			mBrowser->GetHost()->SetZoomLevel(zoom_val);
+		}
+	}
+}
+
 void LLCEFLibImpl::mouseButton(int button, bool is_down, int x, int y)
 {
     CefMouseEvent mouse_event;

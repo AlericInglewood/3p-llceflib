@@ -49,6 +49,7 @@ class LLCEFLibImpl :
         void getSize(int& width, int& height);
         int getDepth();
         void navigate(std::string url);
+		void setPageZoom(double zoom_val);
         void reset();
 
         void setPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);

@@ -73,6 +73,7 @@ class LLCEFLib
         void setSize(int width, int height);
         void getSize(int& width, int& height);
         void navigate(std::string url);
+		void setPageZoom(double zoom_val);
         void mouseButton(int button, bool is_down, int x, int y);
         void mouseMove(int x, int y);
 

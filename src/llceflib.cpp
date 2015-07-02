@@ -111,9 +111,10 @@ void LLCEFLib::reset()
     mImpl->reset();
 }
 
-void LLCEFLib::mouseButton(int button, bool is_down, int x, int y)
+void LLCEFLib::mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y)
+
 {
-    mImpl->mouseButton(button, is_down, x, y);
+    mImpl->mouseButton(mouse_button, mouse_event, x, y);
 }
 
 void LLCEFLib::mouseMove(int x, int y)

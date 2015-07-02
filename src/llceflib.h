@@ -61,6 +61,37 @@ struct LLCEFLibSettings
     std::string locale = "en-US";
 };
 
+typedef enum e_key_event
+{
+	KE_KEY_DOWN,
+	KE_KEY_REPEAT,
+	KE_KEY_UP
+}EKeyEvent;
+
+typedef enum e_mouse_event
+{
+	ME_MOUSE_MOVE,
+	ME_MOUSE_DOWN,
+	ME_MOUSE_UP,
+	ME_MOUSE_DOUBLE_CLICK
+}EMouseEvent;
+
+typedef enum e_mouse_button
+{
+	MB_MOUSE_BUTTON_LEFT,
+	MB_MOUSE_BUTTON_RIGHT,
+	MB_MOUSE_BUTTON_MIDDLE
+}EMouseButton;
+
+typedef enum e_keyboard_modifier
+{
+	KM_MODIFIER_NONE =    0x00,
+	KM_MODIFIER_SHIFT =   0x01,
+	KM_MODIFIER_CONTROL = 0x02,
+	KM_MODIFIER_ALT =     0x04,
+	KM_MODIFIER_META =    0x08
+}EKeyboardModifier;
+
 class LLCEFLib
 {
     public:
@@ -74,7 +105,7 @@ class LLCEFLib
         void getSize(int& width, int& height);
         void navigate(std::string url);
 		void setPageZoom(double zoom_val);
-        void mouseButton(int button, bool is_down, int x, int y);
+		void mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y);
         void mouseMove(int x, int y);
 
         void keyPress(int code, bool is_down);

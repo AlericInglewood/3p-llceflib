@@ -802,37 +802,19 @@ void uBrowser::mouseButton(int buttonIn, int stateIn, int xIn, int yIn)
     int x, y;
     windowPosToTexturePos(xIn, yIn, x, y);
 
-    if(buttonIn == GLUT_LEFT_BUTTON)
-    {
-        if(stateIn == GLUT_DOWN)
-        {
-            if(mVerboseLevel > 1)
-            {
-                std::cout << "LOG> Left mouse down at " << x << ", " << y << std::endl;
-            }
+	EMouseButton btn;
+	if (buttonIn == GLUT_LEFT_BUTTON) btn = MB_MOUSE_BUTTON_LEFT;
+	if (buttonIn == GLUT_RIGHT_BUTTON) btn = MB_MOUSE_BUTTON_RIGHT;
+	if (buttonIn == GLUT_MIDDLE_BUTTON) btn = MB_MOUSE_BUTTON_MIDDLE;
 
-            mLLCEFLib->mouseButton(0, true, x, y);
-            mLLCEFLib->setFocus(true);
-        }
-        else if(stateIn == GLUT_UP)
-        {
-            if(mVerboseLevel > 1)
-            {
-                std::cout << "LOG> Left mouse up at " << x << ", " << y << std::endl;
-            }
+	EMouseEvent ev;
+	if (stateIn == GLUT_DOWN) ev = ME_MOUSE_DOWN;
+	if (stateIn == GLUT_UP) ev = ME_MOUSE_UP;
 
-            mLLCEFLib->mouseButton(0, false, x, y);
-        };
-    }
-    else if(buttonIn == GLUT_RIGHT_BUTTON)
-    {
-        if(stateIn == GLUT_DOWN)
-        {
-        }
-        else if(stateIn == GLUT_UP)
-        {
-        };
-    };
+	mLLCEFLib->mouseButton(btn, ev, x, y);
+
+	if (mVerboseLevel > 1) 
+		std::cout << "LOG> Mouse button " << btn << " event " << ev << " at " <<  x << ", " << y << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

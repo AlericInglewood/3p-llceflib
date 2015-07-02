@@ -30,6 +30,7 @@
 #include "llbrowserclient.h"
 #include "boost/function.hpp"
 
+#include "llceflib.h"
 #include "llceflibplatform.h"
 
 class CefSchemeRegistrar;
@@ -77,7 +78,7 @@ class LLCEFLibImpl :
 		void setOnNavigateURLCallback(boost::function<void(std::string)> callback);
 		void onNavigateURL(std::string url);
 
-		void mouseButton(int button, bool is_down, int x, int y);
+		void mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y);
         void mouseMove(int x, int y);
 
         void keyPress(int code, bool is_down);

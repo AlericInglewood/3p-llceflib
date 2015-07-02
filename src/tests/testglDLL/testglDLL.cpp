@@ -38,12 +38,13 @@
 class LLMediaSimpleTest
 {
     public:
-        LLMediaSimpleTest() :
-            mBrowserWidth(1024),
-            mBrowserHeight(1024),
-            mBrowserDepth(4),
-            mAppTexture(0),
-            mHomepageURL("http://news.google.co.uk" /*"file:///testpages.html"*/)
+		LLMediaSimpleTest() :
+			mBrowserWidth(1024),
+			mBrowserHeight(1024),
+			mBrowserDepth(4),
+			mAppTexture(0),
+			mHomepageURL("file:///testpages.html")
+			//mHomepageURL("http://news.google.co.uk" /*"file:///testpages.html"*/)
         {
             mLLCEFLib = new LLCEFLib();
         };
@@ -162,17 +163,21 @@ class LLMediaSimpleTest
 
         void mouseButton(int button, int state, int x, int y)
         {
-            if(button == GLUT_LEFT_BUTTON)
-            {
-                // TODO: use our own
-                const int LLCEFLIB_BUTTON_LEFT = 0;
-                mLLCEFLib->mouseButton(LLCEFLIB_BUTTON_LEFT, state == GLUT_DOWN ? true : false, x, y);
+			EMouseButton btn;
+			if (button == GLUT_LEFT_BUTTON) btn = MB_MOUSE_BUTTON_LEFT;
+			if (button == GLUT_RIGHT_BUTTON) btn = MB_MOUSE_BUTTON_RIGHT;
+			if (button == GLUT_MIDDLE_BUTTON) btn = MB_MOUSE_BUTTON_MIDDLE;
 
-                if(state == GLUT_DOWN)
-                {
-                    mLLCEFLib->setFocus(true);
-                }
-            }
+			EMouseEvent ev;
+			if (state == GLUT_DOWN) ev = ME_MOUSE_DOWN;
+			if (state == GLUT_UP) ev = ME_MOUSE_UP;
+
+			mLLCEFLib->mouseButton(btn, ev, x, y);
+
+                //if(state == GLUT_DOWN)
+                //{
+                //    mLLCEFLib->setFocus(true);
+                //}
         };
 
         void mouseMove(int x, int y)

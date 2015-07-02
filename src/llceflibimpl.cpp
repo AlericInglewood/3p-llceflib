@@ -277,20 +277,32 @@ void LLCEFLibImpl::setPageZoom(double zoom_val)
 	}
 }
 
-void LLCEFLibImpl::mouseButton(int button, bool is_down, int x, int y)
+void LLCEFLibImpl::mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y)
 {
-    CefMouseEvent mouse_event;
-    mouse_event.x = x;
-    mouse_event.y = y;
+	// select click location
+    CefMouseEvent cef_mouse_event;
+    cef_mouse_event.x = x;
+    cef_mouse_event.y = y;
 
-    CefBrowserHost::MouseButtonType btnType = MBT_LEFT; // TODO - generalize to all buttons
+	// select button
+	CefBrowserHost::MouseButtonType btnType = MBT_LEFT;
+	if (mouse_button == MB_MOUSE_BUTTON_RIGHT) btnType = MBT_RIGHT;
+	if (mouse_button == MB_MOUSE_BUTTON_MIDDLE) btnType = MBT_MIDDLE;
+
+	// TODO: set this properly
     int last_click_count = 1;
-    mBrowser->GetHost()->SendMouseClickEvent(mouse_event, btnType, is_down ? false : true, last_click_count);
+
+	// action TODO: extend to include "move" although this might be enough
+	bool is_down = false;
+	if (mouse_event == ME_MOUSE_DOWN) is_down = true;
+	if (mouse_event == ME_MOUSE_UP) is_down = false;
+	
+	// send to CEF
+    mBrowser->GetHost()->SendMouseClickEvent(cef_mouse_event, btnType, is_down ? false : true, last_click_count);
+
+	// set focus on mouse down - I think this right
     if(is_down)
     {
-#ifdef LLCEFLIB_DEBUG
-        std::cout << "Setting focus" << std::endl;
-#endif
         mBrowser->GetHost()->SetFocus(true);
     }
 };

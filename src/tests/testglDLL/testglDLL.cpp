@@ -43,8 +43,8 @@ class LLMediaSimpleTest
 			mBrowserHeight(1024),
 			mBrowserDepth(4),
 			mAppTexture(0),
-			mHomepageURL("file:///testpages.html")
-			//mHomepageURL("http://news.google.co.uk" /*"file:///testpages.html"*/)
+			//mHomepageURL("file:///testpages.html")
+			mHomepageURL("http://google.com")
         {
             mLLCEFLib = new LLCEFLib();
         };
@@ -143,9 +143,6 @@ class LLMediaSimpleTest
         void idle()
         {
             mLLCEFLib->update();
-
-            //if (mLLCEFLib->isLoading())
-            //  std::cout << "#";
         }
 
         void reshape(int width, int height)
@@ -163,8 +160,7 @@ class LLMediaSimpleTest
 
         void mouseButton(int button, int state, int x, int y)
         {
-			EMouseButton btn;
-			if (button == GLUT_LEFT_BUTTON) btn = MB_MOUSE_BUTTON_LEFT;
+			EMouseButton btn = MB_MOUSE_BUTTON_LEFT;
 			if (button == GLUT_RIGHT_BUTTON) btn = MB_MOUSE_BUTTON_RIGHT;
 			if (button == GLUT_MIDDLE_BUTTON) btn = MB_MOUSE_BUTTON_MIDDLE;
 
@@ -174,10 +170,8 @@ class LLMediaSimpleTest
 
 			mLLCEFLib->mouseButton(btn, ev, x, y);
 
-                //if(state == GLUT_DOWN)
-                //{
-                //    mLLCEFLib->setFocus(true);
-                //}
+			if (state == GLUT_DOWN)
+				mLLCEFLib->setFocus(true);
         };
 
         void mouseMove(int x, int y)
@@ -227,13 +221,10 @@ class LLMediaSimpleTest
             if(key == '`') mLLCEFLib->navigate(mHomepageURL);
             if(key == '-') mLLCEFLib->goBack();
             if(key == '=') mLLCEFLib->goForward();
-
-            mLLCEFLib->keyPress(key, true);
         }
 
         void keyboardUp(unsigned char key)
         {
-            mLLCEFLib->keyPress(key, false);
         }
 
         void mouseWheel(int button, int dir, int x, int y)
@@ -318,8 +309,8 @@ int testGL()
     
     glutCreateWindow("testGL");
     
-    glutKeyboardFunc(glutKeyboard);
-    glutKeyboardUpFunc(glutKeyboardUp);
+	glutKeyboardFunc(glutKeyboard);
+	glutKeyboardUpFunc(glutKeyboardUp);
     glutDisplayFunc(glutDisplay);
     glutIdleFunc(glutIdle);
     glutReshapeFunc(glutReshape);
@@ -341,37 +332,6 @@ int testGL()
     }
     
     delete gApplication;
-
-//#if WIN32 /*&& 0*/
-//#error We can remove this if the above works on Windows
-//    bool result = gApplication->init(1024, 1024);
-//    if (result)
-//    {
-//        int argc = 0;
-//        glutInit(&argc, 0);
-//        glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-//
-//        glutInitWindowPosition(700, 0);
-//        glutInitWindowSize(1024, 1024);
-//
-//        glutCreateWindow("testGL");
-//        glutKeyboardFunc(glutKeyboard);
-//        glutKeyboardUpFunc(glutKeyboardUp);
-//        glutDisplayFunc(glutDisplay);
-//        glutIdleFunc(glutIdle);
-//        glutReshapeFunc(glutReshape);
-//        glutMouseFunc(glutMouseButton);
-//        glutPassiveMotionFunc(glutMouseMove);
-//        glutMotionFunc(glutMouseMove);
-//        glutMouseWheelFunc(glutMouseWheel);
-//
-//        gApplication->setupOpenGL();
-//
-//        glutMainLoop();
-//
-//        delete gApplication;
-//    }
-//#endif
 
     return 0;
 }

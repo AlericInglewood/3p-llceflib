@@ -122,9 +122,21 @@ void LLCEFLib::mouseMove(int x, int y)
     mImpl->mouseMove(x, y);
 }
 
-void LLCEFLib::keyPress(int code, bool is_down)
+void LLCEFLib::nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam) 
 {
-    mImpl->keyPress(code, is_down);
+	mImpl->nativeKeyboardEvent(msg, wparam, lparam);
+}
+
+void LLCEFLib::keyboardEvent(
+	EKeyEvent key_event,
+	uint32_t key_code,
+	const char *utf8_text,
+	EKeyboardModifier modifiers,
+	uint32_t native_scan_code,
+	uint32_t native_virtual_key,
+	uint32_t native_modifiers)
+{
+	mImpl->keyboardEvent(key_event, key_code, utf8_text, modifiers, native_scan_code, native_virtual_key, native_modifiers);
 }
 
 void LLCEFLib::mouseWheel(int deltaY)
@@ -171,4 +183,3 @@ bool LLCEFLib::isLoading()
 {
     return mImpl->isLoading();
 }
-

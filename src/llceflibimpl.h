@@ -81,7 +81,16 @@ class LLCEFLibImpl :
 		void mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y);
         void mouseMove(int x, int y);
 
-        void keyPress(int code, bool is_down);
+		void nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
+		void LLCEFLibImpl::keyboardEvent(
+			EKeyEvent key_event,
+			uint32_t key_code,
+			const char *utf8_text,
+			EKeyboardModifier modifiers,
+			uint32_t native_scan_code,
+			uint32_t native_virtual_key,
+			uint32_t native_modifiers);
+
         void mouseWheel(int deltaY);
         void setFocus(bool focus);
 

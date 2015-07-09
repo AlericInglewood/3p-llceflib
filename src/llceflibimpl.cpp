@@ -97,15 +97,6 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
     browser_settings.javascript = user_settings.javascript_enabled ? STATE_ENABLED : STATE_DISABLED;
     browser_settings.plugins = user_settings.plugins_enabled ? STATE_ENABLED : STATE_DISABLED;
     
-//#ifdef WIN32
-//#warning Can the block below be removed on Windows?
-//#endif
-    // Does setting windowless_rendering_enabled to true (line 84) work on Windows,
-    // or do we still need the code below?
-    
-    //HWND windowHandle = GetDesktopWindow();
-    //window_info.SetAsWindowless(windowHandle, false);
-    
     // CEF handler classes
     LLRenderHandler* renderHandler = new LLRenderHandler(this);
     mBrowserClient = new LLBrowserClient(this, renderHandler);
@@ -187,12 +178,9 @@ void LLCEFLibImpl::setSize(int width, int height)
     mViewWidth = width;
     mViewHeight = height;
 
-    if(mBrowser)
-    {
-        if(mBrowser->GetHost())
-        {
-            mBrowser->GetHost()->WasResized();
-        }
+    if(mBrowser && mBrowser->GetHost())
+	{
+		mBrowser->GetHost()->WasResized();
     }
 }
 
@@ -268,12 +256,9 @@ void LLCEFLibImpl::navigate(std::string url)
 
 void LLCEFLibImpl::setPageZoom(double zoom_val)
 {
-	if (mBrowser)
+	if (mBrowser && mBrowser->GetHost())
 	{
-		if (mBrowser->GetHost())
-		{
-			mBrowser->GetHost()->SetZoomLevel(zoom_val);
-		}
+		mBrowser->GetHost()->SetZoomLevel(zoom_val);
 	}
 }
 
@@ -296,15 +281,12 @@ void LLCEFLibImpl::mouseButton(EMouseButton mouse_button, EMouseEvent mouse_even
 	bool is_down = false;
 	if (mouse_event == ME_MOUSE_DOWN) is_down = true;
 	if (mouse_event == ME_MOUSE_UP) is_down = false;
-	
-	// send to CEF
-    mBrowser->GetHost()->SendMouseClickEvent(cef_mouse_event, btnType, is_down ? false : true, last_click_count);
 
-	// set focus on mouse down - I think this right
-    if(is_down)
-    {
-        mBrowser->GetHost()->SetFocus(true);
-    }
+	// send to CEF
+	if (mBrowser && mBrowser->GetHost())
+	{
+		mBrowser->GetHost()->SendMouseClickEvent(cef_mouse_event, btnType, is_down ? false : true, last_click_count);
+	}
 };
 
 void LLCEFLibImpl::mouseMove(int x, int y)
@@ -313,22 +295,19 @@ void LLCEFLibImpl::mouseMove(int x, int y)
     mouse_event.x = x;
     mouse_event.y = y;
 
-    mBrowser->GetHost()->SendMouseMoveEvent(mouse_event, false);
+	if (mBrowser && mBrowser->GetHost())
+	{
+		mBrowser->GetHost()->SendMouseMoveEvent(mouse_event, false);
+	}
 };
 
 void LLCEFLibImpl::mouseWheel(int deltaY)
 {
-    if(mBrowser)
-    {
-        if(mBrowser->GetHost())
-        {
-            CefMouseEvent mouse_event;
-            //const CefRect& expected_rect = GetExpectedRect(0);
-            //mouse_event.x = MiddleX(expected_rect);
-            //mouse_event.y = MiddleY(expected_rect);
-            mouse_event.modifiers = 0;
-            mBrowser->GetHost()->SendMouseWheelEvent(mouse_event, 0, deltaY);
-        }
+    if(mBrowser && mBrowser->GetHost())
+	{
+		CefMouseEvent mouse_event;
+		mouse_event.modifiers = 0;
+		mBrowser->GetHost()->SendMouseWheelEvent(mouse_event, 0, deltaY);
     }
 }
 
@@ -350,7 +329,6 @@ void LLCEFLibImpl::OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registr
     // called when registering custom schemes
     // TODO: what else do we need to do here?
 }
-
 
 void LLCEFLibImpl::stop()
 {

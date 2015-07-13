@@ -89,17 +89,26 @@ namespace LLCEFLibImplMacAssist
 }
 
 /* LLCEFLibImpl Mac methods below */
-void LLCEFLibImpl::keyPress(int code, bool is_down)
+void LLCEFLibImpl::keyboardEvent(
+	EKeyEvent key_event,
+	uint32_t key_code,
+	const char *utf8_text,
+	EKeyboardModifier modifiers,
+	uint32_t native_scan_code,
+	uint32_t native_virtual_key,
+	uint32_t native_modifiers)
 {
 	if (mBrowser)
 	{
 		if (mBrowser->GetHost())
 		{
+			bool is_down = (key_event == KEYEVENT_KEYDOWN);
+
             // Ignore sending the key when we're dealing with special
             // keys, such as backspace and delete
-            if(LLCEFLibImplMacAssist::_isSpecialGlutKey(code))
+            if(LLCEFLibImplMacAssist::_isSpecialGlutKey(key_code))
             {
-                int virtualCode = LLCEFLibImplMacAssist::_glutToNativeKey(code);
+                int virtualCode = LLCEFLibImplMacAssist::_glutToNativeKey(key_code);
                 if(virtualCode != GLUT_UNDEFINED && is_down)
                 {
                     CefKeyEvent event;
@@ -118,7 +127,7 @@ void LLCEFLibImpl::keyPress(int code, bool is_down)
             CefKeyEvent event;
             event.is_system_key = false;
             event.modifiers = 0;
-            event.character = code;
+            event.character = key_code;
             
             if(is_down)
             {

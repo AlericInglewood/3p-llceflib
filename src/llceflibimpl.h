@@ -82,7 +82,7 @@ class LLCEFLibImpl :
         void mouseMove(int x, int y);
 
 		void nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
-		void LLCEFLibImpl::keyboardEvent(
+		void keyboardEvent(
 			EKeyEvent key_event,
 			uint32_t key_code,
 			const char *utf8_text,

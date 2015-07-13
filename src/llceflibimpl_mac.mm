@@ -88,60 +88,103 @@ namespace LLCEFLibImplMacAssist
     }
 }
 
-/* LLCEFLibImpl Mac methods below */
-void LLCEFLibImpl::keyboardEvent(
-	EKeyEvent key_event,
-	uint32_t key_code,
-	const char *utf8_text,
-	EKeyboardModifier modifiers,
-	uint32_t native_scan_code,
-	uint32_t native_virtual_key,
-	uint32_t native_modifiers)
+void LLCEFLibImpl::nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam)
 {
-	if (mBrowser)
-	{
-		if (mBrowser->GetHost())
-		{
-			bool is_down = (key_event == KEYEVENT_KEYDOWN);
-
-            // Ignore sending the key when we're dealing with special
-            // keys, such as backspace and delete
-            if(LLCEFLibImplMacAssist::_isSpecialGlutKey(key_code))
-            {
-                int virtualCode = LLCEFLibImplMacAssist::_glutToNativeKey(key_code);
-                if(virtualCode != GLUT_UNDEFINED && is_down)
-                {
-                    CefKeyEvent event;
-                    event.character = 0;
-                    event.unmodified_character = 0;
-                    event.native_key_code = virtualCode;
-                    event.modifiers = 0;
-                    event.type = KEYEVENT_KEYDOWN;
-                    
-                    mBrowser->GetHost()->SendKeyEvent(event);
-                }
-                
-                return;
-            }
-
-            CefKeyEvent event;
-            event.is_system_key = false;
-            event.modifiers = 0;
-            event.character = key_code;
-            
-            if(is_down)
-            {
-                event.type = KEYEVENT_KEYDOWN;
-                mBrowser->GetHost()->SendKeyEvent(event);
-                
-                event.type = KEYEVENT_CHAR;
-                mBrowser->GetHost()->SendKeyEvent(event);
-            }
-            else
-            {
-                event.type = KEYEVENT_KEYUP;
-                mBrowser->GetHost()->SendKeyEvent(event);
-            }
-		}
-	}
+    // not implemented for OS X yet - may only be useful for Windows version
 }
+
+
+void LLCEFLibImpl::keyboardEvent(
+    EKeyEvent key_event,
+    uint32_t key_code,
+    const char *utf8_text,
+    EKeyboardModifier modifiers,
+    uint32_t native_scan_code,
+    uint32_t native_virtual_key,
+    uint32_t native_modifiers)
+{
+    if (mBrowser && mBrowser->GetHost())
+    {
+        CefKeyEvent event;
+        event.modifiers = native_modifiers;
+        event.native_key_code = native_virtual_key;
+        event.windows_key_code = native_virtual_key;
+        event.unmodified_character = native_virtual_key;
+
+        if (key_event == KE_KEY_DOWN)
+        {
+            event.type = KEYEVENT_RAWKEYDOWN;
+            mBrowser->GetHost()->SendKeyEvent(event);
+
+            event.windows_key_code = key_code;
+            event.type = KEYEVENT_CHAR;
+            mBrowser->GetHost()->SendKeyEvent(event);
+        }
+        else
+        if (key_event == KE_KEY_UP)
+        {
+            event.type = KEYEVENT_KEYUP;
+            mBrowser->GetHost()->SendKeyEvent(event);
+        }
+    }
+}
+
+
+
+// /* LLCEFLibImpl Mac methods below */
+// void LLCEFLibImpl::keyboardEvent(
+// 	EKeyEvent key_event,
+// 	uint32_t key_code,
+// 	const char *utf8_text,
+// 	EKeyboardModifier modifiers,
+// 	uint32_t native_scan_code,
+// 	uint32_t native_virtual_key,
+// 	uint32_t native_modifiers)
+// {
+// 	if (mBrowser)
+// 	{
+// 		if (mBrowser->GetHost())
+// 		{
+// 			bool is_down = (key_event == KEYEVENT_KEYDOWN);
+
+//             // Ignore sending the key when we're dealing with special
+//             // keys, such as backspace and delete
+//             if(LLCEFLibImplMacAssist::_isSpecialGlutKey(key_code))
+//             {
+//                 int virtualCode = LLCEFLibImplMacAssist::_glutToNativeKey(key_code);
+//                 if(virtualCode != GLUT_UNDEFINED && is_down)
+//                 {
+//                     CefKeyEvent event;
+//                     event.character = 0;
+//                     event.unmodified_character = 0;
+//                     event.native_key_code = virtualCode;
+//                     event.modifiers = 0;
+//                     event.type = KEYEVENT_KEYDOWN;
+                    
+//                     mBrowser->GetHost()->SendKeyEvent(event);
+//                 }
+                
+//                 return;
+//             }
+
+//             CefKeyEvent event;
+//             event.is_system_key = false;
+//             event.modifiers = 0;
+//             event.character = key_code;
+            
+//             if(is_down)
+//             {
+//                 event.type = KEYEVENT_KEYDOWN;
+//                 mBrowser->GetHost()->SendKeyEvent(event);
+                
+//                 event.type = KEYEVENT_CHAR;
+//                 mBrowser->GetHost()->SendKeyEvent(event);
+//             }
+//             else
+//             {
+//                 event.type = KEYEVENT_KEYUP;
+//                 mBrowser->GetHost()->SendKeyEvent(event);
+//             }
+// 		}
+// 	}
+// }

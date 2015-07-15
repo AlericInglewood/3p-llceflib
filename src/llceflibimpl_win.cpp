@@ -25,10 +25,7 @@
 
 #include "llceflibimpl.h"
 #include "llCEFLib.h"
-
 #include "llceflibplatform.h"
-
-#include "llschemehandler.h"
 
 bool isKeyDown(WPARAM wparam)
 {

@@ -164,7 +164,7 @@ class LLMediaSimpleTest
 			if (button == GLUT_RIGHT_BUTTON) btn = MB_MOUSE_BUTTON_RIGHT;
 			if (button == GLUT_MIDDLE_BUTTON) btn = MB_MOUSE_BUTTON_MIDDLE;
 
-			EMouseEvent ev;
+			EMouseEvent ev = ME_MOUSE_UP;
 			if (state == GLUT_DOWN) ev = ME_MOUSE_DOWN;
 			if (state == GLUT_UP) ev = ME_MOUSE_UP;
 

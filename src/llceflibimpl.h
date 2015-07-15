@@ -82,6 +82,7 @@ class LLCEFLibImpl :
         void mouseMove(int x, int y);
 
 		void nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
+        void keyPress(int code, bool is_down);
 		void keyboardEvent(
 			EKeyEvent key_event,
 			uint32_t key_code,

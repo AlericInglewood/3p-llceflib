@@ -202,7 +202,7 @@ class LLMediaSimpleTest
 
             glEnable(GL_TEXTURE_2D);
             glDisable(GL_CULL_FACE);
-            glDisable(GL_LIGHTING);
+            glDisable(GL_LIGHTING);						
 
             glGenTextures(1, &mAppTexture);
             glBindTexture(GL_TEXTURE_2D, mAppTexture);
@@ -214,6 +214,7 @@ class LLMediaSimpleTest
 
         void keyboard(unsigned char key)
         {
+            mLLCEFLib->keyPress(key, true);
 #if WIN32
             if(key == 27) glutLeaveMainLoop();
 #endif
@@ -225,6 +226,7 @@ class LLMediaSimpleTest
 
         void keyboardUp(unsigned char key)
         {
+            mLLCEFLib->keyPress(key, false);
         }
 
         void mouseWheel(int button, int dir, int x, int y)

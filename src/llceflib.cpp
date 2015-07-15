@@ -139,6 +139,11 @@ void LLCEFLib::keyboardEvent(
 	mImpl->keyboardEvent(key_event, key_code, utf8_text, modifiers, native_scan_code, native_virtual_key, native_modifiers);
 }
 
+void LLCEFLib::keyPress(int code, bool is_down)
+{
+    mImpl->keyPress(code, is_down);
+}
+
 void LLCEFLib::mouseWheel(int deltaY)
 {
     mImpl->mouseWheel(deltaY);

@@ -104,7 +104,7 @@ class LLCEFLib
         void setSize(int width, int height);
         void getSize(int& width, int& height);
         void navigate(std::string url);
-		void setPageZoom(double zoom_val);
+		void setPageZoom(double zoom_val)	;
 		void mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y);
         void mouseMove(int x, int y);
 
@@ -117,6 +117,7 @@ class LLCEFLib
 			uint32_t native_virtual_key,
 			uint32_t native_modifiers);
 		void nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
+        void keyPress(int code, bool is_down);
         void setFocus(bool focus);
         void mouseWheel(int deltaY);
 

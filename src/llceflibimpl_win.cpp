@@ -170,7 +170,7 @@ void LLCEFLibImpl::keyboardEvent(
 	}
 }
 
-void keyPress(int code, bool is_down)
+void LLCEFLibImpl::keyPress(int code, bool is_down)
 {
 	// not used for Win32 at the moment.
 }

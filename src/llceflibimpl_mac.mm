@@ -59,31 +59,31 @@ namespace LLCEFLibImplMacAssist
         {
             case GLUT_KEY_DELETE:
                 return NATIVE_KEY_DELETE;
-                
-                //case GLUT_KEY_ENTER:
-                //    return NATIVE_KEY_ENTER;
-                
-                //case GLUT_KEY_ESCAPE:
-                //    return NATIVE_KEY_ESCAPE;
-                
+
+            //case GLUT_KEY_ENTER:
+            //    return NATIVE_KEY_ENTER;
+
+            //case GLUT_KEY_ESCAPE:
+            //    return NATIVE_KEY_ESCAPE;
+
             case GLUT_KEY_BACKSPACE:
                 return NATIVE_KEY_BACKSPACE;
         }
-        
+
         return GLUT_UNDEFINED;
     }
-    
+
     bool _isSpecialGlutKey(int code)
     {
         switch(code)
         {
             case GLUT_KEY_DELETE:
-                //case GLUT_KEY_ENTER:
-                //case GLUT_KEY_ESCAPE:
+            //case GLUT_KEY_ENTER:
+            //case GLUT_KEY_ESCAPE:
             case GLUT_KEY_BACKSPACE:
                 return true;
         }
-        
+
         return false;
     }
 }
@@ -95,6 +95,8 @@ void LLCEFLibImpl::keyPress(int code, bool is_down)
     {
         if (mBrowser->GetHost())
         {
+
+
             // Ignore sending the key when we're dealing with special
             // keys, such as backspace and delete
             if(LLCEFLibImplMacAssist::_isSpecialGlutKey(code))
@@ -108,23 +110,23 @@ void LLCEFLibImpl::keyPress(int code, bool is_down)
                     event.native_key_code = virtualCode;
                     event.modifiers = 0;
                     event.type = KEYEVENT_KEYDOWN;
-                    
+
                     mBrowser->GetHost()->SendKeyEvent(event);
                 }
-                
+
                 return;
             }
-            
+
             CefKeyEvent event;
             event.is_system_key = false;
             event.modifiers = 0;
             event.character = code;
-            
+
             if(is_down)
             {
                 event.type = KEYEVENT_KEYDOWN;
                 mBrowser->GetHost()->SendKeyEvent(event);
-                
+
                 event.type = KEYEVENT_CHAR;
                 mBrowser->GetHost()->SendKeyEvent(event);
             }
@@ -137,63 +139,16 @@ void LLCEFLibImpl::keyPress(int code, bool is_down)
     }
 }
 
-
-/* LLCEFLibImpl Mac methods below */
 void LLCEFLibImpl::keyboardEvent(
-                                 EKeyEvent key_event,
-                                 uint32_t key_code,
-                                 const char *utf8_text,
-                                 EKeyboardModifier modifiers,
-                                 uint32_t native_scan_code,
-                                 uint32_t native_virtual_key,
-                                 uint32_t native_modifiers)
+    EKeyEvent key_event,
+    uint32_t key_code,
+    const char *utf8_text,
+    EKeyboardModifier modifiers,
+    uint32_t native_scan_code,
+    uint32_t native_virtual_key,
+    uint32_t native_modifiers)
 {
-    if (mBrowser)
-    {
-        if (mBrowser->GetHost())
-        {
-            bool is_down = (key_event == KEYEVENT_KEYDOWN);
-            
-            // Ignore sending the key when we're dealing with special
-            // keys, such as backspace and delete
-            if(LLCEFLibImplMacAssist::_isSpecialGlutKey(key_code))
-            {
-                int virtualCode = LLCEFLibImplMacAssist::_glutToNativeKey(key_code);
-                if(virtualCode != GLUT_UNDEFINED && is_down)
-                {
-                    CefKeyEvent event;
-                    event.character = 0;
-                    event.unmodified_character = 0;
-                    event.native_key_code = virtualCode;
-                    event.modifiers = 0;
-                    event.type = KEYEVENT_KEYDOWN;
-                    
-                    mBrowser->GetHost()->SendKeyEvent(event);
-                }
-                
-                return;
-            }
-            
-            CefKeyEvent event;
-            event.is_system_key = false;
-            event.modifiers = 0;
-            event.character = key_code;
-            
-            if(is_down)
-            {
-                event.type = KEYEVENT_KEYDOWN;
-                mBrowser->GetHost()->SendKeyEvent(event);
-                
-                event.type = KEYEVENT_CHAR;
-                mBrowser->GetHost()->SendKeyEvent(event);
-            }
-            else
-            {
-                event.type = KEYEVENT_KEYUP;
-                mBrowser->GetHost()->SendKeyEvent(event);
-            }
-        }
-    }
+    // not implemented for OS X yet - may only be useful for Windows version
 }
 
 void LLCEFLibImpl::nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam)

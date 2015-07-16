@@ -71,6 +71,7 @@ class LLMediaSimpleTest
             settings.inital_height = mBrowserHeight;
             settings.javascript_enabled = true;
             settings.cookies_enabled = true;
+			settings.accept_language_list = "mi-wwow";
             bool result = mLLCEFLib->init(settings);
             if(result)
             {

@@ -32,9 +32,14 @@
 #include <iostream>
 #endif
 
-#define CEF_BRANCH_2378     (1)
+#define CEF_BRANCH_2378     (2)
+#define CEF_BRANCH_2357		(1)
 #define CEF_BRANCH_2272     (0) /* Base branch, we originally started from this version */
 
+#ifdef WIN32
+#define CEF_CURRENT_BRANCH  CEF_BRANCH_2357
+#elif __APPLE__
 #define CEF_CURRENT_BRANCH  CEF_BRANCH_2272
+#endif
 
 #endif // _LLCEFLIBPLATFORM

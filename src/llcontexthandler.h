@@ -42,7 +42,7 @@ public:
 #endif
     
        // CEF changed interfaces between these two branches
-#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2378
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
        _cookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false, nullptr);
 #else // CEF_BRANCH_2272
        _cookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false);

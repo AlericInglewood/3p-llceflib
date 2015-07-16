@@ -68,13 +68,23 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
     NSString* appBundlePath = [[NSBundle mainBundle] bundlePath];
     CefString(&settings.browser_subprocess_path) = [[NSString stringWithFormat: @"%@/Contents/Frameworks/LLCefLib Helper.app/Contents/MacOS/LLCefLib Helper", appBundlePath] UTF8String];
 #endif
-    
-    // change settings based on what was passed in
-    std::string user_agent(user_settings.user_agent_substring);
-    cef_string_utf8_to_utf16(user_agent.c_str(), user_agent.size(), &settings.product_version);
-    std::string locale(user_settings.locale);
-    cef_string_utf8_to_utf16(locale.c_str(), locale.size(), &settings.locale);
-    
+
+	// change settings based on what was passed in
+	// Only change user agent if user wants to
+	if (user_settings.user_agent_substring.length())
+	{
+		std::string user_agent(user_settings.user_agent_substring);
+		cef_string_utf8_to_utf16(user_agent.c_str(), user_agent.size(), &settings.product_version);
+	}
+
+	// list of language locale codes used to configure the Accept-Language HTTP header value
+#ifdef WIN32
+	std::string accept_language_list(user_settings.accept_language_list);
+	cef_string_utf8_to_utf16(accept_language_list.c_str(), accept_language_list.size(), &settings.accept_language_list);
+#elif __APPLE__
+	// feature not supported on revision of OS X CEF we are locked to in 32 bit land
+#endif
+
     bool result = CefInitialize(args, settings, NULL, NULL);
     if (! result)
     {
@@ -113,7 +123,7 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
     
     // CEF changed interfaces between these two branches
     // Can be removed once we decide on a release CEF version
-#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2378
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
     CefRequestContextSettings contextSettings;
     
     CefRefPtr<LLContextHandler> contextHandler = new LLContextHandler(cookiePath.c_str());

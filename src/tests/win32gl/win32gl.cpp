@@ -88,6 +88,9 @@ void init( HWND hWnd )
 	settings.inital_height = gTextureHeight;
 	settings.javascript_enabled = true;
 	settings.cookies_enabled = true;
+	settings.user_agent_substring = "Win32GL Test";
+	settings.accept_language_list = "ar";
+
 	bool result = mLLCEFLib->init(settings);
 	if(result)
 	{

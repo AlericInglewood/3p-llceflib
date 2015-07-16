@@ -50,15 +50,16 @@ struct LLCEFLibSettings
     unsigned int inital_height = 512;
 
     // substring inserted into existing user agent string
-    std::string user_agent_substring = "LLCEFLib";
+    std::string user_agent_substring = "";
 
     // enable/disable features
     bool javascript_enabled = true;
     bool plugins_enabled = true;
     bool cookies_enabled = true;
 
-    // active locale
-    std::string locale = "en-US";
+    // list of language locale codes used to configure the Accept-Language HTTP header value
+	// and change the default language of the browser
+	std::string accept_language_list = "en-us";
 };
 
 typedef enum e_key_event

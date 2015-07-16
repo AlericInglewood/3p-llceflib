@@ -10,10 +10,7 @@ set -e
 LLCEFLIB_VERSION="1.0.0"
 LLCEFLIB_SOURCE_DIR="src"
 CEF_SOURCE_DIR_OSX="cef_2171_OSX_32"
-CEF_SOURCE_DIR_WIN="cef_2272_WIN_32"
-
-CEF_VERSION_WIN="CEF-WIN-3.2272.gbda8dc7-32"
-CEF_VERSION_OSX="CEF-OSX-3.2171.2069-32"
+CEF_SOURCE_DIR_WIN="cef_2357_WIN_32"
 
 if [ -z "$AUTOBUILD" ] ; then 
     fail
@@ -32,12 +29,14 @@ stage="$(pwd)/stage"
 
 build=${AUTOBUILD_BUILD_ID:=0}
 
+VERSION_HEADER_FILE="$LLCEFLIB_SOURCE_DIR/llceflib.h"
+version=$(sed -n -E 's/const std::string LLCEFLIB_BASE_VERSION = "([0-9\.]+)";/\1/p' "${VERSION_HEADER_FILE}")
+build=${AUTOBUILD_BUILD_ID:=0}
+echo "${version}.${build}" > "${stage}/VERSION.txt"
+
 pushd "$LLCEFLIB_SOURCE_DIR"
     case "$AUTOBUILD_PLATFORM" in
         "windows")
-            # version number combines LLCefLib version & CEF version/bit width
-            echo "${LLCEFLIB_VERSION}.${CEF_VERSION_WIN}.${build}" > "${stage}/VERSION.txt"
-
             load_vsvars
             build_sln "llceflib.sln" "Release|Win32"
 
@@ -60,17 +59,15 @@ pushd "$LLCEFLIB_SOURCE_DIR"
             cp "$CEF_SOURCE_DIR_WIN/Release/libcef.dll" "$stage/bin/release"
             cp "$CEF_SOURCE_DIR_WIN/Release/libEGL.dll" "$stage/bin/release"
             cp "$CEF_SOURCE_DIR_WIN/Release/libGLESv2.dll" "$stage/bin/release"
-            cp "$CEF_SOURCE_DIR_WIN/Release/pdf.dll" "$stage/bin/release"
             cp "$CEF_SOURCE_DIR_WIN/Release/wow_helper.exe" "$stage/bin/release"
+            cp "$CEF_SOURCE_DIR_WIN/Release/natives_blob.bin" "$stage/bin/release"
+            cp "$CEF_SOURCE_DIR_WIN/Release/snapshot_blob.bin" "$stage/bin/release"
             cp "$LLCEFLIB_SOURCE_DIR/Release/llceflib_host.exe" "$stage/bin/release/"
 
             mkdir -p "$stage/LICENSES"
             cp -R "$LLCEFLIB_SOURCE_DIR/LICENSES" "$stage"
         ;;
         "darwin")
-            # version number combines LLCefLib version & CEF version/bit width
-            echo "${LLCEFLIB_VERSION}.${CEF_VERSION_OSX}.${build}" > "${stage}/VERSION.txt"
-
             # xcode project is set up to build in the llcef source folder
             xcodebuild -workspace llceflib.xcworkspace -scheme LLCefLib -configuration Release -derivedDataPath build_mac
             cd ..

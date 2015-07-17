@@ -57,6 +57,9 @@ struct LLCEFLibSettings
     bool plugins_enabled = true;
     bool cookies_enabled = true;
 
+	// path to cookie store
+	std::string cookie_store_path;
+
     // list of language locale codes used to configure the Accept-Language HTTP header value
 	// and change the default language of the browser
 	std::string accept_language_list = "en-us";

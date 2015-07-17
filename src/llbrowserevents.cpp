@@ -27,6 +27,7 @@
 #include "include/wrapper/cef_helpers.h"
 
 /* virtual */
+#if (CEF_CURRENT_BRANCH >= CEF_BRANCH_2357)
 bool LLBrowserEvents::OnBeforePopup(CefRefPtr<CefBrowser> browser,
 		CefRefPtr<CefFrame> frame,
 		const CefString& target_url,
@@ -38,6 +39,17 @@ bool LLBrowserEvents::OnBeforePopup(CefRefPtr<CefBrowser> browser,
 		CefRefPtr<CefClient>& client,
 		CefBrowserSettings& settings,
 		bool* no_javascript_access)
+#else
+bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
+	CefRefPtr<CefFrame> frame,
+	const CefString& target_url,
+	const CefString& target_frame_name,
+	const CefPopupFeatures& popupFeatures,
+	CefWindowInfo& windowInfo,
+	CefRefPtr<CefClient>& client,
+	CefBrowserSettings& settings,
+	bool* no_javascript_access);
+#endif
 {
     CEF_REQUIRE_IO_THREAD();
 

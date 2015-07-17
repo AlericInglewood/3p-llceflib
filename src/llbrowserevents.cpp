@@ -48,7 +48,7 @@ bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
 	CefWindowInfo& windowInfo,
 	CefRefPtr<CefClient>& client,
 	CefBrowserSettings& settings,
-	bool* no_javascript_access);
+	bool* no_javascript_access)
 #endif
 {
     CEF_REQUIRE_IO_THREAD();

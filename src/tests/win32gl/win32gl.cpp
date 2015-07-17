@@ -89,12 +89,14 @@ void init( HWND hWnd )
 	settings.javascript_enabled = true;
 	settings.cookies_enabled = true;
 	settings.user_agent_substring = "Win32GL Test";
-	settings.accept_language_list = "ar";
+	settings.accept_language_list = "en-us";
 
 	bool result = mLLCEFLib->init(settings);
 	if(result)
 	{
-		mLLCEFLib->navigate("http://google.com");
+//		mLLCEFLib->navigate("https://callum-linden.s3.amazonaws.com/cookie_test.html");
+//		mLLCEFLib->navigate("https://secondlife.com");
+		mLLCEFLib->navigate("https://callum-linden.s3.amazonaws.com/cookie_test.html");
 	}
 }
 

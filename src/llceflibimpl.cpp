@@ -126,8 +126,8 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
 #if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
     CefRequestContextSettings contextSettings;
     
-    CefRefPtr<LLContextHandler> contextHandler = new LLContextHandler(cookiePath.c_str());
-    CefRefPtr<CefRequestContext> rc = CefRequestContext::CreateContext(contextSettings, contextHandler.get());
+	mContextHandler = new LLContextHandler(cookiePath.c_str());
+	CefRefPtr<CefRequestContext> rc = CefRequestContext::CreateContext(contextSettings, mContextHandler.get());
 #else // CEF_BRANCH_2272
     CefRefPtr<CefRequestContext> rc = CefRequestContext::CreateContext( new LLContextHandler(cookiePath.c_str()) );
 #endif
@@ -330,6 +330,7 @@ void LLCEFLibImpl::setFocus(bool focus)
 void LLCEFLibImpl::reset()
 {
     bool force_close = true;
+	mContextHandler->GetCookieManager()->FlushStore(nullptr);
     mBrowser->GetHost()->CloseBrowser(force_close);
     CefShutdown();
 }

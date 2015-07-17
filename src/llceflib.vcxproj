@@ -16,6 +16,7 @@
     <ClInclude Include="llceflib.h" />
     <ClInclude Include="llceflibimpl.h" />
     <ClInclude Include="llceflibplatform.h" />
+    <ClInclude Include="llcontexthandler.h" />
     <ClInclude Include="llrenderhandler.h" />
     <ClInclude Include="llschemehandler.h" />
   </ItemGroup>

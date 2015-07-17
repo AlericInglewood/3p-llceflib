@@ -36,6 +36,7 @@
 class CefSchemeRegistrar;
 struct LLCEFLibSettings;
 class LLBrowserClient;
+class LLContextHandler;
 
 class LLCEFLibImpl :
     public CefApp
@@ -109,6 +110,7 @@ class LLCEFLibImpl :
     private:
         CefRefPtr<LLBrowserClient> mBrowserClient;
         CefRefPtr<CefBrowser> mBrowser;
+		CefRefPtr<LLContextHandler> mContextHandler;
         int mViewWidth;
         int mViewHeight;
         const int mViewDepth = 4;

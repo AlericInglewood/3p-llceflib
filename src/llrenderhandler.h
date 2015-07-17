@@ -40,11 +40,8 @@ class LLRenderHandler :
 
         // CefRenderHandler interface
     public:
-        /* virtual */
-        bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect &rect);
-
-        /* virtual */
-        void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList &dirtyRects, const void *buffer, int width, int height);
+        bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect &rect) OVERRIDE;
+        void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList &dirtyRects, const void *buffer, int width, int height) OVERRIDE;
 
         // CefBase interface
     public:

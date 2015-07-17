@@ -42,7 +42,7 @@ class LLBrowserClient :
         LLBrowserClient(LLCEFLibImpl* parent, LLRenderHandler* render_handler);
 
         /* virtual */
-        CefRefPtr<CefRenderHandler> GetRenderHandler();
+		CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE;
 
         // LLBrowserEvents/CefDisplayhandler overrides
         bool OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line) OVERRIDE;
@@ -59,7 +59,6 @@ class LLBrowserClient :
 
     private:
         LLCEFLibImpl* mParent;
-
         CefRefPtr<CefRenderHandler> mLLRenderHandler;
 
     public:

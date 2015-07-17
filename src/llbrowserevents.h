@@ -39,20 +39,23 @@ class LLBrowserEvents :
 {
     public:
         // CefLifeSpanHandler overrides
-        CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() { return this; }
-        bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
-                           CefRefPtr<CefFrame> frame,
-                           const CefString& target_url,
-                           const CefString& target_frame_name,
-                           const CefPopupFeatures& popupFeatures,
-                           CefWindowInfo& windowInfo,
-                           CefRefPtr<CefClient>& client,
-                           CefBrowserSettings& settings,
-                           bool* no_javascript_access);
-        void OnAfterCreated(CefRefPtr<CefBrowser> browser);
-        bool RunModal(CefRefPtr<CefBrowser> browser);
-        bool DoClose(CefRefPtr<CefBrowser> browser);
-        void OnBeforeClose(CefRefPtr<CefBrowser> browser);
+		CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE { return this; }
+		bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
+			CefRefPtr<CefFrame> frame,
+			const CefString& target_url,
+			const CefString& target_frame_name,
+			CefLifeSpanHandler::WindowOpenDisposition target_disposition,
+			bool user_gesture,
+			const CefPopupFeatures& popupFeatures,
+			CefWindowInfo& windowInfo,
+			CefRefPtr<CefClient>& client,
+			CefBrowserSettings& settings,
+			bool* no_javascript_access) OVERRIDE;
+
+		void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
+		bool RunModal(CefRefPtr<CefBrowser> browser) OVERRIDE;
+		bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
+		void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 
         // CefDisplayHandler overrides
         CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE { return this; }

@@ -336,7 +336,7 @@ void LLCEFLibImpl::reset()
     bool force_close = true;
 
 	if (mContextHandler && mContextHandler->GetCookieManager())
-		mContextHandler->GetCookieManager()->FlushStore(nullptr);
+		mContextHandler->GetCookieManager()->FlushStore(NULL);
 
 	if (mBrowser && mBrowser->GetHost())
 		mBrowser->GetHost()->CloseBrowser(force_close);

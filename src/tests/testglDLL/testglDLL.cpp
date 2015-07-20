@@ -217,7 +217,11 @@ class LLMediaSimpleTest
         {
             mLLCEFLib->keyPress(key, true);
 #if WIN32
-            if(key == 27) glutLeaveMainLoop();
+			if (key == 27)
+			{
+				mLLCEFLib->reset();
+				glutLeaveMainLoop();
+			}
 #endif
             
             if(key == '`') mLLCEFLib->navigate(mHomepageURL);

@@ -95,8 +95,8 @@ void init( HWND hWnd )
 	if(result)
 	{
 //		mLLCEFLib->navigate("https://callum-linden.s3.amazonaws.com/cookie_test.html");
-//		mLLCEFLib->navigate("https://secondlife.com");
-		mLLCEFLib->navigate("https://callum-linden.s3.amazonaws.com/cookie_test.html");
+		mLLCEFLib->navigate("https://secondlife.com");
+//		mLLCEFLib->navigate("https://callum-linden.s3.amazonaws.com/cookie_test.html");
 	}
 }
 
@@ -169,7 +169,14 @@ LRESULT CALLBACK window_proc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
             return 0;
         };
 
-        case WM_MOUSEMOVE:
+		case WM_RBUTTONUP:
+		{
+			mLLCEFLib->reset();
+			PostMessage(hWnd, WM_CLOSE, 0, 0L);
+			return 0;
+		};
+
+		case WM_MOUSEMOVE:
         {
 			int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
 			int y = (HIWORD(lParam) * gTextureHeight) / mAppWindowHeight;

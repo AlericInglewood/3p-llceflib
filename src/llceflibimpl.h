@@ -70,6 +70,8 @@ class LLCEFLibImpl :
         void setOnTitleChangeCallback(boost::function<void(std::string)> callback);
         void onTitleChange(std::string title);
 
+		void OnBeforeClose(CefRefPtr<CefBrowser> browser);
+
 		void setOnLoadStartCallback(boost::function<void()> callback);
 		void onLoadStart();
 

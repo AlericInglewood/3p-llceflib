@@ -57,9 +57,16 @@ class LLBrowserClient :
 		// LLBrowserEvents/CefRequestHandler overrides
 		bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
 
+		// CefLifeSpanHandler overrides
+		void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
+
+		// utility methods
+		bool isBrowserClosing();
+
     private:
         LLCEFLibImpl* mParent;
         CefRefPtr<CefRenderHandler> mLLRenderHandler;
+		bool mIsBrowserClosing;
 
     public:
         IMPLEMENT_REFCOUNTING(LLBrowserClient);

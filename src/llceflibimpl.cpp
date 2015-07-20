@@ -141,6 +141,10 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
 void LLCEFLibImpl::update()
 {
     CefDoMessageLoopWork();
+
+	if ( mBrowserClient )
+		if (mBrowserClient->isBrowserClosing() )
+			CefShutdown();
 }
 
 void LLCEFLibImpl::setPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback)
@@ -330,9 +334,12 @@ void LLCEFLibImpl::setFocus(bool focus)
 void LLCEFLibImpl::reset()
 {
     bool force_close = true;
-	mContextHandler->GetCookieManager()->FlushStore(nullptr);
-    mBrowser->GetHost()->CloseBrowser(force_close);
-    CefShutdown();
+
+	if (mContextHandler && mContextHandler->GetCookieManager())
+		mContextHandler->GetCookieManager()->FlushStore(nullptr);
+
+	if (mBrowser && mBrowser->GetHost())
+		mBrowser->GetHost()->CloseBrowser(force_close);
 }
 
 void LLCEFLibImpl::OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar)

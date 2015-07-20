@@ -330,7 +330,7 @@ void LLCEFLibImpl::setFocus(bool focus)
 void LLCEFLibImpl::reset()
 {
     bool force_close = true;
-	mContextHandler->GetCookieManager()->FlushStore(nullptr);
+	mContextHandler->GetCookieManager()->FlushStore(NULL);
     mBrowser->GetHost()->CloseBrowser(force_close);
     CefShutdown();
 }

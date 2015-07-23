@@ -77,14 +77,15 @@ class LLBrowserEvents :
         bool OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text) OVERRIDE;
 
 		// CefLoadHandler overrides
-		CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }
+		CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE { return this; }
 		void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;
 		void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) OVERRIDE;
 		void OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl) OVERRIDE;
 
 		// CefRequestHandler overrides
-		CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE{ return this; }
+		CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE { return this; }
 		bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
+		bool GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback) OVERRIDE;
 
     public:
         IMPLEMENT_REFCOUNTING(LLBrowserEvents);

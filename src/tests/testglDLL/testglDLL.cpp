@@ -43,8 +43,8 @@ class LLMediaSimpleTest
 			mBrowserHeight(1024),
 			mBrowserDepth(4),
 			mAppTexture(0),
-			//mHomepageURL("file:///testpages.html")
-			mHomepageURL("http://google.com")
+			mHomepageURL("file:///testpages.html")
+			//mHomepageURL("http://google.com")
         {
             mLLCEFLib = new LLCEFLib();
         };
@@ -65,6 +65,7 @@ class LLMediaSimpleTest
 			mLLCEFLib->setOnLoadStartCallback(boost::bind(&LLMediaSimpleTest::onLoadStartCallback, this));
 			mLLCEFLib->setOnLoadEndCallback(boost::bind(&LLMediaSimpleTest::onLoadEndCallback, this, _1));
 			mLLCEFLib->setOnNavigateURLCallback(boost::bind(&LLMediaSimpleTest::onNavigateURLCallback, this, _1));
+			mLLCEFLib->setOnHTTPAuthCallback(boost::bind(&LLMediaSimpleTest::onHTTPAuthCallback, this, _1, _2, _3, _4));
 
             LLCEFLibSettings settings;
             settings.inital_width = mBrowserWidth;
@@ -120,6 +121,50 @@ class LLMediaSimpleTest
 		void onNavigateURLCallback(std::string url)
 		{
 			std::cout << "TestGL - navigate to " << url << std::endl;
+		}
+
+		bool onHTTPAuthCallback(const std::string host, const std::string realm, std::string& username, std::string& password)
+		{
+			std::cout << "--------- HTTP AUTH TEST ---------" << std::endl;
+			std::cout << "Host is " << host << std::endl;
+			std::cout << "Realm is " << realm << std::endl;
+			std::cout << "----------------------------------" << std::endl;
+
+			// Windows only testing code 
+			//int msgboxID = MessageBox(
+			//	NULL,
+			//	L"Shall I enter the password for you?",
+			//	L"Enter Password ?",
+			//	MB_ICONEXCLAMATION | MB_YESNO
+			//	);
+
+			//if (msgboxID == IDYES)
+			//{
+			//	username = "user";
+			//	password = "passwd";
+			//	return true; // username/password and "OKAY" entered in HTTP Auth dialog
+			//} 
+			//else
+			//{
+			//	return false; // cancel pressed in HTTP Auth dialog
+			//}
+
+			// for testing this URL where the endpoint contains username and password
+			// and password entered CORRECTLY
+			// http://httpbin.org/basic-auth/user/passwd
+			username = "user";
+			password = "passwd";
+			return true; // username/password and "OKAY" entered in HTTP Auth dialog
+
+			// for testing CANCEL 
+			//return false; // cancel pressed in HTTP Auth dialog
+
+			//// for testing this URL where the endpoint contains username and password
+			//// and password entered INCORRECTLY
+			//// http://httpbin.org/basic-auth/user/passwd
+			//username = "foobar";
+			//password = "flasmsasm";
+			//return true; // username/password and "OKAY" entered in HTTP Auth dialog
 		}
 
 		void display()

@@ -56,6 +56,7 @@ class LLBrowserClient :
 
 		// LLBrowserEvents/CefRequestHandler overrides
 		bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
+		bool GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback) OVERRIDE;
 
 		// CefLifeSpanHandler overrides
 		void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;

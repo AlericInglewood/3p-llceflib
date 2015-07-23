@@ -81,8 +81,12 @@ class LLCEFLibImpl :
 		void setOnNavigateURLCallback(boost::function<void(std::string)> callback);
 		void onNavigateURL(std::string url);
 
+		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
+		bool onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password);
+
 		void mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y);
-        void mouseMove(int x, int y);
+		void mouseMove(int x, int y);
+		void nativeMouseEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
 
 		void nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
         void keyPress(int code, bool is_down);
@@ -124,8 +128,73 @@ class LLCEFLibImpl :
 		boost::function<void()> mOnLoadStartCallbackFunc;
 		boost::function<void(int)> mOnLoadEndCallbackFunc;
 		boost::function<void(std::string)> mOnNavigateURLCallbackFunc;
+		boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> mOnHTTPAuthCallbackFunc;
 
-        IMPLEMENT_REFCOUNTING(LLCEFLibImpl);
+		IMPLEMENT_REFCOUNTING(LLCEFLibImpl);
+};
+
+class LLCEFLibAuthCredentials
+{
+    public:
+        LLCEFLibAuthCredentials(bool isProxy,
+            const CefString& host,
+            int port,
+            const CefString& realm,
+            const CefString& scheme,
+            CefRefPtr<CefAuthCallback> callback) :
+                mProxy(isProxy),
+                mPort(port),
+                mRealm(realm),
+                mScheme(scheme),
+                mHost(host),
+                mCallback(callback)
+        {
+        }
+
+        void cancel()
+        {
+            mCallback->Cancel();
+        }
+
+        void proceed(const char* username, const char* password)
+        {
+            mCallback->Continue(username, password);
+        }
+
+        int getPort()
+        {
+            return mPort;
+        }
+
+        const char* getRealm()
+        {
+            return mRealm.c_str();
+        }
+
+        const char* getScheme()
+        {
+            return mScheme.c_str();
+        }
+
+        const char* getHost()
+        {
+            return mHost.c_str();
+        }
+
+        bool isProxy()
+        {
+            return mProxy;
+        }
+
+    private:
+        bool mProxy;
+        int mPort;
+        const std::string mRealm;
+        const std::string mScheme;
+        const std::string mHost;
+        CefRefPtr<CefAuthCallback> mCallback;
+
+        IMPLEMENT_REFCOUNTING(LLCEFLibAuthCredentials);
 };
 
 #endif // _LLCEFLIBIMPL

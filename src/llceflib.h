@@ -143,6 +143,7 @@ class LLCEFLib
 		void setOnLoadStartCallback(boost::function<void()> callback);
 		void setOnLoadEndCallback(boost::function<void(int)> callback);
 		void setOnNavigateURLCallback(boost::function<void(std::string)> callback);
+		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
 
     private:
         std::auto_ptr <LLCEFLibImpl> mImpl;

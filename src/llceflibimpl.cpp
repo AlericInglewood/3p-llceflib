@@ -187,6 +187,11 @@ void LLCEFLibImpl::setOnNavigateURLCallback(boost::function<void(std::string)> c
 	mOnNavigateURLCallbackFunc = callback;
 }
 
+void LLCEFLibImpl::setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback)
+{
+	mOnHTTPAuthCallbackFunc = callback;
+}
+
 void LLCEFLibImpl::setSize(int width, int height)
 {
     mViewWidth = width;
@@ -252,6 +257,14 @@ void LLCEFLibImpl::onNavigateURL(std::string url)
 		mOnNavigateURLCallbackFunc(url);
 }
 
+bool LLCEFLibImpl::onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password)
+{
+	if (mOnHTTPAuthCallbackFunc)
+		return mOnHTTPAuthCallbackFunc(host, realm, username, password);
+
+	return false;
+}
+
 int LLCEFLibImpl::getDepth()
 {
     return mViewDepth;
@@ -282,6 +295,7 @@ void LLCEFLibImpl::mouseButton(EMouseButton mouse_button, EMouseEvent mouse_even
     CefMouseEvent cef_mouse_event;
     cef_mouse_event.x = x;
     cef_mouse_event.y = y;
+	cef_mouse_event.modifiers = 0;
 
 	// select button
 	CefBrowserHost::MouseButtonType btnType = MBT_LEFT;
@@ -299,6 +313,7 @@ void LLCEFLibImpl::mouseButton(EMouseButton mouse_button, EMouseEvent mouse_even
 	// send to CEF
 	if (mBrowser && mBrowser->GetHost())
 	{
+		std::cout << "Mouse button: " << (btnType == MBT_LEFT?"left":"other") << "  state: " << (is_down ? "down" : "up") << "   at " << x << ", " << y << std::endl;
 		mBrowser->GetHost()->SendMouseClickEvent(cef_mouse_event, btnType, is_down ? false : true, last_click_count);
 	}
 };
@@ -308,9 +323,11 @@ void LLCEFLibImpl::mouseMove(int x, int y)
     CefMouseEvent mouse_event;
     mouse_event.x = x;
     mouse_event.y = y;
+	mouse_event.modifiers = 0;
 
 	if (mBrowser && mBrowser->GetHost())
 	{
+		std::cout << "Mouse move at " << x << ", " << y << std::endl;
 		mBrowser->GetHost()->SendMouseMoveEvent(mouse_event, false);
 	}
 };

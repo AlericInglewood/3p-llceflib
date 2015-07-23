@@ -141,3 +141,9 @@ bool LLBrowserEvents::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<Ce
 	CEF_REQUIRE_UI_THREAD();
 	return true;
 }
+
+bool LLBrowserEvents::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
+{
+	CEF_REQUIRE_UI_THREAD();
+	return true;
+}

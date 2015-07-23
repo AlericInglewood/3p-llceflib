@@ -100,6 +100,32 @@ bool LLBrowserClient::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<Ce
 	return false;
 }
 
+bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy, 
+	const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
+{
+	CEF_REQUIRE_UI_THREAD();
+
+	std::string host_str = host;
+	std::string realm_str = realm;
+	std::string scheme_str = scheme;
+
+	std::string username="";
+	std::string password="";
+	bool proceed = mParent->onHTTPAuth(host_str, realm_str, username, password);
+
+	CefRefPtr<LLCEFLibAuthCredentials> cred = new LLCEFLibAuthCredentials(isProxy, host, port, realm, scheme, callback);
+	if (proceed)
+	{
+		cred->proceed(username.c_str(), password.c_str());
+		return true; // continue with request
+	}
+	else
+	{
+		cred->cancel();
+		return false; // cancel request
+	}
+}
+
 void LLBrowserClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 {
 	mIsBrowserClosing = true;

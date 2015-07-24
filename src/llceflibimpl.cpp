@@ -323,7 +323,7 @@ void LLCEFLibImpl::mouseMove(int x, int y)
     CefMouseEvent mouse_event;
     mouse_event.x = x;
     mouse_event.y = y;
-	mouse_event.modifiers = 0;
+	mouse_event.modifiers = EVENTFLAG_LEFT_MOUSE_BUTTON;
 
 	if (mBrowser && mBrowser->GetHost())
 	{

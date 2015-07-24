@@ -43,8 +43,8 @@ class LLMediaSimpleTest
 			mBrowserHeight(1024),
 			mBrowserDepth(4),
 			mAppTexture(0),
-			mHomepageURL("file:///testpages.html")
-			//mHomepageURL("http://google.com")
+			//mHomepageURL("file:///testpages.html")
+			mHomepageURL("http://news.google.com")
         {
             mLLCEFLib = new LLCEFLib();
         };
@@ -77,6 +77,7 @@ class LLMediaSimpleTest
             if(result)
             {
                 mLLCEFLib->navigate(mHomepageURL);
+				mLLCEFLib->setFocus(true);
             }
 
             return result;
@@ -216,8 +217,8 @@ class LLMediaSimpleTest
 
 			mLLCEFLib->mouseButton(btn, ev, x, y);
 
-			if (state == GLUT_DOWN)
-				mLLCEFLib->setFocus(true);
+			//if (state == GLUT_DOWN)
+			//	mLLCEFLib->setFocus(true);
         };
 
         void mouseMove(int x, int y)

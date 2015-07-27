@@ -43,8 +43,8 @@ class LLMediaSimpleTest
 			mBrowserHeight(1024),
 			mBrowserDepth(4),
 			mAppTexture(0),
-			//mHomepageURL("file:///testpages.html")
-			mHomepageURL("http://news.google.com")
+			mHomepageURL("file:///testpages.html")
+			//mHomepageURL("http://news.google.com")
         {
             mLLCEFLib = new LLCEFLib();
         };
@@ -138,7 +138,7 @@ class LLMediaSimpleTest
 			std::cout << "Realm is " << realm << std::endl;
 			std::cout << "----------------------------------" << std::endl;
 
-			// Windows only testing code 
+			//// Windows only testing code 
 			//int msgboxID = MessageBox(
 			//	NULL,
 			//	L"Shall I enter the password for you?",

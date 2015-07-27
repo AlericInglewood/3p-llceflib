@@ -103,7 +103,7 @@ bool LLBrowserClient::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<Ce
 bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy, 
 	const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
 {
-	CEF_REQUIRE_UI_THREAD();
+	CEF_REQUIRE_IO_THREAD();
 
 	std::string host_str = host;
 	std::string realm_str = realm;

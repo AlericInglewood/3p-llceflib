@@ -54,9 +54,8 @@ class LLCEFLibImpl :
 		void setPageZoom(double zoom_val);
         void reset();
 
-        void setPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);
-
-        void pageChanged(unsigned char*, int, int);
+        void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);
+        void onPageChanged(unsigned char*, int, int);
 
         void setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback);
         void onCustomSchemeURL(std::string url);
@@ -83,6 +82,9 @@ class LLCEFLibImpl :
 
 		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
 		bool onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password);
+
+		void setOnRequestExitCallback(boost::function<void()> callback);
+		void OnRequestExitCallback();
 
 		void mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y);
 		void mouseMove(int x, int y);
@@ -120,7 +122,7 @@ class LLCEFLibImpl :
         int mViewWidth;
         int mViewHeight;
         const int mViewDepth = 4;
-        boost::function<void(unsigned char*, int, int)> mPageChangedCallbackFunc;
+        boost::function<void(unsigned char*, int, int)> mOnPageChangedCallbackFunc;
         boost::function<void(std::string)> mOnCustomSchemeURLCallbackFunc;
         boost::function<void(std::string, std::string, int line)> mOnConsoleMessageCallbackFunc;
         boost::function<void(std::string)> mOnStatusMessageCallbackFunc;
@@ -129,6 +131,7 @@ class LLCEFLibImpl :
 		boost::function<void(int)> mOnLoadEndCallbackFunc;
 		boost::function<void(std::string)> mOnNavigateURLCallbackFunc;
 		boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> mOnHTTPAuthCallbackFunc;
+		boost::function<void()> mOnRequestExitCallbackFunc;
 
 		IMPLEMENT_REFCOUNTING(LLCEFLibImpl);
 };

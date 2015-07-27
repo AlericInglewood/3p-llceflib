@@ -57,7 +57,7 @@ class LLMediaSimpleTest
         bool init(int init_width, int init_height)
         {
 			std::cout << "TestGL(DLL) starting - version:" << LLCEFLIB_VERSION << std::endl;
-            mLLCEFLib->setPageChangedCallback(boost::bind(&LLMediaSimpleTest::pageChangedCallback, this, _1, _2, _3));
+            mLLCEFLib->setOnPageChangedCallback(boost::bind(&LLMediaSimpleTest::onPageChangedCallback, this, _1, _2, _3));
             mLLCEFLib->setOnCustomSchemeURLCallback(boost::bind(&LLMediaSimpleTest::onCustomSchemeURLCallback, this, _1));
             mLLCEFLib->setOnConsoleMessageCallback(boost::bind(&LLMediaSimpleTest::onConsoleMessageCallback, this, _1, _2, _3));
             mLLCEFLib->setOnStatusMessageCallback(boost::bind(&LLMediaSimpleTest::onStatusMessageCallback, this, _1));
@@ -66,6 +66,7 @@ class LLMediaSimpleTest
 			mLLCEFLib->setOnLoadEndCallback(boost::bind(&LLMediaSimpleTest::onLoadEndCallback, this, _1));
 			mLLCEFLib->setOnNavigateURLCallback(boost::bind(&LLMediaSimpleTest::onNavigateURLCallback, this, _1));
 			mLLCEFLib->setOnHTTPAuthCallback(boost::bind(&LLMediaSimpleTest::onHTTPAuthCallback, this, _1, _2, _3, _4));
+			mLLCEFLib->setOnRequestExitCallback(boost::bind(&LLMediaSimpleTest::onRequestExitCallback, this));
 
             LLCEFLibSettings settings;
             settings.inital_width = mBrowserWidth;
@@ -83,7 +84,7 @@ class LLMediaSimpleTest
             return result;
         }
 
-        void pageChangedCallback(unsigned char* pixels, int width, int height)
+        void onPageChangedCallback(unsigned char* pixels, int width, int height)
         {
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_BGRA_EXT, GL_UNSIGNED_BYTE, pixels);
             glutPostRedisplay();
@@ -112,6 +113,12 @@ class LLMediaSimpleTest
 		void onLoadStartCallback()
 		{
 			std::cout << "TestGL - Load started" << std::endl;
+		}
+
+		void onRequestExitCallback()
+		{
+			std::cout << "TestGL - exit requested after cleanup" << std::endl;
+			glutLeaveMainLoop();
 		}
 
 		void onLoadEndCallback(int httpStatusCode)
@@ -266,7 +273,7 @@ class LLMediaSimpleTest
 			if (key == 27)
 			{
 				mLLCEFLib->reset();
-				glutLeaveMainLoop();
+				//glutLeaveMainLoop();
 			}
 #endif
             

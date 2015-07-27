@@ -128,6 +128,9 @@ bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPt
 
 void LLBrowserClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 {
+#ifdef LLCEFLIB_DEBUG
+	std::cout << "LLBrowserClient::OnBeforeClose - set mIsBrowserClosing = true; " << std::endl;
+#endif
 	mIsBrowserClosing = true;
 }
 

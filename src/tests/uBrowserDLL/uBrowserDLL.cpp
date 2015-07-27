@@ -149,11 +149,12 @@ void uBrowser::init(int glutWindow)
     resetView();
 
     // hook up callbacks for events we want to act on
-    mLLCEFLib->setPageChangedCallback(std::bind(&uBrowser::pageChangedCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    mLLCEFLib->setOnPageChangedCallback(std::bind(&uBrowser::onPageChangedCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     mLLCEFLib->setOnCustomSchemeURLCallback(std::bind(&uBrowser::onCustomSchemeURLCallback, this, std::placeholders::_1));
     mLLCEFLib->setOnConsoleMessageCallback(std::bind(&uBrowser::onConsoleMessageCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     mLLCEFLib->setOnStatusMessageCallback(std::bind(&uBrowser::onStatusMessageCallback, this, std::placeholders::_1));
-    mLLCEFLib->setOnTitleChangeCallback(std::bind(&uBrowser::onTitleChangeCallback, this, std::placeholders::_1));
+	mLLCEFLib->setOnTitleChangeCallback(std::bind(&uBrowser::onTitleChangeCallback, this, std::placeholders::_1));
+	mLLCEFLib->setOnRequestExitCallback(std::bind(&uBrowser::onRequestExitCallback, this));
 
     // initialize CEF lib and navigate to home page
     LLCEFLibSettings settings;
@@ -172,7 +173,7 @@ void uBrowser::init(int glutWindow)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-void uBrowser::pageChangedCallback(unsigned char* pixels, int width, int height)
+void uBrowser::onPageChangedCallback(unsigned char* pixels, int width, int height)
 {
     glBindTexture(GL_TEXTURE_2D, mAppTexture);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_BGRA_EXT, GL_UNSIGNED_BYTE, pixels);
@@ -187,6 +188,13 @@ void uBrowser::pageChangedCallback(unsigned char* pixels, int width, int height)
     {
         std::cout << "LOG> page contents changed" << std::endl;
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+void uBrowser::onRequestExitCallback()
+{
+	glutLeaveMainLoop();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -506,10 +514,8 @@ void uBrowser::gluiCallback(int controlIdIn)
 {
     if(controlIdIn == mIdExit)
     {
+		// request reset - actual exit should be via onRequestExit callback
         mLLCEFLib->reset();
-
-        // exit the main GLUT loop (freeglut feature)
-        glutLeaveMainLoop();
     }
     if(controlIdIn == mIdBookmarks)
     {

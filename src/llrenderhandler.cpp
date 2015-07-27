@@ -43,11 +43,5 @@ bool LLRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect &rect)
 
 void LLRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList &dirtyRects, const void *buffer, int width, int height)
 {
-    // TODO: send back dirty rects?
-
-    //for (size_t i = 0; i < dirtyRects.size(); ++i)
-    //{
-    //  std::cout << "    >>> rect " << i << ": " << dirtyRects[i].x << " x " << dirtyRects[i].y << " -- " << dirtyRects[i].width << " x" << dirtyRects[i].height << std::endl;
-    //}
-    mParent->pageChanged((unsigned char*)(buffer), width, height);
+    mParent->onPageChanged((unsigned char*)(buffer), width, height);
 }

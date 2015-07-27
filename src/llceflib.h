@@ -135,12 +135,13 @@ class LLCEFLib
         void goForward();
         bool isLoading();
 
-        void setPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);
+        void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);
         void setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback);
         void setOnConsoleMessageCallback(boost::function<void(std::string, std::string, int)> callback);
         void setOnStatusMessageCallback(boost::function<void(std::string)> callback);
 		void setOnTitleChangeCallback(boost::function<void(std::string)> callback);
 		void setOnLoadStartCallback(boost::function<void()> callback);
+		void setOnRequestExitCallback(boost::function<void()> callback);
 		void setOnLoadEndCallback(boost::function<void(int)> callback);
 		void setOnNavigateURLCallback(boost::function<void(std::string)> callback);
 		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);

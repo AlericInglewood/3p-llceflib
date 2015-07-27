@@ -142,14 +142,26 @@ void LLCEFLibImpl::update()
 {
     CefDoMessageLoopWork();
 
-	if ( mBrowserClient )
-		if (mBrowserClient->isBrowserClosing() )
-			CefShutdown();
+	if (mBrowserClient)
+	{
+		if (mBrowserClient->isBrowserClosing())
+		{
+
+#ifdef LLCEFLIB_DEBUG
+			std::cout << "Update loop told to close, call CefShutdown() then call exit callback" << std::endl;
+#endif
+		CefShutdown();
+
+			// tell the app counsuming us it's okay to exit now
+			if (mOnRequestExitCallbackFunc)
+				mOnRequestExitCallbackFunc();
+		}
+	}
 }
 
-void LLCEFLibImpl::setPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback)
+void LLCEFLibImpl::setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback)
 {
-    mPageChangedCallbackFunc = callback;
+    mOnPageChangedCallbackFunc = callback;
 }
 
 void LLCEFLibImpl::setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback)
@@ -175,6 +187,11 @@ void LLCEFLibImpl::setOnTitleChangeCallback(boost::function<void(std::string)> c
 void LLCEFLibImpl::setOnLoadStartCallback(boost::function<void()> callback)
 {
 	mOnLoadStartCallbackFunc = callback;
+}
+
+void LLCEFLibImpl::setOnRequestExitCallback(boost::function<void()> callback)
+{
+	mOnRequestExitCallbackFunc = callback;
 }
 
 void LLCEFLibImpl::setOnLoadEndCallback(boost::function<void(int)> callback)
@@ -209,10 +226,10 @@ void LLCEFLibImpl::getSize(int& width, int& height)
     height = mViewHeight;
 }
 
-void LLCEFLibImpl::pageChanged(unsigned char* pixels, int width, int height)
+void LLCEFLibImpl::onPageChanged(unsigned char* pixels, int width, int height)
 {
-    if(mPageChangedCallbackFunc)
-        mPageChangedCallbackFunc(pixels, width, height);
+    if(mOnPageChangedCallbackFunc)
+        mOnPageChangedCallbackFunc(pixels, width, height);
 }
 
 void LLCEFLibImpl::onCustomSchemeURL(std::string url)
@@ -295,7 +312,7 @@ void LLCEFLibImpl::mouseButton(EMouseButton mouse_button, EMouseEvent mouse_even
     CefMouseEvent cef_mouse_event;
     cef_mouse_event.x = x;
     cef_mouse_event.y = y;
-	cef_mouse_event.modifiers = 0;
+	cef_mouse_event.modifiers = EVENTFLAG_LEFT_MOUSE_BUTTON;
 
 	// select button
 	CefBrowserHost::MouseButtonType btnType = MBT_LEFT;
@@ -313,7 +330,6 @@ void LLCEFLibImpl::mouseButton(EMouseButton mouse_button, EMouseEvent mouse_even
 	// send to CEF
 	if (mBrowser && mBrowser->GetHost())
 	{
-		std::cout << "Mouse button: " << (btnType == MBT_LEFT?"left":"other") << "  state: " << (is_down ? "down" : "up") << "   at " << x << ", " << y << std::endl;
 		mBrowser->GetHost()->SendMouseClickEvent(cef_mouse_event, btnType, is_down ? false : true, last_click_count);
 	}
 };
@@ -327,7 +343,6 @@ void LLCEFLibImpl::mouseMove(int x, int y)
 
 	if (mBrowser && mBrowser->GetHost())
 	{
-		std::cout << "Mouse move at " << x << ", " << y << std::endl;
 		mBrowser->GetHost()->SendMouseMoveEvent(mouse_event, false);
 	}
 };
@@ -350,11 +365,14 @@ void LLCEFLibImpl::setFocus(bool focus)
 
 void LLCEFLibImpl::reset()
 {
-    bool force_close = true;
+#ifdef LLCEFLIB_DEBUG
+	std::cout << "Closing browser and flushing things" << std::endl;
+#endif
 
 	if (mContextHandler && mContextHandler->GetCookieManager())
 		mContextHandler->GetCookieManager()->FlushStore(NULL);
 
+	bool force_close = true;
 	if (mBrowser && mBrowser->GetHost())
 		mBrowser->GetHost()->CloseBrowser(force_close);
 }

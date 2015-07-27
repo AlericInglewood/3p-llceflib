@@ -65,7 +65,7 @@ void resize_gl_screen( int width, int height )
     glLoadIdentity();
 }
 
-void pageChangedCallback(unsigned char* pixels, int width, int height)
+void onPageChangedCallback(unsigned char* pixels, int width, int height)
 {
 	glTexSubImage2D(GL_TEXTURE_2D, 0,
 		0, 0,
@@ -75,13 +75,19 @@ void pageChangedCallback(unsigned char* pixels, int width, int height)
 		pixels);
 }
 
+void onRequestExitCallback()
+{
+	PostQuitMessage(0);
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 //
 void init( HWND hWnd )
 {
 	mLLCEFLib = new LLCEFLib();
 
-	mLLCEFLib->setPageChangedCallback(boost::bind(pageChangedCallback, _1, _2, _3));
+	mLLCEFLib->setOnPageChangedCallback(boost::bind(onPageChangedCallback, _1, _2, _3));
+	mLLCEFLib->setOnRequestExitCallback(boost::bind(onRequestExitCallback));
 
 	LLCEFLibSettings settings;
 	settings.inital_width = gTextureWidth;
@@ -172,7 +178,6 @@ LRESULT CALLBACK window_proc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		case WM_RBUTTONUP:
 		{
 			mLLCEFLib->reset();
-			PostMessage(hWnd, WM_CLOSE, 0, 0L);
 			return 0;
 		};
 
@@ -182,12 +187,6 @@ LRESULT CALLBACK window_proc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			int y = (HIWORD(lParam) * gTextureHeight) / mAppWindowHeight;
 			mLLCEFLib->mouseMove(x, y);
 			return 0;
-        };
-
-        case WM_CLOSE:
-        {
-            PostQuitMessage( 0 );
-            return 0;
         };
 
         case WM_CHAR:

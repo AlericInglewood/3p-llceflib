@@ -66,9 +66,9 @@ void LLCEFLib::setPageZoom(double zoom_val)
 	mImpl->setPageZoom(zoom_val);
 }
 
-void LLCEFLib::setPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback)
+void LLCEFLib::setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback)
 {
-    mImpl->setPageChangedCallback(callback);
+    mImpl->setOnPageChangedCallback(callback);
 }
 
 void LLCEFLib::setOnCustomSchemeURLCallback(boost::function<void(std::string url)> callback)
@@ -94,6 +94,11 @@ void LLCEFLib::setOnTitleChangeCallback(boost::function<void(std::string title)>
 void LLCEFLib::setOnLoadStartCallback(boost::function<void()> callback)
 {
 	mImpl->setOnLoadStartCallback(callback);
+}
+
+void LLCEFLib::setOnRequestExitCallback(boost::function<void()> callback)
+{
+	mImpl->setOnRequestExitCallback(callback);
 }
 
 void LLCEFLib::setOnLoadEndCallback(boost::function<void(int)> callback)

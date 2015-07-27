@@ -54,11 +54,12 @@ class uBrowser
         void gluiCallback(int controlIdIn);
 
         // callbacks triggered by LLCEFLib
-        void pageChangedCallback(unsigned char* pixels, int width, int height);
+        void onPageChangedCallback(unsigned char* pixels, int width, int height);
         void onCustomSchemeURLCallback(std::string url);
         void onConsoleMessageCallback(std::string message, std::string source, int line);
         void onStatusMessageCallback(std::string value);
-        void onTitleChangeCallback(std::string title);
+		void onTitleChangeCallback(std::string title);
+		void onRequestExitCallback();
 
     private:
         void makeChrome();

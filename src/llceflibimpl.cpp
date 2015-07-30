@@ -85,7 +85,7 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
 	// feature not supported on revision of OS X CEF we are locked to in 32 bit land
 #endif
 
-    bool result = CefInitialize(args, settings, NULL, NULL);
+    bool result = CefInitialize(args, settings, this, NULL);
     if (! result)
     {
         return false;

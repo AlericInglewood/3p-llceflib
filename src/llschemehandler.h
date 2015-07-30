@@ -40,7 +40,7 @@ class LLCEFLibImpl;
 namespace scheme_handler {
     
     // Register the scheme.
-    void RegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar, std::vector<CefString>& cookiable_schemes);
+    void RegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar);
     
     // Create the scheme handler.
     void RegisterSchemeHandlers(LLCEFLibImpl* parent);

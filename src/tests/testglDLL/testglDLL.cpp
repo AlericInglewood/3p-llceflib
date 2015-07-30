@@ -273,7 +273,6 @@ class LLMediaSimpleTest
 			if (key == 27)
 			{
 				mLLCEFLib->reset();
-				//glutLeaveMainLoop();
 			}
 #endif
             

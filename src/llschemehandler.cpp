@@ -112,6 +112,7 @@ namespace scheme_handler {
                                                      CefRefPtr<CefRequest> request) OVERRIDE
         {
             CEF_REQUIRE_IO_THREAD();
+
             return new ClientSchemeHandler(mParent);
         }
         
@@ -124,14 +125,15 @@ namespace scheme_handler {
     const CefString& schemeName("secondlife");  // scheme name we want to catch
     const CefString& domainName("");            // domain name ignored for non-standard schemes
     
-    void RegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar,
-                               std::vector<CefString>& cookiable_schemes) {
+    void RegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar)
+	{
         registrar->AddCustomScheme(schemeName, true, false, false);
     }
     
-    void RegisterSchemeHandlers(LLCEFLibImpl* parent) {
+    void RegisterSchemeHandlers(LLCEFLibImpl* parent)
+	{
         CefRegisterSchemeHandlerFactory(schemeName, domainName,
-                                        new scheme_handler::ClientSchemeHandlerFactory(parent));
+			new scheme_handler::ClientSchemeHandlerFactory(parent));
     }
     
 } // scheme_handler

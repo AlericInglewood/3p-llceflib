@@ -150,7 +150,7 @@ void LLCEFLibImpl::update()
 #ifdef LLCEFLIB_DEBUG
 			std::cout << "Update loop told to close, call CefShutdown() then call exit callback" << std::endl;
 #endif
-		CefShutdown();
+			CefShutdown();
 
 			// tell the app counsuming us it's okay to exit now
 			if (mOnRequestExitCallbackFunc)
@@ -379,8 +379,7 @@ void LLCEFLibImpl::reset()
 
 void LLCEFLibImpl::OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar)
 {
-    // called when registering custom schemes
-    // TODO: what else do we need to do here?
+	scheme_handler::RegisterCustomSchemes(registrar);
 }
 
 void LLCEFLibImpl::stop()

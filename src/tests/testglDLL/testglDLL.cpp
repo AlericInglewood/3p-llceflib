@@ -43,15 +43,13 @@ class LLMediaSimpleTest
 			mBrowserHeight(1024),
 			mBrowserDepth(4),
 			mAppTexture(0),
-			mHomepageURL("file:///testpages.html")
-			//mHomepageURL("http://news.google.com")
+			mHomepageURL("https://callum-linden.s3.amazonaws.com/testpages.html")
         {
             mLLCEFLib = new LLCEFLib();
         };
 
         ~LLMediaSimpleTest()
         {
-            mLLCEFLib->reset();
         };
 
         bool init(int init_width, int init_height)
@@ -273,6 +271,7 @@ class LLMediaSimpleTest
 			if (key == 27)
 			{
 				mLLCEFLib->reset();
+				// don't exit until onRequestExitCallback triggered by reset() call
 			}
 #endif
             
@@ -390,7 +389,7 @@ int testGL()
         glutMainLoop();
     }
     
-    delete gApplication;
+//    delete gApplication;
 
     return 0;
 }

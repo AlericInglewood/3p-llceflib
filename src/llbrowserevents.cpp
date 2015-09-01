@@ -40,7 +40,7 @@ bool LLBrowserEvents::OnBeforePopup(CefRefPtr<CefBrowser> browser,
 		CefBrowserSettings& settings,
 		bool* no_javascript_access)
 #else
-bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
+bool LLBrowserEvents::OnBeforePopup(CefRefPtr<CefBrowser> browser,
 	CefRefPtr<CefFrame> frame,
 	const CefString& target_url,
 	const CefString& target_frame_name,

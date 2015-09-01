@@ -44,6 +44,7 @@ class LLMediaSimpleTest
 			mBrowserDepth(4),
 			mAppTexture(0),
 			mHomepageURL("https://callum-linden.s3.amazonaws.com/testpages.html")
+			//mHomepageURL("http://google.com")
         {
             mLLCEFLib = new LLCEFLib();
         };
@@ -64,6 +65,7 @@ class LLMediaSimpleTest
 			mLLCEFLib->setOnLoadEndCallback(boost::bind(&LLMediaSimpleTest::onLoadEndCallback, this, _1));
 			mLLCEFLib->setOnNavigateURLCallback(boost::bind(&LLMediaSimpleTest::onNavigateURLCallback, this, _1));
 			mLLCEFLib->setOnHTTPAuthCallback(boost::bind(&LLMediaSimpleTest::onHTTPAuthCallback, this, _1, _2, _3, _4));
+			mLLCEFLib->setOnExternalTargetLinkCallback(boost::bind(&LLMediaSimpleTest::onExternalTargetLinkCallback, this, _1));
 			mLLCEFLib->setOnRequestExitCallback(boost::bind(&LLMediaSimpleTest::onRequestExitCallback, this));
 
             LLCEFLibSettings settings;
@@ -72,6 +74,9 @@ class LLMediaSimpleTest
             settings.javascript_enabled = true;
             settings.cookies_enabled = true;
 			settings.accept_language_list = "mi-wwow";
+			settings.cookie_store_path = "C:\\browser_cookies";
+			settings.cache_path = "C:\\browser_cache";
+
             bool result = mLLCEFLib->init(settings);
             if(result)
             {
@@ -171,6 +176,11 @@ class LLMediaSimpleTest
 			//username = "foobar";
 			//password = "flasmsasm";
 			//return true; // username/password and "OKAY" entered in HTTP Auth dialog
+		}
+
+		void onExternalTargetLinkCallback(std::string url)
+		{
+			std::cout << "TestGL triggered 'external' link to " << url << std::endl;
 		}
 
 		void display()

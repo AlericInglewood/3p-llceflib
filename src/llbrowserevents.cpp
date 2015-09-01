@@ -52,12 +52,6 @@ bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
 #endif
 {
     CEF_REQUIRE_IO_THREAD();
-
-#ifdef LLCEFLIB_DEBUG
-    std::cout << "LLBrowserEvents::OnBeforePopup" << std::endl;
-#endif
-    browser->GetMainFrame()->LoadURL(target_url);
-
     return true;
 }
 

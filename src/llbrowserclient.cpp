@@ -44,6 +44,57 @@ CefRefPtr<CefRenderHandler> LLBrowserClient::GetRenderHandler()
     return mLLRenderHandler;
 }
 
+/* virtual */
+#if (CEF_CURRENT_BRANCH >= CEF_BRANCH_2357)
+bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
+	CefRefPtr<CefFrame> frame,
+	const CefString& target_url,
+	const CefString& target_frame_name,
+	CefLifeSpanHandler::WindowOpenDisposition target_disposition,
+	bool user_gesture,
+	const CefPopupFeatures& popupFeatures,
+	CefWindowInfo& windowInfo,
+	CefRefPtr<CefClient>& client,
+	CefBrowserSettings& settings,
+	bool* no_javascript_access)
+#else
+bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
+	CefRefPtr<CefFrame> frame,
+	const CefString& target_url,
+	const CefString& target_frame_name,
+	const CefPopupFeatures& popupFeatures,
+	CefWindowInfo& windowInfo,
+	CefRefPtr<CefClient>& client,
+	CefBrowserSettings& settings,
+	bool* no_javascript_access)
+#endif
+{
+	CEF_REQUIRE_IO_THREAD();
+
+	// links with this target name will not be browsed to
+	// and onExternalTargetLink(..) callback triggered so calling app 
+	// can take action
+	const std::string external_target_name = "external";
+
+#ifdef LLCEFLIB_DEBUG
+	std::cout << "LLBrowserEvents::OnBeforePopup" << std::endl;
+	std::cout << "Target frame is " << std::string(target_frame_name) << std::endl;
+#endif
+
+	std::string target = std::string(target_frame_name);
+	std::transform(target.begin(), target.end(), target.begin(), ::tolower);
+
+	if (target == external_target_name)
+	{
+		mParent->onExternalTargetLink(std::string(target_url));
+		return true;
+	}
+
+	browser->GetMainFrame()->LoadURL(target_url);
+
+	return true;
+}
+
 bool LLBrowserClient::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
 {
     CEF_REQUIRE_UI_THREAD();
@@ -128,6 +179,8 @@ bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPt
 
 void LLBrowserClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 {
+	CEF_REQUIRE_UI_THREAD();
+
 #ifdef LLCEFLIB_DEBUG
 	std::cout << "LLBrowserClient::OnBeforeClose - set mIsBrowserClosing = true; " << std::endl;
 #endif

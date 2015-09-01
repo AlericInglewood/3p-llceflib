@@ -116,6 +116,11 @@ void LLCEFLib::setOnHTTPAuthCallback(boost::function<bool(const std::string host
 	mImpl->setOnHTTPAuthCallback(callback);
 }
 
+void LLCEFLib::setOnExternalTargetLinkCallback(boost::function<void(const std::string url)> callback)
+{
+	mImpl->setOnExternalTargetLinkCallback(callback);
+}
+
 void LLCEFLib::reset()
 {
     mImpl->reset();

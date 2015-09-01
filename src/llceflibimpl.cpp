@@ -62,6 +62,7 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
 
 
     CefSettings settings;
+
 #ifdef WIN32
     CefString(&settings.browser_subprocess_path) = "llceflib_host.exe";
 #elif __APPLE__
@@ -85,6 +86,13 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
 	// feature not supported on revision of OS X CEF we are locked to in 32 bit land
 #endif
 
+	// set path to cache
+	CefString cache_path = ".";
+	if (user_settings.cache_path.length())
+	{
+		CefString(&settings.cache_path) = user_settings.cache_path;
+	}
+	
     bool result = CefInitialize(args, settings, this, NULL);
     if (! result)
     {
@@ -106,17 +114,22 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
     // change settings based on what was passed in
     browser_settings.javascript = user_settings.javascript_enabled ? STATE_ENABLED : STATE_DISABLED;
     browser_settings.plugins = user_settings.plugins_enabled ? STATE_ENABLED : STATE_DISABLED;
-    
+
     // CEF handler classes
     LLRenderHandler* renderHandler = new LLRenderHandler(this);
     mBrowserClient = new LLBrowserClient(this, renderHandler);
     
     // Add a custom context handler that implements a
     // CookieManager so cookies will persist to disk.
-    
+
 #ifdef WIN32
 	std::string cookiePath = ".\\cookies";
+	if (user_settings.cookie_store_path.length())
+	{
+		cookiePath = std::string(user_settings.cookie_store_path);
+	}
 #elif __APPLE__
+	// TODO: pass on cookie path to OS X version too
     NSString* appDataDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex: 0];
     std::string cookiePath = [[NSString stringWithFormat: @"%@/%@", appDataDirectory, @"llceflib_cookies"] UTF8String];
 #endif
@@ -209,6 +222,11 @@ void LLCEFLibImpl::setOnHTTPAuthCallback(boost::function<bool(const std::string 
 	mOnHTTPAuthCallbackFunc = callback;
 }
 
+void LLCEFLibImpl::setOnExternalTargetLinkCallback(boost::function<void(std::string)> callback)
+{
+	mOnExternalTargetLinkFunc = callback;
+}
+
 void LLCEFLibImpl::setSize(int width, int height)
 {
     mViewWidth = width;
@@ -280,6 +298,12 @@ bool LLCEFLibImpl::onHTTPAuth(const std::string host, const std::string realm, s
 		return mOnHTTPAuthCallbackFunc(host, realm, username, password);
 
 	return false;
+}
+
+void LLCEFLibImpl::onExternalTargetLink(std::string url)
+{
+	if (mOnExternalTargetLinkFunc)
+		mOnExternalTargetLinkFunc(url);
 }
 
 int LLCEFLibImpl::getDepth()
@@ -372,7 +396,7 @@ void LLCEFLibImpl::reset()
 	if (mContextHandler && mContextHandler->GetCookieManager())
 		mContextHandler->GetCookieManager()->FlushStore(NULL);
 
-	bool force_close = true;
+	bool force_close = false;
 	if (mBrowser && mBrowser->GetHost())
 		mBrowser->GetHost()->CloseBrowser(force_close);
 }

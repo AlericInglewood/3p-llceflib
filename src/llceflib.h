@@ -57,8 +57,11 @@ struct LLCEFLibSettings
     bool plugins_enabled = true;
     bool cookies_enabled = true;
 
+	// path to browser cache
+	std::string cache_path = "";
+
 	// path to cookie store
-	std::string cookie_store_path;
+	std::string cookie_store_path = "";
 
     // list of language locale codes used to configure the Accept-Language HTTP header value
 	// and change the default language of the browser
@@ -145,6 +148,7 @@ class LLCEFLib
 		void setOnLoadEndCallback(boost::function<void(int)> callback);
 		void setOnNavigateURLCallback(boost::function<void(std::string)> callback);
 		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
+		void setOnExternalTargetLinkCallback(boost::function<void(std::string url)> callback);
 
     private:
         std::auto_ptr <LLCEFLibImpl> mImpl;

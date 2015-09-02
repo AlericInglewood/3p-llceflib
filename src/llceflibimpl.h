@@ -115,6 +115,13 @@ class LLCEFLibImpl :
         void goForward();
         bool isLoading();
 
+		bool editCanCopy();
+		bool editCanCut();
+		bool editCanPaste();
+		void editCopy();
+		void editCut();
+		void editPaste();
+
         /* virtual */
         void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE;
 

@@ -56,6 +56,7 @@ struct LLCEFLibSettings
     bool javascript_enabled = true;
     bool plugins_enabled = true;
     bool cookies_enabled = true;
+	bool cache_enabled = true;
 
 	// path to browser cache
 	std::string cache_path = "";
@@ -137,6 +138,13 @@ class LLCEFLib
         bool canGoForward();
         void goForward();
         bool isLoading();
+
+		bool editCanCopy();
+		bool editCanCut();
+		bool editCanPaste();
+		void editCopy();
+		void editCut();
+		void editPaste();
 
         void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);
         void setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback);

@@ -86,13 +86,12 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
 	// feature not supported on revision of OS X CEF we are locked to in 32 bit land
 #endif
 
-	// set path to cache
-	CefString cache_path = ".";
-	if (user_settings.cache_path.length())
+	// set path to cache if enabled and set
+	if (user_settings.cache_enabled && user_settings.cache_path.length())
 	{
 		CefString(&settings.cache_path) = user_settings.cache_path;
 	}
-	
+
     bool result = CefInitialize(args, settings, this, NULL);
     if (! result)
     {
@@ -119,32 +118,36 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
     LLRenderHandler* renderHandler = new LLRenderHandler(this);
     mBrowserClient = new LLBrowserClient(this, renderHandler);
     
+	// if this is NULL for CreateBrowserSync, the global request context will be used
+	CefRefPtr<CefRequestContext> rc = NULL;
+
     // Add a custom context handler that implements a
     // CookieManager so cookies will persist to disk.
-
-#ifdef WIN32
-	std::string cookiePath = ".\\cookies";
-	if (user_settings.cookie_store_path.length())
+	// (if cookies enabled)
+	if (user_settings.cookies_enabled)
 	{
-		cookiePath = std::string(user_settings.cookie_store_path);
-	}
+#ifdef WIN32
+		std::string cookiePath = ".\\cookies";
+		if (user_settings.cookie_store_path.length())
+		{
+			cookiePath = std::string(user_settings.cookie_store_path);
+		}
 #elif __APPLE__
-	// TODO: pass on cookie path to OS X version too
-    NSString* appDataDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex: 0];
-    std::string cookiePath = [[NSString stringWithFormat: @"%@/%@", appDataDirectory, @"llceflib_cookies"] UTF8String];
+		// TODO: pass on cookie path to OS X version too
+		NSString* appDataDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex: 0];
+		std::string cookiePath = [[NSString stringWithFormat: @"%@/%@", appDataDirectory, @"llceflib_cookies"] UTF8String];
 #endif
-    
-    // CEF changed interfaces between these two branches
-    // Can be removed once we decide on a release CEF version
+
+		// CEF changed interfaces between these two branches
 #if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
-    CefRequestContextSettings contextSettings;
-    
-	mContextHandler = new LLContextHandler(cookiePath.c_str());
-	CefRefPtr<CefRequestContext> rc = CefRequestContext::CreateContext(contextSettings, mContextHandler.get());
+		CefRequestContextSettings contextSettings;
+		mContextHandler = new LLContextHandler(cookiePath.c_str());
+		rc = CefRequestContext::CreateContext(contextSettings, mContextHandler.get());
 #else // CEF_BRANCH_2272
-    CefRefPtr<CefRequestContext> rc = CefRequestContext::CreateContext( new LLContextHandler(cookiePath.c_str()) );
+		rc = CefRequestContext::CreateContext(new LLContextHandler(cookiePath.c_str()));
 #endif
-    
+	}
+
     CefString url = "";
     mBrowser = CefBrowserHost::CreateBrowserSync(window_info, mBrowserClient.get(), url, browser_settings, rc);
     
@@ -476,4 +479,46 @@ bool LLCEFLibImpl::isLoading()
 
     // default to allow so if UI is relies on it, this is still sensible
     return true;
+}
+
+bool LLCEFLibImpl::editCanCopy()
+{
+	// TODO: ask CEF if we can do this
+	return true;
+}
+
+bool LLCEFLibImpl::editCanCut()
+{
+	// TODO: ask CEF if we can do this
+	return true;
+}
+
+bool LLCEFLibImpl::editCanPaste()
+{
+	// TODO: ask CEF if we can do this
+	return true;
+}
+
+void LLCEFLibImpl::editCopy()
+{
+	if (mBrowser && mBrowser->GetFocusedFrame())
+	{
+		mBrowser->GetFocusedFrame()->Copy();
+	}
+}
+
+void LLCEFLibImpl::editCut()
+{
+	if (mBrowser && mBrowser->GetFocusedFrame())
+	{
+		mBrowser->GetFocusedFrame()->Cut();
+	}
+}
+
+void LLCEFLibImpl::editPaste()
+{
+	if (mBrowser && mBrowser->GetFocusedFrame())
+	{
+		mBrowser->GetFocusedFrame()->Paste();
+	}
 }

@@ -201,5 +201,36 @@ void LLCEFLib::goForward()
 
 bool LLCEFLib::isLoading()
 {
-    return mImpl->isLoading();
+	return mImpl->isLoading();
+}
+
+
+bool LLCEFLib::editCanCopy()
+{
+	return mImpl->editCanCopy();
+}
+
+bool LLCEFLib::editCanCut()
+{
+	return mImpl->editCanCut();
+}
+
+bool LLCEFLib::editCanPaste()
+{
+	return mImpl->editCanPaste();
+}
+
+void LLCEFLib::editCopy()
+{
+	mImpl->editCopy();
+}
+
+void LLCEFLib::editCut()
+{
+	mImpl->editCut();
+}
+
+void LLCEFLib::editPaste()
+{
+	mImpl->editPaste();
 }

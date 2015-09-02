@@ -43,8 +43,9 @@ class LLMediaSimpleTest
 			mBrowserHeight(1024),
 			mBrowserDepth(4),
 			mAppTexture(0),
-			mHomepageURL("https://callum-linden.s3.amazonaws.com/testpages.html")
-			//mHomepageURL("http://google.com")
+			//mHomepageURL("https://callum-linden.s3.amazonaws.com/testpages.html")
+			mHomepageURL("http://google.com")
+			//mHomepageURL("https://callum-linden.s3.amazonaws.com/cookie_test.html")
         {
             mLLCEFLib = new LLCEFLib();
         };
@@ -74,7 +75,9 @@ class LLMediaSimpleTest
             settings.javascript_enabled = true;
             settings.cookies_enabled = true;
 			settings.accept_language_list = "mi-wwow";
+			settings.cookies_enabled = true;
 			settings.cookie_store_path = "C:\\browser_cookies";
+			settings.cache_enabled = true;
 			settings.cache_path = "C:\\browser_cache";
 
             bool result = mLLCEFLib->init(settings);
@@ -287,7 +290,9 @@ class LLMediaSimpleTest
             
             if(key == '`') mLLCEFLib->navigate(mHomepageURL);
             if(key == '-') mLLCEFLib->goBack();
-            if(key == '=') mLLCEFLib->goForward();
+			if (key == '=') mLLCEFLib->goForward();
+			if (key == '\\') mLLCEFLib->editCopy();
+			if (key == ']') mLLCEFLib->editPaste();
         }
 
         void keyboardUp(unsigned char key)

@@ -80,14 +80,11 @@ class LLCEFLibImpl :
 		void setOnLoadEndCallback(boost::function<void(int)> callback);
 		void onLoadEnd(int httpStatusCode);
 
-		void setOnNavigateURLCallback(boost::function<void(std::string)> callback);
-		void onNavigateURL(std::string url);
+		void setOnNavigateURLCallback(boost::function<void(std::string, std::string)> callback);
+		void onNavigateURL(std::string url, std::string target);
 
 		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
 		bool onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password);
-
-		void setOnExternalTargetLinkCallback(boost::function<void(std::string)> callback);
-		void onExternalTargetLink(std::string url);
 
 		void setOnRequestExitCallback(boost::function<void()> callback);
 		void OnRequestExitCallback();
@@ -143,9 +140,8 @@ class LLCEFLibImpl :
 		boost::function<void(std::string)> mOnTitleChangeCallbackFunc;
 		boost::function<void()> mOnLoadStartCallbackFunc;
 		boost::function<void(int)> mOnLoadEndCallbackFunc;
-		boost::function<void(std::string)> mOnNavigateURLCallbackFunc;
+		boost::function<void(std::string, std::string)> mOnNavigateURLCallbackFunc;
 		boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> mOnHTTPAuthCallbackFunc;
-		boost::function<void(std::string)> mOnExternalTargetLinkFunc;
 		boost::function<void()> mOnRequestExitCallbackFunc;
 
 		IMPLEMENT_REFCOUNTING(LLCEFLibImpl);

@@ -71,22 +71,18 @@ bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
 {
 	CEF_REQUIRE_IO_THREAD();
 
-	// links with this target name will not be browsed to
-	// and onExternalTargetLink(..) callback triggered so calling app 
-	// can take action
-	const std::string external_target_name = "external";
-
 #ifdef LLCEFLIB_DEBUG
 	std::cout << "LLBrowserEvents::OnBeforePopup" << std::endl;
 	std::cout << "Target frame is " << std::string(target_frame_name) << std::endl;
 #endif
 
+	// links with a target will not be browsed to - up to caller to kick off 
+	// another navigate event if they want to visit that URL
+	std::string url = std::string(target_url);
 	std::string target = std::string(target_frame_name);
-	std::transform(target.begin(), target.end(), target.begin(), ::tolower);
-
-	if (target == external_target_name)
+	if (target.length())
 	{
-		mParent->onExternalTargetLink(std::string(target_url));
+		mParent->onNavigateURL(url, target);
 		return true;
 	}
 
@@ -154,7 +150,10 @@ bool LLBrowserClient::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<Ce
 	CEF_REQUIRE_UI_THREAD();
 	std::string url = request->GetURL();
 
-	mParent->onNavigateURL(url);
+	// no target if we come via this path
+	std::string link_target("");
+
+	mParent->onNavigateURL(url, link_target);
 
 	// continue with navigation
 	return false;

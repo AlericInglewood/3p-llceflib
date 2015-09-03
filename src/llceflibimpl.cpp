@@ -220,7 +220,7 @@ void LLCEFLibImpl::setOnLoadEndCallback(boost::function<void(int)> callback)
 	mOnLoadEndCallbackFunc = callback;
 }
 
-void LLCEFLibImpl::setOnNavigateURLCallback(boost::function<void(std::string)> callback)
+void LLCEFLibImpl::setOnNavigateURLCallback(boost::function<void(std::string, std::string)> callback)
 {
 	mOnNavigateURLCallbackFunc = callback;
 }
@@ -228,11 +228,6 @@ void LLCEFLibImpl::setOnNavigateURLCallback(boost::function<void(std::string)> c
 void LLCEFLibImpl::setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback)
 {
 	mOnHTTPAuthCallbackFunc = callback;
-}
-
-void LLCEFLibImpl::setOnExternalTargetLinkCallback(boost::function<void(std::string)> callback)
-{
-	mOnExternalTargetLinkFunc = callback;
 }
 
 void LLCEFLibImpl::setSize(int width, int height)
@@ -300,10 +295,10 @@ void LLCEFLibImpl::onLoadEnd(int httpStatusCode)
 		mOnLoadEndCallbackFunc(httpStatusCode);
 }
 
-void LLCEFLibImpl::onNavigateURL(std::string url)
+void LLCEFLibImpl::onNavigateURL(std::string url, std::string target)
 {
 	if (mOnNavigateURLCallbackFunc)
-		mOnNavigateURLCallbackFunc(url);
+		mOnNavigateURLCallbackFunc(url, target);
 }
 
 bool LLCEFLibImpl::onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password)
@@ -312,12 +307,6 @@ bool LLCEFLibImpl::onHTTPAuth(const std::string host, const std::string realm, s
 		return mOnHTTPAuthCallbackFunc(host, realm, username, password);
 
 	return false;
-}
-
-void LLCEFLibImpl::onExternalTargetLink(std::string url)
-{
-	if (mOnExternalTargetLinkFunc)
-		mOnExternalTargetLinkFunc(url);
 }
 
 int LLCEFLibImpl::getDepth()

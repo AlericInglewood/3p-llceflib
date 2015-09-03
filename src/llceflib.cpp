@@ -111,7 +111,7 @@ void LLCEFLib::setOnLoadEndCallback(boost::function<void(int)> callback)
 	mImpl->setOnLoadEndCallback(callback);
 }
 
-void LLCEFLib::setOnNavigateURLCallback(boost::function<void(std::string title)> callback)
+void LLCEFLib::setOnNavigateURLCallback(boost::function<void(std::string url, std::string target)> callback)
 {
 	mImpl->setOnNavigateURLCallback(callback);
 }
@@ -119,11 +119,6 @@ void LLCEFLib::setOnNavigateURLCallback(boost::function<void(std::string title)>
 void LLCEFLib::setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string& username, std::string& password)> callback)
 {
 	mImpl->setOnHTTPAuthCallback(callback);
-}
-
-void LLCEFLib::setOnExternalTargetLinkCallback(boost::function<void(const std::string url)> callback)
-{
-	mImpl->setOnExternalTargetLinkCallback(callback);
 }
 
 void LLCEFLib::reset()

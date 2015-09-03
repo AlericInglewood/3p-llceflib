@@ -63,9 +63,8 @@ class LLMediaSimpleTest
 			mLLCEFLib->setOnAddressChangeCallback(boost::bind(&LLMediaSimpleTest::onAddressChangeCallback, this, _1));
 			mLLCEFLib->setOnLoadStartCallback(boost::bind(&LLMediaSimpleTest::onLoadStartCallback, this));
 			mLLCEFLib->setOnLoadEndCallback(boost::bind(&LLMediaSimpleTest::onLoadEndCallback, this, _1));
-			mLLCEFLib->setOnNavigateURLCallback(boost::bind(&LLMediaSimpleTest::onNavigateURLCallback, this, _1));
+			mLLCEFLib->setOnNavigateURLCallback(boost::bind(&LLMediaSimpleTest::onNavigateURLCallback, this, _1, _2));
 			mLLCEFLib->setOnHTTPAuthCallback(boost::bind(&LLMediaSimpleTest::onHTTPAuthCallback, this, _1, _2, _3, _4));
-			mLLCEFLib->setOnExternalTargetLinkCallback(boost::bind(&LLMediaSimpleTest::onExternalTargetLinkCallback, this, _1));
 			mLLCEFLib->setOnRequestExitCallback(boost::bind(&LLMediaSimpleTest::onRequestExitCallback, this));
 
             LLCEFLibSettings settings;
@@ -136,9 +135,9 @@ class LLMediaSimpleTest
 			std::cout << "TestGL - Load ended with HTTP status code of " << httpStatusCode << std::endl;
 		}
 
-		void onNavigateURLCallback(std::string url)
+		void onNavigateURLCallback(std::string url, std::string target)
 		{
-			std::cout << "TestGL - navigate to " << url << std::endl;
+			std::cout << "TestGL - navigate to " << url << " with a target of " << target << std::endl;
 		}
 
 		bool onHTTPAuthCallback(const std::string host, const std::string realm, std::string& username, std::string& password)
@@ -183,11 +182,6 @@ class LLMediaSimpleTest
 			//username = "foobar";
 			//password = "flasmsasm";
 			//return true; // username/password and "OKAY" entered in HTTP Auth dialog
-		}
-
-		void onExternalTargetLinkCallback(std::string url)
-		{
-			std::cout << "TestGL triggered 'external' link to " << url << std::endl;
 		}
 
 		void display()

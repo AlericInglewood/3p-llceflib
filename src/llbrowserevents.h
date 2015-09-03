@@ -71,6 +71,7 @@ class LLBrowserEvents :
 
         // CefDisplayHandler overrides
         CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE { return this; }
+		void OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url) OVERRIDE;
         bool OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line) OVERRIDE;
         void OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value) OVERRIDE;
         void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) OVERRIDE;

@@ -63,10 +63,13 @@ class LLCEFLibImpl :
         void setOnConsoleMessageCallback(boost::function<void(std::string, std::string, int)> callback);
         void onConsoleMessage(std::string message, std::string source, int line);
 
-        void setOnStatusMessageCallback(boost::function<void(std::string)> callback);
-        void onStatusMessage(std::string value);
+		void setOnAddressChangeCallback(boost::function<void(std::string)> callback);
+		void onAddressChange(std::string new_url);
 
-        void setOnTitleChangeCallback(boost::function<void(std::string)> callback);
+		void setOnStatusMessageCallback(boost::function<void(std::string)> callback);
+		void onStatusMessage(std::string value);
+
+		void setOnTitleChangeCallback(boost::function<void(std::string)> callback);
         void onTitleChange(std::string title);
 
 		void OnBeforeClose(CefRefPtr<CefBrowser> browser);
@@ -135,7 +138,8 @@ class LLCEFLibImpl :
         boost::function<void(unsigned char*, int, int)> mOnPageChangedCallbackFunc;
         boost::function<void(std::string)> mOnCustomSchemeURLCallbackFunc;
         boost::function<void(std::string, std::string, int line)> mOnConsoleMessageCallbackFunc;
-        boost::function<void(std::string)> mOnStatusMessageCallbackFunc;
+		boost::function<void(std::string)> mOnAddressChangeCallbackFunc;
+		boost::function<void(std::string)> mOnStatusMessageCallbackFunc;
 		boost::function<void(std::string)> mOnTitleChangeCallbackFunc;
 		boost::function<void()> mOnLoadStartCallbackFunc;
 		boost::function<void(int)> mOnLoadEndCallbackFunc;

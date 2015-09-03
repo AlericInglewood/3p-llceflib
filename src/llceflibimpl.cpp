@@ -190,9 +190,14 @@ void LLCEFLibImpl::setOnConsoleMessageCallback(boost::function<void(std::string,
     mOnConsoleMessageCallbackFunc = callback;
 }
 
+void LLCEFLibImpl::setOnAddressChangeCallback(boost::function<void(std::string)> callback)
+{
+	mOnAddressChangeCallbackFunc = callback;
+}
+
 void LLCEFLibImpl::setOnStatusMessageCallback(boost::function<void(std::string)> callback)
 {
-    mOnStatusMessageCallbackFunc = callback;
+	mOnStatusMessageCallbackFunc = callback;
 }
 
 void LLCEFLibImpl::setOnTitleChangeCallback(boost::function<void(std::string)> callback)
@@ -265,10 +270,16 @@ void LLCEFLibImpl::onConsoleMessage(std::string message, std::string source, int
         mOnConsoleMessageCallbackFunc(message, source, line);
 }
 
+void LLCEFLibImpl::onAddressChange(std::string new_url)
+{
+	if (mOnAddressChangeCallbackFunc)
+		mOnAddressChangeCallbackFunc(new_url);
+}
+
 void LLCEFLibImpl::onStatusMessage(std::string value)
 {
-    if(mOnStatusMessageCallbackFunc)
-        mOnStatusMessageCallbackFunc(value);
+	if (mOnStatusMessageCallbackFunc)
+		mOnStatusMessageCallbackFunc(value);
 }
 
 void LLCEFLibImpl::onTitleChange(std::string title)

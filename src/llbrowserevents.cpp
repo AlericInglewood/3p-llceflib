@@ -96,6 +96,11 @@ void LLBrowserEvents::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 #endif
 }
 
+void LLBrowserEvents::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url)
+{
+	CEF_REQUIRE_UI_THREAD();
+}
+
 bool LLBrowserEvents::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
 {
     CEF_REQUIRE_UI_THREAD();

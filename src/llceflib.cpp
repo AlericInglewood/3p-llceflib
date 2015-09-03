@@ -81,9 +81,14 @@ void LLCEFLib::setOnConsoleMessageCallback(boost::function<void(std::string, std
     mImpl->setOnConsoleMessageCallback(callback);
 }
 
+void LLCEFLib::setOnAddressChangeCallback(boost::function<void(std::string value)> callback)
+{
+	mImpl->setOnAddressChangeCallback(callback);
+}
+
 void LLCEFLib::setOnStatusMessageCallback(boost::function<void(std::string value)> callback)
 {
-    mImpl->setOnStatusMessageCallback(callback);
+	mImpl->setOnStatusMessageCallback(callback);
 }
 
 void LLCEFLib::setOnTitleChangeCallback(boost::function<void(std::string title)> callback)

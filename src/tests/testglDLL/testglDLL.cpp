@@ -43,9 +43,7 @@ class LLMediaSimpleTest
 			mBrowserHeight(1024),
 			mBrowserDepth(4),
 			mAppTexture(0),
-			//mHomepageURL("https://callum-linden.s3.amazonaws.com/testpages.html")
-			mHomepageURL("http://google.com")
-			//mHomepageURL("https://callum-linden.s3.amazonaws.com/cookie_test.html")
+			mHomepageURL("https://callum-linden.s3.amazonaws.com/ceftests.html")
         {
             mLLCEFLib = new LLCEFLib();
         };
@@ -62,6 +60,7 @@ class LLMediaSimpleTest
             mLLCEFLib->setOnConsoleMessageCallback(boost::bind(&LLMediaSimpleTest::onConsoleMessageCallback, this, _1, _2, _3));
             mLLCEFLib->setOnStatusMessageCallback(boost::bind(&LLMediaSimpleTest::onStatusMessageCallback, this, _1));
 			mLLCEFLib->setOnTitleChangeCallback(boost::bind(&LLMediaSimpleTest::onTitleChangeCallback, this, _1));
+			mLLCEFLib->setOnAddressChangeCallback(boost::bind(&LLMediaSimpleTest::onAddressChangeCallback, this, _1));
 			mLLCEFLib->setOnLoadStartCallback(boost::bind(&LLMediaSimpleTest::onLoadStartCallback, this));
 			mLLCEFLib->setOnLoadEndCallback(boost::bind(&LLMediaSimpleTest::onLoadEndCallback, this, _1));
 			mLLCEFLib->setOnNavigateURLCallback(boost::bind(&LLMediaSimpleTest::onNavigateURLCallback, this, _1));
@@ -114,6 +113,11 @@ class LLMediaSimpleTest
 		void onTitleChangeCallback(std::string title)
 		{
 			std::cout << "TestGL - title changed to " << title << std::endl;
+		}
+
+		void onAddressChangeCallback(std::string new_url)
+		{
+			std::cout << "TestGL - URL changed to " << new_url << std::endl;
 		}
 
 		void onLoadStartCallback()

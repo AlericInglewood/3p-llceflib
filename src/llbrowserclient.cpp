@@ -106,11 +106,20 @@ bool LLBrowserClient::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefS
     return true;
 }
 
+void LLBrowserClient::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url)
+{
+	CEF_REQUIRE_UI_THREAD();
+
+	std::string new_url = url;
+	mParent->onAddressChange(new_url);
+}
+
 void LLBrowserClient::OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value)
 {
     CEF_REQUIRE_UI_THREAD();
 
     std::string value_str = value;
+
     mParent->onStatusMessage(value_str);
 }
 

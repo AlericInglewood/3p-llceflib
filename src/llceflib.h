@@ -149,7 +149,8 @@ class LLCEFLib
         void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);
         void setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback);
         void setOnConsoleMessageCallback(boost::function<void(std::string, std::string, int)> callback);
-        void setOnStatusMessageCallback(boost::function<void(std::string)> callback);
+		void setOnStatusMessageCallback(boost::function<void(std::string)> callback);
+		void setOnAddressChangeCallback(boost::function<void(std::string)> callback);
 		void setOnTitleChangeCallback(boost::function<void(std::string)> callback);
 		void setOnLoadStartCallback(boost::function<void()> callback);
 		void setOnRequestExitCallback(boost::function<void()> callback);

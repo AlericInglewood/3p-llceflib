@@ -146,3 +146,5 @@ bool LLBrowserEvents::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPt
 	CEF_REQUIRE_IO_THREAD();
 	return true;
 }
+
+

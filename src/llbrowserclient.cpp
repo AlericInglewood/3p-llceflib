@@ -150,10 +150,12 @@ bool LLBrowserClient::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<Ce
 	CEF_REQUIRE_UI_THREAD();
 	std::string url = request->GetURL();
 
-	// no target if we come via this path
-	std::string link_target("");
-
-	mParent->onNavigateURL(url, link_target);
+	// might think this is the right approach to trigger a callback to say we're navigating 
+	// but this causes a catastophic loop in SL where it sends a navigate request when it
+	// gets this callback.  For the moment, until i can unravel all that, I'm just not sending it here.
+	// It is send for links with a target.
+	//std::string link_target("");
+	//mParent->onNavigateURL(url, link_target);
 
 	// continue with navigation
 	return false;

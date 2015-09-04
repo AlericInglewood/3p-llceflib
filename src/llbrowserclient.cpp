@@ -150,6 +150,22 @@ bool LLBrowserClient::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<Ce
 	CEF_REQUIRE_UI_THREAD();
 	std::string url = request->GetURL();
 
+	// scheme we are using for Second Life custom URLs.
+	// Someday, this should be settable via the API.
+	const std::string customScheme("secondlife://");
+
+	// for conmparison
+	std::transform(url.begin(), url.end(), url.begin(), ::tolower);
+	if (url.substr(0, customScheme.length()) == customScheme)
+	{
+		// get URL again since we lower cased it for comparison
+		url = request->GetURL();
+		mParent->onCustomSchemeURL(url);
+
+		// don't continute with navigation
+		return true;
+	}
+
 	// might think this is the right approach to trigger a callback to say we're navigating 
 	// but this causes a catastophic loop in SL where it sends a navigate request when it
 	// gets this callback.  For the moment, until i can unravel all that, I'm just not sending it here.

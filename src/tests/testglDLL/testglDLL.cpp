@@ -375,7 +375,7 @@ int testGL()
     glutInit(&argc, 0);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     
-    glutInitWindowPosition(700, 0);
+    glutInitWindowPosition(750, 0);
     glutInitWindowSize(1024, 1024);
     
     glutCreateWindow("testGL");

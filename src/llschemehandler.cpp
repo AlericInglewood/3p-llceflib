@@ -23,6 +23,11 @@
  * $/LicenseInfo$
  */
 
+// IMPORTANT:
+// removed for now since the scheme handler as implemented is broken in rev 2357
+// now schemes are caught via onBeforeBrowse override - when 2357 is fixed the code
+// should revert to using a scheme hander vs a URL parser
+
 #include "llceflibplatform.h"
 
 #include "llschemehandler.h"
@@ -43,21 +48,19 @@ namespace scheme_handler {
     {
     public:
         ClientSchemeHandler(LLCEFLibImpl* parent) :
-        mParent(parent),
-        offset_(0)
-        {
-        }
+			mParent(parent),
+			offset_(0)
+		{
+		}
         
-        virtual bool ProcessRequest(CefRefPtr<CefRequest> request,
-                                    CefRefPtr<CefCallback> callback)
-        OVERRIDE{
+        virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback) OVERRIDE
+		{
             CEF_REQUIRE_IO_THREAD();
             
             std::string url = request->GetURL();
 #ifdef LLCEFLIB_DEBUG
-            std::cout << "ClientSchemeHandler - url is " << url << std::endl;
+			std::cout << "ClientSchemeHandler - url is " << url << std::endl;
 #endif
-            
             mParent->onCustomSchemeURL(url);
             
             mime_type_ = "none/secondlife";

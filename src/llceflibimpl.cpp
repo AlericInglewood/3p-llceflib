@@ -98,7 +98,10 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
         return false;
     }
     
-    scheme_handler::RegisterSchemeHandlers(this);
+	// removed for now since the scheme handler as implemented is broken in rev 2357
+	// now schemes are caught via onBeforeBrowse override - when 2357 is fixed the code
+	// should revert to using a scheme hander vs a URL parser
+	//scheme_handler::RegisterSchemeHandlers(this);
     
     setSize(user_settings.inital_width, user_settings.inital_height);
         
@@ -406,7 +409,10 @@ void LLCEFLibImpl::reset()
 
 void LLCEFLibImpl::OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar)
 {
-	scheme_handler::RegisterCustomSchemes(registrar);
+	// removed for now since the scheme handler as implemented is broken in rev 2357
+	// now schemes are caught via onBeforeBrowse override - when 2357 is fixed the code
+	// should revert to using a scheme hander vs a URL parser
+	//scheme_handler::RegisterCustomSchemes(registrar);
 }
 
 void LLCEFLibImpl::stop()

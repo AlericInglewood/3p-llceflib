@@ -28,7 +28,8 @@
 
 #include <string>
 #include <memory>
-#include "boost/function.hpp"   // dependency on boost until we move to C++11 (std::function)
+#include "boost/function.hpp"			// dependency on boost until we move to C++11 (std::function)
+#include "boost/move/unique_ptr.hpp"
 
 class LLCEFLibImpl;
 
@@ -159,7 +160,7 @@ class LLCEFLib
 		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
 
     private:
-        std::unique_ptr <LLCEFLibImpl> mImpl;
+        boost::movelib::unique_ptr <LLCEFLibImpl> mImpl;
 };
 
 #endif // _LLCEFLIB

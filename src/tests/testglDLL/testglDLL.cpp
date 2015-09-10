@@ -82,7 +82,9 @@ class LLMediaSimpleTest
             if(result)
             {
 				// default is secondlife:// but let's test it...
-				std::vector<std::string> custom_schemes = { "secondlife://", "foo://", "flasm://"};
+                std::vector<std::string> custom_schemes;
+                custom_schemes.push_back("secondlife://");
+                custom_schemes.push_back("flasm://");
 				mLLCEFLib->setCustomSchemes(custom_schemes);
                 mLLCEFLib->navigate(mHomepageURL);
 				mLLCEFLib->setFocus(true);
@@ -130,7 +132,11 @@ class LLMediaSimpleTest
 		void onRequestExitCallback()
 		{
 			std::cout << "TestGL - exit requested after cleanup" << std::endl;
-			glutLeaveMainLoop();
+#ifdef WIN32
+            glutLeaveMainLoop();
+#elif __APPLE__
+            exit(0);
+#endif
 		}
 
 		void onLoadEndCallback(int httpStatusCode)

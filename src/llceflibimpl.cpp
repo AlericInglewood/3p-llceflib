@@ -159,17 +159,19 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
 
 void LLCEFLibImpl::update()
 {
-    CefDoMessageLoopWork();
-
 	if (mBrowserClient)
 	{
+		CefDoMessageLoopWork();
+
 		if (mBrowserClient->isBrowserClosing())
 		{
-
+			CefQuitMessageLoop();
 #ifdef LLCEFLIB_DEBUG
 			std::cout << "Update loop told to close, call CefShutdown() then call exit callback" << std::endl;
 #endif
 			CefShutdown();
+
+			mBrowserClient = 0;
 
 			// tell the app counsuming us it's okay to exit now
 			if (mOnRequestExitCallbackFunc)

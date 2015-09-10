@@ -159,7 +159,7 @@ class LLCEFLib
 		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
 
     private:
-        std::auto_ptr <LLCEFLibImpl> mImpl;
+        std::unique_ptr <LLCEFLibImpl> mImpl;
 };
 
 #endif // _LLCEFLIB

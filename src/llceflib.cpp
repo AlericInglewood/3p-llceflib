@@ -29,10 +29,12 @@
 LLCEFLib::LLCEFLib()
     :mImpl(new LLCEFLibImpl())
 {
+	mImpl->AddRef();
 }
 
 LLCEFLib::~LLCEFLib()
 {
+	mImpl->Release();
 
 }
 

@@ -257,13 +257,13 @@ void uBrowser::drawGeometry(int geomTypeIn, int updateTypeIn)
         GLfloat x_size = 1.0f;
         GLfloat y_size = x_size / aspect_ratio;
         glBegin(GL_QUADS);
-        glTexCoord2f(0.0f, 0.0f);
-        glVertex3f(-x_size, -y_size, 0.0f);
-        glTexCoord2f(1.0f, 0.0f);
-        glVertex3f(x_size, -y_size, 0.0f);
         glTexCoord2f(1.0f, 1.0f);
-        glVertex3f(x_size, y_size, 0.0f);
+        glVertex3f(-x_size, -y_size, 0.0f);
         glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(x_size, -y_size, 0.0f);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(x_size, y_size, 0.0f);
+        glTexCoord2f(1.0f, 0.0f);
         glVertex3f(-x_size, y_size, 0.0f);
         glEnd();
     }

@@ -36,7 +36,8 @@ class LLRenderHandler :
     public CefRenderHandler
 {
     public:
-        LLRenderHandler(LLCEFLibImpl* parent);
+		LLRenderHandler(LLCEFLibImpl* parent);
+		~LLRenderHandler();
 
         // CefRenderHandler interface
     public:
@@ -48,7 +49,13 @@ class LLRenderHandler :
         IMPLEMENT_REFCOUNTING(LLRenderHandler);
 
     private:
+		void resizeFlipBuffer(int width, int height);
+
         LLCEFLibImpl* mParent;
+		unsigned char* flipBuffer;
+		int flipBufferWidth;
+		int flipBufferHeight;
+		int flipBufferDepth;
 };
 
 #endif // _LLRENDERHANDLER

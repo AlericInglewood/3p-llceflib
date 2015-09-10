@@ -190,13 +190,13 @@ class LLMediaSimpleTest
 
             glColor3f(1.0f, 1.0f, 1.0f);
             glBegin(GL_QUADS);
-            glTexCoord2f(1.0f, 0.0f);
-            glVertex2d(mBrowserWidth, 0);
-            glTexCoord2f(0.0f, 0.0f);
-            glVertex2d(0, 0);
-            glTexCoord2f(0.0f, 1.0f);
-            glVertex2d(0, mBrowserHeight);
             glTexCoord2f(1.0f, 1.0f);
+            glVertex2d(mBrowserWidth, 0);
+            glTexCoord2f(0.0f, 1.0f);
+            glVertex2d(0, 0);
+            glTexCoord2f(0.0f, 0.0f);
+            glVertex2d(0, mBrowserHeight);
+            glTexCoord2f(1.0f, 0.0f);
             glVertex2d(mBrowserWidth, mBrowserHeight);
             glEnd();
 

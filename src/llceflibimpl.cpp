@@ -43,9 +43,8 @@ LLCEFLibImpl::LLCEFLibImpl() :
     mBrowser(0)
 {
 	// default is second life scheme
-	std::vector<std::string> custom_schemes;	// bah - clang doesn't like the explicit initialization form
-	custom_schemes.push_back("secondlife://");
-	mCustomSchemes = custom_schemes;
+	std::vector<std::string> default_schemes = { "secondlife://" }; // bah - clang doesn't like the explicit initialization form
+	mCustomSchemes = default_schemes;
 }
 
 LLCEFLibImpl::~LLCEFLibImpl()

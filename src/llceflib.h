@@ -28,6 +28,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 #include "boost/function.hpp"			// dependency on boost until we move to C++11 (std::function)
 #include "boost/move/unique_ptr.hpp"
 
@@ -146,6 +147,8 @@ class LLCEFLib
 		void editCopy();
 		void editCut();
 		void editPaste();
+
+		void setCustomSchemes(std::vector<std::string> custom_schemes);
 
         void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);
         void setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback);

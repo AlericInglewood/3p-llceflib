@@ -123,6 +123,11 @@ void LLCEFLib::setOnHTTPAuthCallback(boost::function<bool(const std::string host
 	mImpl->setOnHTTPAuthCallback(callback);
 }
 
+void LLCEFLib::setCustomSchemes(std::vector<std::string> custom_schemes)
+{
+	mImpl->setCustomSchemes(custom_schemes);
+}
+
 void LLCEFLib::reset()
 {
     mImpl->reset();

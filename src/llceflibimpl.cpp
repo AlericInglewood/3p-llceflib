@@ -42,6 +42,8 @@ LLCEFLibImpl::LLCEFLibImpl() :
     mViewHeight(0),
     mBrowser(0)
 {
+	// default is second life scheme
+	mCustomSchemes = std::vector<std::string> { "secondlife://" };
 }
 
 LLCEFLibImpl::~LLCEFLibImpl()
@@ -415,6 +417,16 @@ void LLCEFLibImpl::OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registr
 	// now schemes are caught via onBeforeBrowse override - when 2357 is fixed the code
 	// should revert to using a scheme hander vs a URL parser
 	//scheme_handler::RegisterCustomSchemes(registrar);
+}
+
+void LLCEFLibImpl::setCustomSchemes(std::vector<std::string> custom_schemes)
+{
+	mCustomSchemes = custom_schemes;
+}
+
+std::vector<std::string>& LLCEFLibImpl::getCustomSchemes()
+{
+	return mCustomSchemes;
 }
 
 void LLCEFLibImpl::stop()

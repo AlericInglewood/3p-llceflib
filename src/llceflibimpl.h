@@ -122,6 +122,9 @@ class LLCEFLibImpl :
 		void editCut();
 		void editPaste();
 
+		void setCustomSchemes(std::vector<std::string> custom_schemes);
+		std::vector<std::string>& getCustomSchemes();
+
         /* virtual */
         void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE;
 
@@ -132,6 +135,7 @@ class LLCEFLibImpl :
         int mViewWidth;
         int mViewHeight;
         const int mViewDepth = 4;
+		std::vector<std::string> mCustomSchemes;
         boost::function<void(unsigned char*, int, int)> mOnPageChangedCallbackFunc;
         boost::function<void(std::string)> mOnCustomSchemeURLCallbackFunc;
         boost::function<void(std::string, std::string, int line)> mOnConsoleMessageCallbackFunc;

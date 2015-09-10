@@ -81,6 +81,9 @@ class LLMediaSimpleTest
             bool result = mLLCEFLib->init(settings);
             if(result)
             {
+				// default is secondlife:// but let's test it...
+				std::vector<std::string> custom_schemes = { "secondlife://", "foo://", "flasm://"};
+				mLLCEFLib->setCustomSchemes(custom_schemes);
                 mLLCEFLib->navigate(mHomepageURL);
 				mLLCEFLib->setFocus(true);
             }

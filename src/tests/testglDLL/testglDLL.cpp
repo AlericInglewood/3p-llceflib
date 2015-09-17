@@ -156,7 +156,7 @@ class LLMediaSimpleTest
 			std::cout << "Realm is " << realm << std::endl;
 			std::cout << "----------------------------------" << std::endl;
 
-			//// Windows only testing code 
+			//// Windows only testing code
 			//int msgboxID = MessageBox(
 			//	NULL,
 			//	L"Shall I enter the password for you?",
@@ -169,7 +169,7 @@ class LLMediaSimpleTest
 			//	username = "user";
 			//	password = "passwd";
 			//	return true; // username/password and "OKAY" entered in HTTP Auth dialog
-			//} 
+			//}
 			//else
 			//{
 			//	return false; // cancel pressed in HTTP Auth dialog
@@ -182,7 +182,7 @@ class LLMediaSimpleTest
 			password = "passwd";
 			return true; // username/password and "OKAY" entered in HTTP Auth dialog
 
-			// for testing CANCEL 
+			// for testing CANCEL
 			//return false; // cancel pressed in HTTP Auth dialog
 
 			//// for testing this URL where the endpoint contains username and password
@@ -274,7 +274,7 @@ class LLMediaSimpleTest
 
             glEnable(GL_TEXTURE_2D);
             glDisable(GL_CULL_FACE);
-            glDisable(GL_LIGHTING);						
+            glDisable(GL_LIGHTING);
 
             glGenTextures(1, &mAppTexture);
             glBindTexture(GL_TEXTURE_2D, mAppTexture);
@@ -286,7 +286,7 @@ class LLMediaSimpleTest
 
         void keyboard(unsigned char key)
         {
-            mLLCEFLib->keyPress(key, true);
+            //mLLCEFLib->keyPress(key, true);
 #if WIN32
 			if (key == 27)
 			{
@@ -294,7 +294,7 @@ class LLMediaSimpleTest
 				// don't exit until onRequestExitCallback triggered by reset() call
 			}
 #endif
-            
+
             if(key == '`') mLLCEFLib->navigate(mHomepageURL);
             if(key == '-') mLLCEFLib->goBack();
 			if (key == '=') mLLCEFLib->goForward();
@@ -304,7 +304,7 @@ class LLMediaSimpleTest
 
         void keyboardUp(unsigned char key)
         {
-            mLLCEFLib->keyPress(key, false);
+            //mLLCEFLib->keyPress(key, false);
         }
 
         void mouseWheel(int button, int dir, int x, int y)
@@ -376,19 +376,19 @@ void glutMouseWheel(int button, int dir, int x, int y)
 int testGL()
 {
     gApplication = new LLMediaSimpleTest();
-    
+
     // For some reason, calling glutInit after gApplication->init() resulted in a glut double init error
     // on OSX. 'Solved' by moving glutInit call before gApplication->init.
-    
+
     int argc = 0;
     glutInit(&argc, 0);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-    
+
     glutInitWindowPosition(750, 0);
     glutInitWindowSize(1024, 1024);
-    
+
     glutCreateWindow("testGL");
-    
+
 	glutKeyboardFunc(glutKeyboard);
 	glutKeyboardUpFunc(glutKeyboardUp);
     glutDisplayFunc(glutDisplay);
@@ -397,20 +397,20 @@ int testGL()
     glutMouseFunc(glutMouseButton);
     glutPassiveMotionFunc(glutMouseMove);
     glutMotionFunc(glutMouseMove);
-    
+
 #ifdef WIN32
     // Not availabe in GLUT on Mac
     glutMouseWheelFunc(glutMouseWheel);
 #endif
-    
+
     bool result = gApplication->init(1024, 1024);
     if (result)
     {
         gApplication->setupOpenGL();
-        
+
         glutMainLoop();
     }
-    
+
 //    delete gApplication;
 
     return 0;

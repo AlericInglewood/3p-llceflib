@@ -29,85 +29,81 @@
 #include "llceflibplatform.h"
 #include "llschemehandler.h"
 
-// Mac OS doesn't have the same keyboard support functions as Windows.
-// We can remove this functionality once we use a non GLUT event loop using NSEvent
-//
-// NSEvent will allow us to fetch the the correct virtual key code. Until then, the
-// code below will have to do.
-
-#define GLUT_UNDEFINED          (-1)
-#define GLUT_KEY_DELETE         (8)
-#define GLUT_KEY_ENTER          (13)
-#define GLUT_KEY_ESCAPE         (27)
-#define GLUT_KEY_BACKSPACE      (127)
-
 // See: const KeyCodeMap kKeyCodesMap[] in
 // http://src.chromium.org/viewvc/chrome/trunk/src/ui/events/keycodes/keyboard_code_conversion_mac.mm
 // for the Cnative key values
-#define NATIVE_KEY_DELETE         (0x75)
-#define NATIVE_KEY_ENTER          (0x0D)
-#define NATIVE_KEY_ESCAPE         (0x1B)
 #define NATIVE_KEY_BACKSPACE      (0x33)
 
-// This namespace should be temporary, can probably be removed in final version
-// of llceflib.
+#define ASCII_KEY_BACKSPACE       (0x7F)
+#define ASCII_KEY_ENTER           (0x0D)
+#define ASCII_KEY_UNDEFINED       (-1)
+
+#define SL_KEY_BACKSPACE          (0x87)
+#define SL_KEY_ENTER              (0x81)
+
 namespace LLCEFLibImplMacAssist
 {
-    int  _glutToNativeKey(int code)
+    int asciiToNativeKey(int code)
     {
         switch(code)
         {
-            case GLUT_KEY_DELETE:
-                return NATIVE_KEY_DELETE;
-
-            //case GLUT_KEY_ENTER:
-            //    return NATIVE_KEY_ENTER;
-
-            //case GLUT_KEY_ESCAPE:
-            //    return NATIVE_KEY_ESCAPE;
-
-            case GLUT_KEY_BACKSPACE:
+            case ASCII_KEY_BACKSPACE:
                 return NATIVE_KEY_BACKSPACE;
         }
 
-        return GLUT_UNDEFINED;
+        return ASCII_KEY_UNDEFINED;
     }
 
-    bool _isSpecialGlutKey(int code)
+    bool isSpecialKey(int code)
     {
         switch(code)
         {
-            case GLUT_KEY_DELETE:
-            //case GLUT_KEY_ENTER:
-            //case GLUT_KEY_ESCAPE:
-            case GLUT_KEY_BACKSPACE:
+            case ASCII_KEY_BACKSPACE:
                 return true;
         }
 
         return false;
     }
+
+    int slToASCIIKey(int sl_code)
+    {
+        switch(sl_code)
+        {
+            case SL_KEY_ENTER:
+                return ASCII_KEY_ENTER;
+
+            case SL_KEY_BACKSPACE:
+                return ASCII_KEY_BACKSPACE;
+        }
+
+        return sl_code;
+    }
 }
 
-/* LLCEFLibImpl Mac methods below */
-void LLCEFLibImpl::keyPress(int code, bool is_down)
+void LLCEFLibImpl::keyboardEvent(
+    EKeyEvent key_event,
+    uint32_t key_code,
+    const char *utf8_text,
+    EKeyboardModifier modifiers,
+    uint32_t native_scan_code,
+    uint32_t native_virtual_key,
+    uint32_t native_modifiers)
 {
     if (mBrowser)
     {
         if (mBrowser->GetHost())
         {
+            key_code = LLCEFLibImplMacAssist::slToASCIIKey(key_code);
 
-
-            // Ignore sending the key when we're dealing with special
-            // keys, such as backspace and delete
-            if(LLCEFLibImplMacAssist::_isSpecialGlutKey(code))
+            if(LLCEFLibImplMacAssist::isSpecialKey(key_code))
             {
-                int virtualCode = LLCEFLibImplMacAssist::_glutToNativeKey(code);
-                if(virtualCode != GLUT_UNDEFINED && is_down)
+                int native_key_code = LLCEFLibImplMacAssist::asciiToNativeKey(key_code);
+                if(native_key_code != ASCII_KEY_UNDEFINED && key_event == KE_KEY_DOWN)
                 {
                     CefKeyEvent event;
                     event.character = 0;
                     event.unmodified_character = 0;
-                    event.native_key_code = virtualCode;
+                    event.native_key_code = native_key_code;
                     event.modifiers = 0;
                     event.type = KEYEVENT_KEYDOWN;
 
@@ -120,9 +116,9 @@ void LLCEFLibImpl::keyPress(int code, bool is_down)
             CefKeyEvent event;
             event.is_system_key = false;
             event.modifiers = 0;
-            event.character = code;
+            event.character = key_code;
 
-            if(is_down)
+            if(key_event == KE_KEY_DOWN)
             {
                 event.type = KEYEVENT_KEYDOWN;
                 mBrowser->GetHost()->SendKeyEvent(event);
@@ -137,18 +133,6 @@ void LLCEFLibImpl::keyPress(int code, bool is_down)
             }
         }
     }
-}
-
-void LLCEFLibImpl::keyboardEvent(
-    EKeyEvent key_event,
-    uint32_t key_code,
-    const char *utf8_text,
-    EKeyboardModifier modifiers,
-    uint32_t native_scan_code,
-    uint32_t native_virtual_key,
-    uint32_t native_modifiers)
-{
-    // not implemented for OS X yet - may only be useful for Windows version
 }
 
 void LLCEFLibImpl::nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam)

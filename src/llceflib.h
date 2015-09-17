@@ -127,7 +127,6 @@ class LLCEFLib
 			uint32_t native_virtual_key,
 			uint32_t native_modifiers);
 		void nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
-        void keyPress(int code, bool is_down);
         void setFocus(bool focus);
         void mouseWheel(int deltaY);
 

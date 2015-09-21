@@ -7,10 +7,9 @@ set -x
 # make errors fatal
 set -e
 
-LLCEFLIB_VERSION="1.0.0"
 LLCEFLIB_SOURCE_DIR="src"
 CEF_SOURCE_DIR_OSX="cef_2171_OSX_32"
-CEF_SOURCE_DIR_WIN="cef_2357_WIN_32"
+CEF_SOURCE_DIR_WIN="cef_2454_WIN_32"
 
 if [ -z "$AUTOBUILD" ] ; then 
     fail

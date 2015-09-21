@@ -46,9 +46,18 @@ class LLBrowserClient :
 
 		// LLBrowserEvents/CefLifeSpanHandler overrides
 #if (CEF_CURRENT_BRANCH >= CEF_BRANCH_2357)
-		bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& target_url, const CefString& target_frame_name, CefLifeSpanHandler::WindowOpenDisposition target_disposition, bool user_gesture, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access);
+		bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, 
+			const CefString& target_url, const CefString& target_frame_name, 
+			CefLifeSpanHandler::WindowOpenDisposition target_disposition, 
+			bool user_gesture, const CefPopupFeatures& popupFeatures, 
+			CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, 
+			CefBrowserSettings& settings, bool* no_javascript_access) OVERRIDE;
 #else
-		bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& target_url, const CefString& target_frame_name, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access);
+		bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, 
+			const CefString& target_url, const CefString& target_frame_name, const 
+			CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, 
+			CefRefPtr<CefClient>& client, CefBrowserSettings& settings, 
+			bool* no_javascript_access) OVERRIDE;
 #endif
 
         // LLBrowserEvents/CefDisplayhandler overrides

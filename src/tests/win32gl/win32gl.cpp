@@ -100,9 +100,7 @@ void init( HWND hWnd )
 	bool result = mLLCEFLib->init(settings);
 	if(result)
 	{
-		//mLLCEFLib->navigate("https://callum-linden.s3.amazonaws.com/cookie_test.html");
-		//mLLCEFLib->navigate("https://secondlife.com");
-		mLLCEFLib->navigate("google.com");
+		mLLCEFLib->navigate("https://callum-linden.s3.amazonaws.com/ceftests.html");
 	}
 }
 

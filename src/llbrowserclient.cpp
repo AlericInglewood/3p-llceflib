@@ -193,15 +193,14 @@ bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPt
 	std::string password="";
 	bool proceed = mParent->onHTTPAuth(host_str, realm_str, username, password);
 
-	CefRefPtr<LLCEFLibAuthCredentials> cred = new LLCEFLibAuthCredentials(isProxy, host, port, realm, scheme, callback);
 	if (proceed)
 	{
-		cred->proceed(username.c_str(), password.c_str());
+		callback->Continue(username.c_str(), password.c_str());
 		return true; // continue with request
 	}
 	else
 	{
-		cred->cancel();
+		callback->Cancel();
 		return false; // cancel request
 	}
 }

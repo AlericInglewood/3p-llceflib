@@ -89,14 +89,14 @@ copy ..\..\..\cef\Resources\locales\*.* $(OutputPath)\locales\*.* /Y
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>llCEFLib.lib;libcef.lib;libcef_dll_wrapper.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\$(Configuration);..\..\..\cef_2357_WIN_32\$(Configuration);..\..\..\cef_2357_WIN_32\build\libcef_dll\$(Configuration);freeglut/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\$(Configuration);..\..\..\cef_2454_WIN_32\$(Configuration);..\..\..\cef_2454_WIN_32\build\libcef_dll\$(Configuration);freeglut/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy freeglut\bin\freeglut.dll $(OutputPath)
-copy ..\..\..\cef_2357_WIN_32\$(Configuration)\*.* $(OutputPath)
-copy ..\..\..\cef_2357_WIN_32\Resources\*.* $(OutputPath)\ /Y
+copy ..\..\..\cef_2454_WIN_32\$(Configuration)\*.* $(OutputPath)
+copy ..\..\..\cef_2454_WIN_32\Resources\*.* $(OutputPath)\ /Y
 if not exist $(OutputPath)\locales mkdir $(OutputPath)\locales
-copy ..\..\..\cef_2357_WIN_32\Resources\locales\*.* $(OutputPath)\locales\*.* /Y
+copy ..\..\..\cef_2454_WIN_32\Resources\locales\*.* $(OutputPath)\locales\*.* /Y
 </Command>
     </PostBuildEvent>
     <PostBuildEvent>

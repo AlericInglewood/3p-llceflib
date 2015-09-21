@@ -97,7 +97,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;llCEFLib.lib;libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\$(Configuration);..\..\..\cef_2357_WIN_32\$(Configuration);..\..\..\cef_2357_WIN_32\build\libcef_dll\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\$(Configuration);..\..\..\cef_2454_WIN_32\$(Configuration);..\..\..\cef_2454_WIN_32\build\libcef_dll\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -105,10 +105,10 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\..\cef_2357_WIN_32\$(Configuration)\*.* $(OutputPath)
-copy ..\..\..\cef_2357_WIN_32\Resources\*.* $(OutputPath)\ /Y
+      <Command>copy ..\..\..\cef_2454_WIN_32\$(Configuration)\*.* $(OutputPath)
+copy ..\..\..\cef_2454_WIN_32\Resources\*.* $(OutputPath)\ /Y
 if not exist $(OutputPath)\locales mkdir $(OutputPath)\locales
-copy ..\..\..\cef_2357_WIN_32\Resources\locales\*.* $(OutputPath)\locales\*.* /Y
+copy ..\..\..\cef_2454_WIN_32\Resources\locales\*.* $(OutputPath)\locales\*.* /Y
 </Command>
     </PostBuildEvent>
     <PostBuildEvent>

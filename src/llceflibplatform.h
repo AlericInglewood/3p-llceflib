@@ -35,12 +35,13 @@
 // flip the output in the Y direction so it's compatible with SL
 #define FLIP_OUTPUT_Y
 
+#define CEF_BRANCH_2454     (3)
 #define CEF_BRANCH_2378     (2)
 #define CEF_BRANCH_2357		(1)
 #define CEF_BRANCH_2272     (0) /* Base branch, we originally started from this version */
 
 #ifdef WIN32
-#define CEF_CURRENT_BRANCH  CEF_BRANCH_2357
+#define CEF_CURRENT_BRANCH  CEF_BRANCH_2454
 #elif __APPLE__
 #define CEF_CURRENT_BRANCH  CEF_BRANCH_2272
 #endif

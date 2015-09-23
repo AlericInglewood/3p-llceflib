@@ -68,8 +68,8 @@ class LLMediaSimpleTest
 			mLLCEFLib->setOnRequestExitCallback(boost::bind(&LLMediaSimpleTest::onRequestExitCallback, this));
 
             LLCEFLibSettings settings;
-            settings.inital_width = mBrowserWidth;
-            settings.inital_height = mBrowserHeight;
+            settings.initial_width = mBrowserWidth;
+            settings.initial_height = mBrowserHeight;
             settings.javascript_enabled = true;
             settings.cookies_enabled = true;
 			settings.accept_language_list = "mi-wwow";
@@ -429,10 +429,3 @@ EXT_C_FUNC int DLL_FUNC_DECL startTestGL()
 {
     return testGL();
 }
-
-#if 0
-EXT_C_FUNC void DLL_FUNC_DECL helloWorld()
-{
-    std::cout << "HI, from DYLIB!";
-}
-#endif

@@ -107,7 +107,7 @@ bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
 	// should revert to using a scheme hander vs a URL parser
 	//scheme_handler::RegisterSchemeHandlers(this);
     
-    setSize(user_settings.inital_width, user_settings.inital_height);
+    setSize(user_settings.initial_width, user_settings.initial_height);
         
     CefWindowInfo window_info;
     window_info.windowless_rendering_enabled = true;
@@ -409,6 +409,7 @@ void LLCEFLibImpl::reset()
 		mContextHandler->GetCookieManager()->FlushStore(NULL);
 
 	bool force_close = false;
+
 	if (mBrowser && mBrowser->GetHost())
 		mBrowser->GetHost()->CloseBrowser(force_close);
 }

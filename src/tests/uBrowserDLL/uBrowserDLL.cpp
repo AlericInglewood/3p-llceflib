@@ -158,8 +158,8 @@ void uBrowser::init(int glutWindow)
 
     // initialize CEF lib and navigate to home page
     LLCEFLibSettings settings;
-    settings.inital_width = mBrowserWidth;
-    settings.inital_height = mBrowserHeight;
+    settings.initial_width = mBrowserWidth;
+    settings.initial_height = mBrowserHeight;
     settings.javascript_enabled = mEnableJavaScript ? true: false;
     settings.plugins_enabled = mEnablePlugins ? true : false;
     settings.cookies_enabled = mEnableCookies ? true : false;

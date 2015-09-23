@@ -48,8 +48,8 @@ const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_O
 struct LLCEFLibSettings
 {
     // initial dimensions of the browser window
-    unsigned int inital_width = 512;
-    unsigned int inital_height = 512;
+    unsigned int initial_width = 512;
+    unsigned int initial_height = 512;
 
     // substring inserted into existing user agent string
     std::string user_agent_substring = "";

@@ -90,8 +90,8 @@ void init( HWND hWnd )
 	mLLCEFLib->setOnRequestExitCallback(boost::bind(onRequestExitCallback));
 
 	LLCEFLibSettings settings;
-	settings.inital_width = gTextureWidth;
-	settings.inital_height = gTextureHeight;
+	settings.initial_width = gTextureWidth;
+	settings.initial_height = gTextureHeight;
 	settings.javascript_enabled = true;
 	settings.cookies_enabled = true;
 	settings.user_agent_substring = "Win32GL Test";

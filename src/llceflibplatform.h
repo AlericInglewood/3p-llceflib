@@ -26,7 +26,7 @@
 #ifndef _LLCEFLIBPLATFORM
 #define _LLCEFLIBPLATFORM
 
-#define LLCEFLIB_DEBUG
+//#define LLCEFLIB_DEBUG
 
 #ifdef LLCEFLIB_DEBUG
 #include <iostream>

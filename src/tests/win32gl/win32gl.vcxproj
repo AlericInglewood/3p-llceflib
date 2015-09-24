@@ -32,9 +32,11 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\cef.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\cef.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -61,7 +63,7 @@
     </PreBuildEvent>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -71,13 +73,22 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>.\llqtwebkit\$(Configuration);.\qt\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;llCEFLib.lib;libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\$(Configuration);$(SolutionDir)..\$(CEF_DIR)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalManifestDependencies>type=%27win32%27 name=%27Microsoft.VC80.CRT%27 version=%278.0.50727.4053%27 processorArchitecture=%27x86%27 publicKeyToken=%271fc8b3b9a1e18e3b%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist $(OutputPath)freeglut.dll copy freeglut\bin\freeglut.dll $(OutputPath)
+if not exist $(OutputPath)cef.pak copy $(SolutionDir)..\$(CEF_DIR)\dependencies\*.* $(OutputPath)
+if not exist $(OutputPath)locales mkdir $(OutputPath)\locales
+if not exist $(OutputPath)locales\en-US.pak copy $(SolutionDir)..\$(CEF_DIR)\dependencies\locales\*.* $(OutputPath)\locales</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying run time files...</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
@@ -97,7 +108,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;llCEFLib.lib;libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\$(Configuration);..\..\..\cef_2454_WIN_32\$(Configuration);..\..\..\cef_2454_WIN_32\build\libcef_dll\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\$(Configuration);$(SolutionDir)..\$(CEF_DIR)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -105,14 +116,13 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\..\cef_2454_WIN_32\$(Configuration)\*.* $(OutputPath)
-copy ..\..\..\cef_2454_WIN_32\Resources\*.* $(OutputPath)\ /Y
-if not exist $(OutputPath)\locales mkdir $(OutputPath)\locales
-copy ..\..\..\cef_2454_WIN_32\Resources\locales\*.* $(OutputPath)\locales\*.* /Y
-</Command>
+      <Command>if not exist $(OutputPath)freeglut.dll copy freeglut\bin\freeglut.dll $(OutputPath)
+if not exist $(OutputPath)cef.pak copy $(SolutionDir)..\$(CEF_DIR)\dependencies\*.* $(OutputPath)
+if not exist $(OutputPath)locales mkdir $(OutputPath)\locales
+if not exist $(OutputPath)locales\en-US.pak copy $(SolutionDir)..\$(CEF_DIR)\dependencies\locales\*.* $(OutputPath)\locales</Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copying run time files</Message>
+      <Message>Copying run time files...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -29,22 +29,26 @@
 #include "include/cef_client.h"
 
 #include "llceflibplatform.h"
-#include "llbrowserevents.h"
+#include "llrenderhandler.h"
 
 class LLCEFLibImpl;
 class LLRenderHandler;
-#include "llrenderhandler.h"
 
 class LLBrowserClient :
-	public LLBrowserEvents
+	public CefClient,
+	public CefLifeSpanHandler,
+	public CefDisplayHandler,
+	public CefLoadHandler,
+	public CefRequestHandler
 {
     public:
         LLBrowserClient(LLCEFLibImpl* parent, LLRenderHandler* render_handler);
 
-        /* virtual */
+        // point to our CefRenderHandler
 		CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE;
 
-		// LLBrowserEvents/CefLifeSpanHandler overrides
+		// CefLifeSpanHandler overrides
+		CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
 #if (CEF_CURRENT_BRANCH >= CEF_BRANCH_2357)
 		bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, 
 			const CefString& target_url, const CefString& target_frame_name, 
@@ -59,24 +63,28 @@ class LLBrowserClient :
 			CefRefPtr<CefClient>& client, CefBrowserSettings& settings, 
 			bool* no_javascript_access) OVERRIDE;
 #endif
+		void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
+		bool RunModal(CefRefPtr<CefBrowser> browser) OVERRIDE;
+		bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
+		void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 
-        // LLBrowserEvents/CefDisplayhandler overrides
+        // CefDisplayhandler overrides
+		CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE{ return this; }
 		void OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url) OVERRIDE;
         bool OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line) OVERRIDE;
         void OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value) OVERRIDE;
         void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) OVERRIDE;
 
-		// LLBrowserEvents/CefLoadHandler overrides
+		// CefLoadHandler overrides
+		CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }
 		void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;
 		void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) OVERRIDE;
 		void OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl) OVERRIDE;
 
-		// LLBrowserEvents/CefRequestHandler overrides
+		// CefRequestHandler overrides
+		CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE{ return this; }
 		bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
 		bool GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback) OVERRIDE;
-
-		// CefLifeSpanHandler overrides
-		void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 
 		// utility methods
 		bool isBrowserClosing();

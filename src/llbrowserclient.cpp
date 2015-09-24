@@ -28,8 +28,6 @@
 
 #include "llrenderhandler.h"
 #include "llbrowserclient.h"
-#include "llbrowserevents.h"
-
 #include "llceflibimpl.h"
 
 LLBrowserClient::LLBrowserClient(LLCEFLibImpl* parent, LLRenderHandler *render_handler) :
@@ -44,7 +42,6 @@ CefRefPtr<CefRenderHandler> LLBrowserClient::GetRenderHandler()
     return mLLRenderHandler;
 }
 
-/* virtual */
 #if (CEF_CURRENT_BRANCH >= CEF_BRANCH_2357)
 bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
 	CefRefPtr<CefFrame> frame,
@@ -72,7 +69,7 @@ bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
 	CEF_REQUIRE_IO_THREAD();
 
 #ifdef LLCEFLIB_DEBUG
-	std::cout << "LLBrowserEvents::OnBeforePopup" << std::endl;
+	std::cout << "LLBrowserClient::OnBeforePopup" << std::endl;
 	std::cout << "Target frame is " << std::string(target_frame_name) << std::endl;
 #endif
 
@@ -89,6 +86,36 @@ bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
 	browser->GetMainFrame()->LoadURL(target_url);
 
 	return true;
+}
+
+void LLBrowserClient::OnAfterCreated(CefRefPtr<CefBrowser> browser)
+{
+	CEF_REQUIRE_UI_THREAD();
+
+#ifdef LLCEFLIB_DEBUG
+	std::cout << "LLBrowserClient::OnAfterCreated" << std::endl;
+#endif
+}
+
+bool LLBrowserClient::RunModal(CefRefPtr<CefBrowser> browser)
+{
+	CEF_REQUIRE_UI_THREAD();
+
+#ifdef LLCEFLIB_DEBUG
+	std::cout << "LLBrowserClient::RunModal" << std::endl;
+#endif
+
+	return false;
+}
+
+bool LLBrowserClient::DoClose(CefRefPtr<CefBrowser> browser)
+{
+	CEF_REQUIRE_UI_THREAD();
+
+#ifdef LLCEFLIB_DEBUG
+	std::cout << "LLBrowserClient::DoClose" << std::endl;
+#endif
+	return false;
 }
 
 bool LLBrowserClient::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)

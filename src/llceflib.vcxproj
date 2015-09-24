@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="llbrowserclient.h" />
-    <ClInclude Include="llbrowserevents.h" />
     <ClInclude Include="llceflib.h" />
     <ClInclude Include="llceflibimpl.h" />
     <ClInclude Include="llceflibplatform.h" />
@@ -22,7 +21,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="llbrowserclient.cpp" />
-    <ClCompile Include="llbrowserevents.cpp" />
     <ClCompile Include="llceflib.cpp" />
     <ClCompile Include="llceflibimpl.cpp" />
     <ClCompile Include="llceflibimpl_win.cpp" />

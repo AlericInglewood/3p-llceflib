@@ -81,10 +81,10 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(OutputPath)freeglut.dll copy freeglut\bin\freeglut.dll $(OutputPath)
-if not exist $(OutputPath)cef.pak copy $(SolutionDir)..\$(CEF_DIR)\dependencies\*.* $(OutputPath)
-if not exist $(OutputPath)locales mkdir $(OutputPath)\locales
-if not exist $(OutputPath)locales\en-US.pak copy $(SolutionDir)..\$(CEF_DIR)\dependencies\locales\*.* $(OutputPath)\locales</Command>
+      <Command>if not exist $(OutDir)freeglut.dll copy freeglut\bin\freeglut.dll $(OutDir)
+if not exist $(OutDir)cef.pak copy $(SolutionDir)..\$(CEF_DIR)\Resources\*.* $(OutDir)
+if not exist $(OutDir)locales mkdir $(OutDir)\locales
+if not exist $(OutDir)locales\en-US.pak copy $(SolutionDir)..\$(CEF_DIR)\Resources\locales\*.* $(OutDir)\locales</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copying run time files...</Message>
@@ -116,10 +116,10 @@ if not exist $(OutputPath)locales\en-US.pak copy $(SolutionDir)..\$(CEF_DIR)\dep
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(OutputPath)freeglut.dll copy freeglut\bin\freeglut.dll $(OutputPath)
-if not exist $(OutputPath)cef.pak copy $(SolutionDir)..\$(CEF_DIR)\dependencies\*.* $(OutputPath)
-if not exist $(OutputPath)locales mkdir $(OutputPath)\locales
-if not exist $(OutputPath)locales\en-US.pak copy $(SolutionDir)..\$(CEF_DIR)\dependencies\locales\*.* $(OutputPath)\locales</Command>
+      <Command>if not exist $(OutDir)freeglut.dll copy freeglut\bin\freeglut.dll $(OutDir)
+if not exist $(OutDir)cef.pak copy $(SolutionDir)..\$(CEF_DIR)\Resources\*.* $(OutDir)
+if not exist $(OutDir)locales mkdir $(OutDir)\locales
+if not exist $(OutDir)locales\en-US.pak copy $(SolutionDir)..\$(CEF_DIR)\Resources\locales\*.* $(OutDir)\locales</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copying run time files...</Message>

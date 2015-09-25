@@ -10,8 +10,6 @@
 		564D5A591B04C2E700C49BB0 /* llcontexthandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 564D5A581B04C2E700C49BB0 /* llcontexthandler.h */; };
 		569974B91AFFE14000D26A20 /* llbrowserclient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 569974AF1AFFE14000D26A20 /* llbrowserclient.cpp */; };
 		569974BA1AFFE14000D26A20 /* llbrowserclient.h in Headers */ = {isa = PBXBuildFile; fileRef = 569974B01AFFE14000D26A20 /* llbrowserclient.h */; };
-		569974BB1AFFE14000D26A20 /* llbrowserevents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 569974B11AFFE14000D26A20 /* llbrowserevents.cpp */; };
-		569974BC1AFFE14000D26A20 /* llbrowserevents.h in Headers */ = {isa = PBXBuildFile; fileRef = 569974B21AFFE14000D26A20 /* llbrowserevents.h */; };
 		569974BD1AFFE14000D26A20 /* llceflib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 569974B31AFFE14000D26A20 /* llceflib.cpp */; };
 		569974BE1AFFE14000D26A20 /* llceflib.h in Headers */ = {isa = PBXBuildFile; fileRef = 569974B41AFFE14000D26A20 /* llceflib.h */; };
 		569974BF1AFFE14000D26A20 /* llceflibimpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 569974B51AFFE14000D26A20 /* llceflibimpl.cpp */; };
@@ -46,8 +44,6 @@
 		564D5A581B04C2E700C49BB0 /* llcontexthandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llcontexthandler.h; sourceTree = SOURCE_ROOT; };
 		569974AF1AFFE14000D26A20 /* llbrowserclient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llbrowserclient.cpp; sourceTree = SOURCE_ROOT; };
 		569974B01AFFE14000D26A20 /* llbrowserclient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llbrowserclient.h; sourceTree = SOURCE_ROOT; };
-		569974B11AFFE14000D26A20 /* llbrowserevents.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llbrowserevents.cpp; sourceTree = SOURCE_ROOT; };
-		569974B21AFFE14000D26A20 /* llbrowserevents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llbrowserevents.h; sourceTree = SOURCE_ROOT; };
 		569974B31AFFE14000D26A20 /* llceflib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llceflib.cpp; sourceTree = SOURCE_ROOT; };
 		569974B41AFFE14000D26A20 /* llceflib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llceflib.h; sourceTree = SOURCE_ROOT; };
 		569974B51AFFE14000D26A20 /* llceflibimpl.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = llceflibimpl.cpp; sourceTree = SOURCE_ROOT; };
@@ -95,8 +91,6 @@
 				569974AF1AFFE14000D26A20 /* llbrowserclient.cpp */,
 				569974B01AFFE14000D26A20 /* llbrowserclient.h */,
 				56CA9FC71B01FD12004F4044 /* llceflibplatform.h */,
-				569974B11AFFE14000D26A20 /* llbrowserevents.cpp */,
-				569974B21AFFE14000D26A20 /* llbrowserevents.h */,
 				569974B31AFFE14000D26A20 /* llceflib.cpp */,
 				569974B41AFFE14000D26A20 /* llceflib.h */,
 				56CA9FCD1B0280BD004F4044 /* llceflibimpl_mac.mm */,
@@ -126,7 +120,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				569974BC1AFFE14000D26A20 /* llbrowserevents.h in Headers */,
 				569974BA1AFFE14000D26A20 /* llbrowserclient.h in Headers */,
 				569974BE1AFFE14000D26A20 /* llceflib.h in Headers */,
 				564D5A591B04C2E700C49BB0 /* llcontexthandler.h in Headers */,
@@ -172,7 +165,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5634D8BF1AFFE06900EB109F /* Build configuration list for PBXProject "LLCefLib" */;
+			buildConfigurationList = 5634D8BF1AFFE06900EB109F /* Build configuration list for PBXProject "llceflib" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -215,7 +208,6 @@
 				569974B91AFFE14000D26A20 /* llbrowserclient.cpp in Sources */,
 				56CA9FCB1B0204B2004F4044 /* llschemehandler.cpp in Sources */,
 				56CA9FCE1B0280BD004F4044 /* llceflibimpl_mac.mm in Sources */,
-				569974BB1AFFE14000D26A20 /* llbrowserevents.cpp in Sources */,
 				569974C11AFFE14000D26A20 /* llrenderhandler.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,7 +350,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5634D8BF1AFFE06900EB109F /* Build configuration list for PBXProject "LLCefLib" */ = {
+		5634D8BF1AFFE06900EB109F /* Build configuration list for PBXProject "llceflib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5634D8CD1AFFE06900EB109F /* Debug */,

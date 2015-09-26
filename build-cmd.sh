@@ -8,8 +8,13 @@ set -x
 set -e
 
 LLCEFLIB_SOURCE_DIR="src"
+
+# hard code the OS X CEF folder name for now (impossible to update so this is okay)
 CEF_SOURCE_DIR_OSX="cef_2171_OSX_32"
-CEF_SOURCE_DIR_WIN="cef_2454_WIN_32"
+
+# get the Windows CEF folder name from the MSVC property panel file
+MSVC_PROPS_FILE="./${LLCEFLIB_SOURCE_DIR}/cef.props"
+CEF_SOURCE_DIR_WIN=$(sed -n 's:.*<CEF_DIR>\(.*\)</CEF_DIR>.*:\1:p' "${MSVC_PROPS_FILE}")
 
 if [ -z "$AUTOBUILD" ] ; then 
     fail
@@ -43,14 +48,14 @@ pushd "$LLCEFLIB_SOURCE_DIR"
             mkdir -p "$stage/include/cef"
             mkdir -p "$stage/lib/release"
             mkdir -p "$stage/bin/release"
-            mkdir -p "$stage/Resources"
 
             cp "$LLCEFLIB_SOURCE_DIR/Release/llceflib.lib" "$stage/lib/release/"
             cp "$LLCEFLIB_SOURCE_DIR/llceflib.h" "$stage/include/cef/"
 
             cp "$CEF_SOURCE_DIR_WIN/lib/Release/libcef.lib" "$stage/lib/release"
             cp "$CEF_SOURCE_DIR_WIN/lib/Release/libcef_dll_wrapper.lib" "$stage/lib/release"
-            cp -R "$CEF_SOURCE_DIR_WIN/Resources" "$stage/"
+
+            cp -R "$CEF_SOURCE_DIR_WIN/Resources/"* "$stage/bin/release/"
 
             cp "$LLCEFLIB_SOURCE_DIR/Release/llceflib_host.exe" "$stage/bin/release/"
 

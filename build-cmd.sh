@@ -48,18 +48,25 @@ pushd "$LLCEFLIB_SOURCE_DIR"
             mkdir -p "$stage/include/cef"
             mkdir -p "$stage/lib/release"
             mkdir -p "$stage/bin/release"
+            mkdir -p "$stage/resources"
+            mkdir -p "$stage/LICENSES"
 
+            # LLCefLib files
             cp "$LLCEFLIB_SOURCE_DIR/Release/llceflib.lib" "$stage/lib/release/"
             cp "$LLCEFLIB_SOURCE_DIR/llceflib.h" "$stage/include/cef/"
+            cp "$LLCEFLIB_SOURCE_DIR/Release/llceflib_host.exe" "$stage/bin/release/"
 
+            # CEF libraries
             cp "$CEF_SOURCE_DIR_WIN/lib/Release/libcef.lib" "$stage/lib/release"
             cp "$CEF_SOURCE_DIR_WIN/lib/Release/libcef_dll_wrapper.lib" "$stage/lib/release"
 
-            cp -R "$CEF_SOURCE_DIR_WIN/Resources/"* "$stage/bin/release/"
+            # CEF run time binaries
+            cp "$CEF_SOURCE_DIR_WIN/bin/release/"* "$stage/bin/release/"
 
-            cp "$LLCEFLIB_SOURCE_DIR/Release/llceflib_host.exe" "$stage/bin/release/"
+            # CEF resources (common to deubg/release)
+            cp -R "$CEF_SOURCE_DIR_WIN/resources/"* "$stage/resources/"
 
-            mkdir -p "$stage/LICENSES"
+            # licenses
             cp -R "$LLCEFLIB_SOURCE_DIR/LICENSES" "$stage"
         ;;
         "darwin")

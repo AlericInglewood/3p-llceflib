@@ -88,6 +88,7 @@
           <array>
             <string>lib/release/*</string>
             <string>bin/release/*</string>
+            <string>resources/*</string>
           </array>
           <key>name</key>
           <string>windows</string>

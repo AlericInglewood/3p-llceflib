@@ -169,10 +169,3 @@ void LLCEFLibImpl::keyboardEvent(
 		}
 	}
 }
-
-void LLCEFLibImpl::setPlatformCursor(CefCursorHandle cursor_handle)
-{
-	// Window must have it's cursor (WNDCLASS::hCursor) set to NULL for this to work.
-	// CefCursorHandle is an HCURSOR on Windows 
-	SetCursor(cursor_handle);
-}

@@ -87,7 +87,10 @@ class LLCEFLibImpl :
 		bool onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password);
 
 		void setOnRequestExitCallback(boost::function<void()> callback);
-		void OnRequestExitCallback();
+		void OnRequestExit();
+
+		void setOnCursorChangedCallback(boost::function<void(unsigned int cursor)> callback);
+		void OnCursorChanged(unsigned int cursor);
 
 		void mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y);
 		void mouseMove(int x, int y);
@@ -121,8 +124,6 @@ class LLCEFLibImpl :
 		void editCut();
 		void editPaste();
 
-		void LLCEFLibImpl::setPlatformCursor(CefCursorHandle cursor_handle);
-
 		void setCustomSchemes(std::vector<std::string> custom_schemes);
 		std::vector<std::string>& getCustomSchemes();
 
@@ -148,6 +149,7 @@ class LLCEFLibImpl :
 		boost::function<void(std::string, std::string)> mOnNavigateURLCallbackFunc;
 		boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> mOnHTTPAuthCallbackFunc;
 		boost::function<void()> mOnRequestExitCallbackFunc;
+		boost::function<void(unsigned int cursor)> mOnCursorChangedCallbackFunc;
 
 		IMPLEMENT_REFCOUNTING(LLCEFLibImpl);
 };

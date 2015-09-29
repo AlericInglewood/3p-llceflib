@@ -157,6 +157,7 @@ class LLCEFLib
 		void setOnTitleChangeCallback(boost::function<void(std::string)> callback);
 		void setOnLoadStartCallback(boost::function<void()> callback);
 		void setOnRequestExitCallback(boost::function<void()> callback);
+		void setOnCursorChangedCallback(boost::function<void(unsigned int)> callback);
 		void setOnLoadEndCallback(boost::function<void(int)> callback);
 		void setOnNavigateURLCallback(boost::function<void(std::string url, std::string target)> callback);
 		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);

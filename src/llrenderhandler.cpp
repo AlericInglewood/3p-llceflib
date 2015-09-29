@@ -93,5 +93,5 @@ void LLRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType ty
 
 void LLRenderHandler::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type, const CefCursorInfo& custom_cursor_info)
 {
-	mParent->setPlatformCursor(cursor);
+	mParent->OnCursorChanged((unsigned int)cursor);
 }

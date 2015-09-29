@@ -108,6 +108,11 @@ void LLCEFLib::setOnRequestExitCallback(boost::function<void()> callback)
 	mImpl->setOnRequestExitCallback(callback);
 }
 
+void LLCEFLib::setOnCursorChangedCallback(boost::function<void(unsigned int)> callback)
+{
+	mImpl->setOnCursorChangedCallback(callback);
+}
+
 void LLCEFLib::setOnLoadEndCallback(boost::function<void(int)> callback)
 {
 	mImpl->setOnLoadEndCallback(callback);

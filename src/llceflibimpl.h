@@ -87,10 +87,10 @@ class LLCEFLibImpl :
 		bool onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password);
 
 		void setOnRequestExitCallback(boost::function<void()> callback);
-		void OnRequestExit();
+		void onRequestExit();
 
 		void setOnCursorChangedCallback(boost::function<void(unsigned int cursor)> callback);
-		void OnCursorChanged(unsigned int cursor);
+		void onCursorChanged(unsigned int cursor);
 
 		void mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y);
 		void mouseMove(int x, int y);

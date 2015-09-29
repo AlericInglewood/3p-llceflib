@@ -178,8 +178,7 @@ void LLCEFLibImpl::update()
 			mBrowserClient = 0;
 
 			// tell the app counsuming us it's okay to exit now
-			if (mOnRequestExitCallbackFunc)
-				mOnRequestExitCallbackFunc();
+			onRequestExit();
 		}
 	}
 }
@@ -314,6 +313,18 @@ void LLCEFLibImpl::onNavigateURL(std::string url, std::string target)
 {
 	if (mOnNavigateURLCallbackFunc)
 		mOnNavigateURLCallbackFunc(url, target);
+}
+
+void LLCEFLibImpl::onRequestExit()
+{
+	if (mOnRequestExitCallbackFunc)
+		mOnRequestExitCallbackFunc();
+}
+
+void LLCEFLibImpl::onCursorChanged(unsigned int cursor)
+{
+	if (mOnCursorChangedCallbackFunc)
+		mOnCursorChangedCallbackFunc(cursor);
 }
 
 bool LLCEFLibImpl::onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password)

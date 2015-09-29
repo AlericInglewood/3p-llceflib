@@ -228,7 +228,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     wc.cbWndExtra = 0;
     wc.hInstance = hInstance;
     wc.hIcon = LoadIcon( NULL, IDI_WINLOGO );
-    wc.hCursor = LoadCursor( NULL, IDC_ARROW );
+	wc.hCursor = NULL;
     wc.hbrBackground = NULL;
     wc.lpszMenuName = NULL;
     wc.lpszClassName = "Win32GL";

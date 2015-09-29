@@ -90,3 +90,8 @@ void LLRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType ty
 	mParent->onPageChanged((unsigned char*)(buffer), width, height);
 #endif
 }
+
+void LLRenderHandler::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type, const CefCursorInfo& custom_cursor_info)
+{
+	mParent->setPlatformCursor(cursor);
+}

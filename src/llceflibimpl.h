@@ -121,6 +121,8 @@ class LLCEFLibImpl :
 		void editCut();
 		void editPaste();
 
+		void LLCEFLibImpl::setPlatformCursor(CefCursorHandle cursor_handle);
+
 		void setCustomSchemes(std::vector<std::string> custom_schemes);
 		std::vector<std::string>& getCustomSchemes();
 

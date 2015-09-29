@@ -135,6 +135,13 @@ void LLCEFLibImpl::keyboardEvent(
     }
 }
 
+
+void LLCEFLibImpl::setPlatformCursor(CefCursorHandle cursor_handle)
+{
+	// not implemented for OS X yet
+}
+
+
 void LLCEFLibImpl::nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam)
 {
     // not implemented for OS X yet - may only be useful for Windows version

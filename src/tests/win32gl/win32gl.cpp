@@ -89,7 +89,7 @@ void init( HWND hWnd )
 	mLLCEFLib->setOnPageChangedCallback(boost::bind(onPageChangedCallback, _1, _2, _3));
 	mLLCEFLib->setOnRequestExitCallback(boost::bind(onRequestExitCallback));
 
-	LLCEFLibSettings settings;
+	LLCEFLib::LLCEFLibSettings settings;
 	settings.initial_width = gTextureWidth;
 	settings.initial_height = gTextureHeight;
 	settings.javascript_enabled = true;
@@ -160,7 +160,7 @@ LRESULT CALLBACK window_proc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
         {
 			int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
 			int y = (HIWORD(lParam) * gTextureHeight) / mAppWindowHeight;
-			mLLCEFLib->mouseButton(MB_MOUSE_BUTTON_LEFT, ME_MOUSE_DOWN, x, y);
+			mLLCEFLib->mouseButton(LLCEFLib::MB_MOUSE_BUTTON_LEFT, LLCEFLib::ME_MOUSE_DOWN, x, y);
 			mLLCEFLib->setFocus(true);
 			return 0;
         };
@@ -169,7 +169,7 @@ LRESULT CALLBACK window_proc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
         {
 			int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
 			int y = (HIWORD(lParam) * gTextureHeight) / mAppWindowHeight;
-			mLLCEFLib->mouseButton(MB_MOUSE_BUTTON_LEFT, ME_MOUSE_UP, x, y);
+			mLLCEFLib->mouseButton(LLCEFLib::MB_MOUSE_BUTTON_LEFT, LLCEFLib::ME_MOUSE_UP, x, y);
             return 0;
         };
 

@@ -52,7 +52,7 @@ LLCEFLibImpl::~LLCEFLibImpl()
 {
 }
 
-bool LLCEFLibImpl::init(LLCEFLibSettings& user_settings)
+bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 {
 #ifdef LLCEFLIB_DEBUG
     std::cout << "Starting.." << std::endl;
@@ -223,11 +223,10 @@ void LLCEFLibImpl::setOnRequestExitCallback(boost::function<void()> callback)
 	mOnRequestExitCallbackFunc = callback;
 }
 
-void LLCEFLibImpl::setOnCursorChangedCallback(boost::function<void(unsigned int)> callback)
+void LLCEFLibImpl::setOnCursorChangedCallback(boost::function<void(LLCEFLib::ECursorType type, unsigned int)> callback)
 {
 	mOnCursorChangedCallbackFunc = callback;
 }
-
 
 void LLCEFLibImpl::setOnLoadEndCallback(boost::function<void(int)> callback)
 {
@@ -321,10 +320,10 @@ void LLCEFLibImpl::onRequestExit()
 		mOnRequestExitCallbackFunc();
 }
 
-void LLCEFLibImpl::onCursorChanged(unsigned int cursor)
+void LLCEFLibImpl::onCursorChanged(LLCEFLib::ECursorType type, unsigned int cursor)
 {
 	if (mOnCursorChangedCallbackFunc)
-		mOnCursorChangedCallbackFunc(cursor);
+		mOnCursorChangedCallbackFunc(type, cursor);
 }
 
 bool LLCEFLibImpl::onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password)
@@ -359,7 +358,7 @@ void LLCEFLibImpl::setPageZoom(double zoom_val)
 	}
 }
 
-void LLCEFLibImpl::mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y)
+void LLCEFLibImpl::mouseButton(LLCEFLib::EMouseButton mouse_button, LLCEFLib::EMouseEvent mouse_event, int x, int y)
 {
 	// select click location
     CefMouseEvent cef_mouse_event;
@@ -369,16 +368,16 @@ void LLCEFLibImpl::mouseButton(EMouseButton mouse_button, EMouseEvent mouse_even
 
 	// select button
 	CefBrowserHost::MouseButtonType btnType = MBT_LEFT;
-	if (mouse_button == MB_MOUSE_BUTTON_RIGHT) btnType = MBT_RIGHT;
-	if (mouse_button == MB_MOUSE_BUTTON_MIDDLE) btnType = MBT_MIDDLE;
+	if (mouse_button == LLCEFLib::MB_MOUSE_BUTTON_RIGHT) btnType = MBT_RIGHT;
+	if (mouse_button == LLCEFLib::MB_MOUSE_BUTTON_MIDDLE) btnType = MBT_MIDDLE;
 
 	// TODO: set this properly
     int last_click_count = 1;
 
 	// action TODO: extend to include "move" although this might be enough
 	bool is_down = false;
-	if (mouse_event == ME_MOUSE_DOWN) is_down = true;
-	if (mouse_event == ME_MOUSE_UP) is_down = false;
+	if (mouse_event == LLCEFLib::ME_MOUSE_DOWN) is_down = true;
+	if (mouse_event == LLCEFLib::ME_MOUSE_UP) is_down = false;
 
 	// send to CEF
 	if (mBrowser && mBrowser->GetHost())

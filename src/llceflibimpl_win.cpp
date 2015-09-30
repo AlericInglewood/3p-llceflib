@@ -136,10 +136,10 @@ void LLCEFLibImpl::nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t l
 }
 
 void LLCEFLibImpl::keyboardEvent(
-	EKeyEvent key_event,
+	LLCEFLib::EKeyEvent key_event,
 	uint32_t key_code,
 	const char *utf8_text,
-	EKeyboardModifier modifiers,
+	LLCEFLib::EKeyboardModifier modifiers,
 	uint32_t native_scan_code,
 	uint32_t native_virtual_key,
 	uint32_t native_modifiers)
@@ -152,7 +152,7 @@ void LLCEFLibImpl::keyboardEvent(
 		event.windows_key_code = native_virtual_key;
 		event.unmodified_character = native_virtual_key;
 
-		if (key_event == KE_KEY_DOWN)
+		if (key_event == LLCEFLib::KE_KEY_DOWN)
 		{
 			event.type = KEYEVENT_RAWKEYDOWN;
 			mBrowser->GetHost()->SendKeyEvent(event);
@@ -162,7 +162,7 @@ void LLCEFLibImpl::keyboardEvent(
 			mBrowser->GetHost()->SendKeyEvent(event);
 		}
 		else
-		if (key_event == KE_KEY_UP)
+		if (key_event == LLCEFLib::KE_KEY_UP)
 		{
 			event.type = KEYEVENT_KEYUP;
 			mBrowser->GetHost()->SendKeyEvent(event);

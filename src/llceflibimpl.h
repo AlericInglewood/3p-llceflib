@@ -45,7 +45,7 @@ class LLCEFLibImpl :
         LLCEFLibImpl();
         virtual ~LLCEFLibImpl();
 
-        bool init(LLCEFLibSettings& user_settings);
+		bool init(LLCEFLib::LLCEFLibSettings& user_settings);
         void update();
         void setSize(int width, int height);
         void getSize(int& width, int& height);
@@ -89,19 +89,19 @@ class LLCEFLibImpl :
 		void setOnRequestExitCallback(boost::function<void()> callback);
 		void onRequestExit();
 
-		void setOnCursorChangedCallback(boost::function<void(unsigned int cursor)> callback);
-		void onCursorChanged(unsigned int cursor);
+		void setOnCursorChangedCallback(boost::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> callback);
+		void onCursorChanged(LLCEFLib::ECursorType type, unsigned int cursor);
 
-		void mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y);
+		void mouseButton(LLCEFLib::EMouseButton mouse_button, LLCEFLib::EMouseEvent mouse_event, int x, int y);
 		void mouseMove(int x, int y);
 		void nativeMouseEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
 
 		void nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
 		void keyboardEvent(
-			EKeyEvent key_event,
+			LLCEFLib::EKeyEvent key_event,
 			uint32_t key_code,
 			const char *utf8_text,
-			EKeyboardModifier modifiers,
+			LLCEFLib::EKeyboardModifier modifiers,
 			uint32_t native_scan_code,
 			uint32_t native_virtual_key,
 			uint32_t native_modifiers);
@@ -149,7 +149,7 @@ class LLCEFLibImpl :
 		boost::function<void(std::string, std::string)> mOnNavigateURLCallbackFunc;
 		boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> mOnHTTPAuthCallbackFunc;
 		boost::function<void()> mOnRequestExitCallbackFunc;
-		boost::function<void(unsigned int cursor)> mOnCursorChangedCallbackFunc;
+		boost::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> mOnCursorChangedCallbackFunc;
 
 		IMPLEMENT_REFCOUNTING(LLCEFLibImpl);
 };

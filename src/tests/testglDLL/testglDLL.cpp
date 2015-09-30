@@ -67,7 +67,7 @@ class LLMediaSimpleTest
 			mLLCEFLib->setOnHTTPAuthCallback(boost::bind(&LLMediaSimpleTest::onHTTPAuthCallback, this, _1, _2, _3, _4));
 			mLLCEFLib->setOnRequestExitCallback(boost::bind(&LLMediaSimpleTest::onRequestExitCallback, this));
 
-            LLCEFLibSettings settings;
+			LLCEFLib::LLCEFLibSettings settings;
             settings.initial_width = mBrowserWidth;
             settings.initial_height = mBrowserHeight;
             settings.javascript_enabled = true;
@@ -232,13 +232,13 @@ class LLMediaSimpleTest
 
         void mouseButton(int button, int state, int x, int y)
         {
-			EMouseButton btn = MB_MOUSE_BUTTON_LEFT;
-			if (button == GLUT_RIGHT_BUTTON) btn = MB_MOUSE_BUTTON_RIGHT;
-			if (button == GLUT_MIDDLE_BUTTON) btn = MB_MOUSE_BUTTON_MIDDLE;
+			LLCEFLib::EMouseButton btn = LLCEFLib::MB_MOUSE_BUTTON_LEFT;
+			if (button == GLUT_RIGHT_BUTTON) btn = LLCEFLib::MB_MOUSE_BUTTON_RIGHT;
+			if (button == GLUT_MIDDLE_BUTTON) btn = LLCEFLib::MB_MOUSE_BUTTON_MIDDLE;
 
-			EMouseEvent ev = ME_MOUSE_UP;
-			if (state == GLUT_DOWN) ev = ME_MOUSE_DOWN;
-			if (state == GLUT_UP) ev = ME_MOUSE_UP;
+			LLCEFLib::EMouseEvent ev = LLCEFLib::ME_MOUSE_UP;
+			if (state == GLUT_DOWN) ev = LLCEFLib::ME_MOUSE_DOWN;
+			if (state == GLUT_UP) ev = LLCEFLib::ME_MOUSE_UP;
 
 			mLLCEFLib->mouseButton(btn, ev, x, y);
 

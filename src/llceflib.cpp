@@ -38,7 +38,7 @@ LLCEFLib::~LLCEFLib()
 
 }
 
-bool LLCEFLib::init(LLCEFLibSettings& user_settings)
+bool LLCEFLib::init(LLCEFLib::LLCEFLibSettings& user_settings)
 {
     return mImpl->init(user_settings);
 }
@@ -108,7 +108,7 @@ void LLCEFLib::setOnRequestExitCallback(boost::function<void()> callback)
 	mImpl->setOnRequestExitCallback(callback);
 }
 
-void LLCEFLib::setOnCursorChangedCallback(boost::function<void(unsigned int)> callback)
+void LLCEFLib::setOnCursorChangedCallback(boost::function<void(LLCEFLib::ECursorType type, unsigned int)> callback)
 {
 	mImpl->setOnCursorChangedCallback(callback);
 }

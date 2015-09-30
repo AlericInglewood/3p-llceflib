@@ -81,10 +81,10 @@ namespace LLCEFLibImplMacAssist
 }
 
 void LLCEFLibImpl::keyboardEvent(
-    EKeyEvent key_event,
+    LLCEFLib::EKeyEvent key_event,
     uint32_t key_code,
     const char *utf8_text,
-    EKeyboardModifier modifiers,
+    LLCEFLib::EKeyboardModifier modifiers,
     uint32_t native_scan_code,
     uint32_t native_virtual_key,
     uint32_t native_modifiers)
@@ -98,7 +98,7 @@ void LLCEFLibImpl::keyboardEvent(
             if(LLCEFLibImplMacAssist::isSpecialKey(key_code))
             {
                 int native_key_code = LLCEFLibImplMacAssist::asciiToNativeKey(key_code);
-                if(native_key_code != ASCII_KEY_UNDEFINED && key_event == KE_KEY_DOWN)
+                if(native_key_code != ASCII_KEY_UNDEFINED && key_event == LLCEFLib::KE_KEY_DOWN)
                 {
                     CefKeyEvent event;
                     event.character = 0;
@@ -118,7 +118,7 @@ void LLCEFLibImpl::keyboardEvent(
             event.modifiers = 0;
             event.character = key_code;
 
-            if(key_event == KE_KEY_DOWN)
+            if(key_event == LLCEFLib::KE_KEY_DOWN)
             {
                 event.type = KEYEVENT_KEYDOWN;
                 mBrowser->GetHost()->SendKeyEvent(event);

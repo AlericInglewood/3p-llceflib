@@ -513,7 +513,7 @@ bool LLCEFLibImpl::isLoading()
 {
     if(mBrowser && mBrowser->GetHost())
     {
-        mBrowser->IsLoading();
+        return mBrowser->IsLoading();
     }
 
     // default to allow so if UI is relies on it, this is still sensible

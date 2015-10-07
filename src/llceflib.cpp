@@ -60,7 +60,10 @@ void LLCEFLib::getSize(int& width, int& height)
 
 void LLCEFLib::navigate(std::string url)
 {
-    mImpl->navigate(url);
+    if (url.length() > 0)
+    {
+        mImpl->navigate(url);
+    }
 }
 
 void LLCEFLib::setPageZoom(double zoom_val)

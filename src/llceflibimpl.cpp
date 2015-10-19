@@ -399,10 +399,14 @@ bool LLCEFLibImpl::setCookie(std::string url, std::string name, std::string valu
 	cookie.expires.day_of_month = 10;
 
 #ifdef WIN32
-	return manager->SetCookie(url, cookie, nullptr);
+	bool result = manager->SetCookie(url, cookie, nullptr);
+	manager->FlushStore(nullptr);
 #elif __APPLE__
-	return manager->SetCookie(url, cookie);
+	bool result = manager->SetCookie(url, cookie);
+	manager->FlushStore(NULL);
 #endif
+
+	return result;
 }
 
 void LLCEFLibImpl::setPageZoom(double zoom_val)

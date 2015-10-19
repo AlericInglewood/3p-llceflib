@@ -51,6 +51,8 @@ class LLCEFLibImpl :
         void getSize(int& width, int& height);
         int getDepth();
         void navigate(std::string url);
+		void postData(std::string url, std::string data, std::string headers);
+		bool setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path);
 		void setPageZoom(double zoom_val);
         void reset();
 

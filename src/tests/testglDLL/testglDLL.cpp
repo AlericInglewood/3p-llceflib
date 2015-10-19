@@ -77,6 +77,8 @@ class LLMediaSimpleTest
 			settings.cookie_store_path = "C:\\browser_cookies";
 			settings.cache_enabled = true;
 			settings.cache_path = "C:\\browser_cache";
+			settings.user_agent_substring = "SecondLife";
+
 
             bool result = mLLCEFLib->init(settings);
             if(result)

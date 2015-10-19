@@ -33,6 +33,8 @@
 #include "llbrowserclient.h"
 #include "llcontexthandler.h"
 
+#include "include/cef_runnable.h"
+
 #ifdef __APPLE__
 #import <Cocoa/Cocoa.h>
 #endif
@@ -341,13 +343,62 @@ int LLCEFLibImpl::getDepth()
 
 void LLCEFLibImpl::navigate(std::string url)
 {
-    if(mBrowser)
-    {
-        if(mBrowser->GetMainFrame())
-        {
-            mBrowser->GetMainFrame()->LoadURL(url);
-        }
-    }
+	if (mBrowser && mBrowser->GetMainFrame() && url.length() > 0)
+	{
+		mBrowser->GetMainFrame()->LoadURL(url);
+	}
+}
+
+void LLCEFLibImpl::postData(std::string url, std::string data, std::string headers)
+{
+	if (mBrowser)
+	{
+		if (mBrowser->GetMainFrame())
+		{
+			CefRefPtr<CefRequest> request = CefRequest::Create();
+
+			request->SetURL(url);
+			request->SetMethod("POST");
+
+			// TODO - get this from the headers parameter
+			CefRequest::HeaderMap headerMap;
+			headerMap.insert(
+				std::make_pair("Accept", "*/*"));
+			headerMap.insert(
+				std::make_pair("Content-Type", "application/x-www-form-urlencoded"));
+			request->SetHeaderMap(headerMap);
+
+			const std::string& upload_data = data;
+			CefRefPtr<CefPostData> postData = CefPostData::Create();
+			CefRefPtr<CefPostDataElement> element = CefPostDataElement::Create();
+			element->SetToBytes(upload_data.size(), upload_data.c_str());
+			postData->AddElement(element);
+			request->SetPostData(postData);
+
+			mBrowser->GetMainFrame()->LoadRequest(request);
+		}
+	}
+}
+
+bool LLCEFLibImpl::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
+{
+	CefRefPtr<CefCookieManager> manager = mContextHandler->GetCookieManager();
+	CefCookie cookie;
+	CefString(&cookie.name) = name;
+	CefString(&cookie.value) = value;
+	CefString(&cookie.domain) = domain;
+	CefString(&cookie.path) = path;
+	cookie.httponly = true;
+	cookie.secure = true; 
+
+	// TODO set from input
+	cookie.has_expires = true;
+	cookie.expires.year = 2064;
+	cookie.expires.month = 4;
+	cookie.expires.day_of_week = 5;
+	cookie.expires.day_of_month = 10;
+
+	return manager->SetCookie(url, cookie, nullptr);
 }
 
 void LLCEFLibImpl::setPageZoom(double zoom_val)

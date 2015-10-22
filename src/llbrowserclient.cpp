@@ -232,8 +232,11 @@ bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPt
 	}
 }
 
-bool LLBrowserClient::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& origin_url,
-	int64 new_size, CefRefPtr<CefRequestCallback> callback)
+#if (CEF_CURRENT_BRANCH >= CEF_BRANCH_2357)
+		bool LLBrowserClient::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& origin_url, int64 new_size, CefRefPtr<CefRequestCallback> callback)
+#else
+		bool LLBrowserClient::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& origin_url, int64 new_size, CefRefPtr<CefQuotaCallback> callback)
+#endif
 {
 	CEF_REQUIRE_IO_THREAD();
 

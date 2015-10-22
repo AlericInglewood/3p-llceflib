@@ -137,15 +137,13 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 	{
 #ifdef WIN32
 		std::string cookiePath = ".\\cookies";
+#elif __APPLE__
+		std::string cookiePath = "./cookies";
+#endif
 		if (user_settings.cookie_store_path.length())
 		{
 			cookiePath = std::string(user_settings.cookie_store_path);
 		}
-#elif __APPLE__
-		// TODO: pass on cookie path to OS X version too
-		NSString* appDataDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex: 0];
-		std::string cookiePath = [[NSString stringWithFormat: @"%@/%@", appDataDirectory, @"llceflib_cookies"] UTF8String];
-#endif
 
 		// CEF changed interfaces between these two branches
 #if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357

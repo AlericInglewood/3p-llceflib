@@ -150,6 +150,11 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 		// CEF changed interfaces between these two branches
 #if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
 		CefRequestContextSettings contextSettings;
+		if (user_settings.cache_enabled && user_settings.cache_path.length())
+		{
+			CefString(&contextSettings.cache_path) = user_settings.cache_path;
+		}	
+
 		mContextHandler = new LLContextHandler(cookiePath.c_str());
 		rc = CefRequestContext::CreateContext(contextSettings, mContextHandler.get());
 #else // CEF_BRANCH_2272

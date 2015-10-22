@@ -232,6 +232,17 @@ bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPt
 	}
 }
 
+bool LLBrowserClient::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& origin_url,
+	int64 new_size, CefRefPtr<CefRequestCallback> callback)
+{
+	CEF_REQUIRE_IO_THREAD();
+
+	static const int64 max_size = 1024 * 1024 * 5;  // 5mb.
+
+	callback->Continue(new_size <= max_size);
+	return true;
+}
+
 void LLBrowserClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 {
 	CEF_REQUIRE_UI_THREAD();

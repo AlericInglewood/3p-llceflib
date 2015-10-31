@@ -108,12 +108,6 @@ void init( HWND hWnd )
 
 /////////////////////////////////////////////////////////////////////////////////
 //
-void reset()
-{
-}
-
-/////////////////////////////////////////////////////////////////////////////////
-//
 void update()
 {
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -177,7 +171,7 @@ LRESULT CALLBACK window_proc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 		case WM_RBUTTONUP:
 		{
-			mLLCEFLib->reset();
+			mLLCEFLib->requestExit();
 			//bool result = mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/");
 			//if (result) MessageBoxA(0, "Set Cookie Okay", 0, 0); else MessageBoxA(0, "Unable to set cookie", 0, 0);
 
@@ -308,7 +302,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     DestroyWindow( hWnd );
     UnregisterClass( "Win32GL", hInstance );
 
-    reset();
+	mLLCEFLib->shutdown();
 
     return 0;
 }

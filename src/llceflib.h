@@ -179,9 +179,10 @@ class LLCEFLib
 			uint32_t native_modifiers);
 		void nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
         void setFocus(bool focus);
-        void mouseWheel(int deltaY);
+		void mouseWheel(int deltaX, int deltaY);
 
-        void reset();
+        void requestExit();
+		void shutdown();
 
         void stop();
         void reload(bool ignore_cache);

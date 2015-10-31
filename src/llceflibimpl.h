@@ -54,7 +54,8 @@ class LLCEFLibImpl :
 		void postData(std::string url, std::string data, std::string headers);
 		bool setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path);
 		void setPageZoom(double zoom_val);
-        void reset();
+        void requestExit();
+		void shutdown();
 
         void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);
         void onPageChanged(unsigned char*, int, int);
@@ -108,7 +109,7 @@ class LLCEFLibImpl :
 			uint32_t native_virtual_key,
 			uint32_t native_modifiers);
 
-        void mouseWheel(int deltaY);
+        void mouseWheel(int deltaX, int deltaY);
         void setFocus(bool focus);
 
         void stop();

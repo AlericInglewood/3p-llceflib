@@ -184,7 +184,7 @@ void LLCEFLibImpl::update()
 #ifdef LLCEFLIB_DEBUG
 			std::cout << "Update loop told to close, call CefShutdown() then call exit callback" << std::endl;
 #endif
-			CefShutdown();
+			
 
 			mBrowserClient = 0;
 
@@ -192,6 +192,11 @@ void LLCEFLibImpl::update()
 			onRequestExit();
 		}
 	}
+}
+
+void LLCEFLibImpl::shutdown()
+{
+	CefShutdown();
 }
 
 void LLCEFLibImpl::setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback)
@@ -467,35 +472,36 @@ void LLCEFLibImpl::mouseMove(int x, int y)
 	}
 };
 
-void LLCEFLibImpl::mouseWheel(int deltaY)
+void LLCEFLibImpl::mouseWheel(int deltaX, int deltaY)
 {
     if(mBrowser && mBrowser->GetHost())
 	{
 		CefMouseEvent mouse_event;
 		mouse_event.modifiers = 0;
-		mBrowser->GetHost()->SendMouseWheelEvent(mouse_event, 0, deltaY);
+		mBrowser->GetHost()->SendMouseWheelEvent(mouse_event, deltaX, deltaY);
     }
 }
 
 void LLCEFLibImpl::setFocus(bool focus)
 {
-    if(mBrowser && mBrowser->GetHost())
-        mBrowser->GetHost()->SendFocusEvent(focus);
+	if (mBrowser && mBrowser->GetHost())
+	{
+		mBrowser->GetHost()->SendFocusEvent(focus);
+	}
 }
 
-void LLCEFLibImpl::reset()
+void LLCEFLibImpl::requestExit()
 {
-#ifdef LLCEFLIB_DEBUG
-	std::cout << "Closing browser and flushing things" << std::endl;
-#endif
-
 	if (mContextHandler && mContextHandler->GetCookieManager())
+	{
 		mContextHandler->GetCookieManager()->FlushStore(NULL);
-
-	bool force_close = false;
+	}
 
 	if (mBrowser && mBrowser->GetHost())
+	{
+		bool force_close = false;
 		mBrowser->GetHost()->CloseBrowser(force_close);
+	}
 }
 
 void LLCEFLibImpl::OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar)

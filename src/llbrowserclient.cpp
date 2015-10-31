@@ -100,9 +100,7 @@ void LLBrowserClient::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 {
 	CEF_REQUIRE_UI_THREAD();
 
-#ifdef LLCEFLIB_DEBUG
-	std::cout << "LLBrowserClient::OnAfterCreated" << std::endl;
-#endif
+	mBrowserList.push_back(browser);
 }
 
 bool LLBrowserClient::RunModal(CefRefPtr<CefBrowser> browser)
@@ -248,7 +246,7 @@ bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPt
 {
 	CEF_REQUIRE_IO_THREAD();
 
-	static const int64 max_size = 1024 * 1024 * 1;  // 5mb.
+	static const int64 max_size = 1024 * 1024 * 5;  // 5mb.
 
 	callback->Continue(new_size <= max_size);
 	return true;
@@ -258,10 +256,21 @@ void LLBrowserClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 {
 	CEF_REQUIRE_UI_THREAD();
 
-#ifdef LLCEFLIB_DEBUG
-	std::cout << "LLBrowserClient::OnBeforeClose - set mIsBrowserClosing = true; " << std::endl;
-#endif
-	mIsBrowserClosing = true;
+	BrowserList::iterator bit = mBrowserList.begin();
+	for (; bit != mBrowserList.end(); ++bit)
+	{
+		if ((*bit)->IsSame(browser))
+		{
+			mBrowserList.erase(bit);
+			break;
+		}
+}
+
+	if (mBrowserList.empty())
+	{
+		mIsBrowserClosing = true;
+		CefQuitMessageLoop();
+	}
 }
 
 bool LLBrowserClient::isBrowserClosing()

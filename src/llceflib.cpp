@@ -154,9 +154,14 @@ void LLCEFLib::setCustomSchemes(std::vector<std::string> custom_schemes)
 	mImpl->setCustomSchemes(custom_schemes);
 }
 
-void LLCEFLib::reset()
+void LLCEFLib::requestExit()
 {
-    mImpl->reset();
+    mImpl->requestExit();
+}
+
+void LLCEFLib::shutdown()
+{
+	mImpl->shutdown();
 }
 
 void LLCEFLib::mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y)
@@ -187,9 +192,9 @@ void LLCEFLib::keyboardEvent(
 	mImpl->keyboardEvent(key_event, key_code, utf8_text, modifiers, native_scan_code, native_virtual_key, native_modifiers);
 }
 
-void LLCEFLib::mouseWheel(int deltaY)
+void LLCEFLib::mouseWheel(int deltaX, int deltaY)
 {
-    mImpl->mouseWheel(deltaY);
+    mImpl->mouseWheel(deltaX, deltaY);
 }
 
 void LLCEFLib::setFocus(bool focus)

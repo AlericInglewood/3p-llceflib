@@ -137,7 +137,7 @@ class LLMediaSimpleTest
 #ifdef WIN32
             glutLeaveMainLoop();
 #elif __APPLE__
-            exit(0);
+            /// wrong wrong wrong exit(0);
 #endif
 		}
 
@@ -219,6 +219,11 @@ class LLMediaSimpleTest
             mLLCEFLib->update();
         }
 
+		void shutdown()
+		{
+			mLLCEFLib->shutdown();
+		}
+
         void reshape(int width, int height)
         {
             if(height == 0) height = 1;
@@ -288,14 +293,10 @@ class LLMediaSimpleTest
 
         void keyboard(unsigned char key)
         {
-            //mLLCEFLib->keyPress(key, true);
-#if WIN32
 			if (key == 27)
 			{
-				mLLCEFLib->reset();
-				// don't exit until onRequestExitCallback triggered by reset() call
+				mLLCEFLib->requestExit();
 			}
-#endif
 
             if(key == '`') mLLCEFLib->navigate(mHomepageURL);
             if(key == '-') mLLCEFLib->goBack();
@@ -313,7 +314,7 @@ class LLMediaSimpleTest
         {
 #if WIN32
             int delta = 32;
-            mLLCEFLib->mouseWheel(dir * delta);
+            mLLCEFLib->mouseWheel(0, dir * delta);
 #endif
         }
 
@@ -413,7 +414,7 @@ int testGL()
         glutMainLoop();
     }
 
-//    delete gApplication;
+	gApplication->shutdown();
 
     return 0;
 }

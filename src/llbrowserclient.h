@@ -28,6 +28,8 @@
 
 #include "include/cef_client.h"
 
+#include <list>
+
 #include "llceflibplatform.h"
 #include "llrenderhandler.h"
 
@@ -98,6 +100,8 @@ class LLBrowserClient :
     private:
         LLCEFLibImpl* mParent;
         CefRefPtr<CefRenderHandler> mLLRenderHandler;
+		typedef std::list<CefRefPtr<CefBrowser>> BrowserList;
+		BrowserList mBrowserList;
 		bool mIsBrowserClosing;
 
     public:

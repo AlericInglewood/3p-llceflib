@@ -98,6 +98,12 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 		CefString(&settings.cache_path) = user_settings.cache_path;
 	}
 
+
+#ifdef WIN32
+    // turn on only for Windows 7+
+    CefEnableHighDPISupport();
+#endif
+
     bool result = CefInitialize(args, settings, this, NULL);
     if (! result)
     {

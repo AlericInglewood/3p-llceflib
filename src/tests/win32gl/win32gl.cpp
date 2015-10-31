@@ -101,6 +101,8 @@ void init( HWND hWnd )
 	if(result)
 	{
 		mLLCEFLib->navigate("https://callum-linden.s3.amazonaws.com/ceftests.html");
+		//mLLCEFLib->navigate("http://ll-pre-production.herokuapp.com/tos-testing");
+
 	}
 }
 
@@ -176,6 +178,9 @@ LRESULT CALLBACK window_proc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		case WM_RBUTTONUP:
 		{
 			mLLCEFLib->reset();
+			//bool result = mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/");
+			//if (result) MessageBoxA(0, "Set Cookie Okay", 0, 0); else MessageBoxA(0, "Unable to set cookie", 0, 0);
+
 			return 0;
 		};
 

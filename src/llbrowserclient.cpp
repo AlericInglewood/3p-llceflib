@@ -73,18 +73,26 @@ bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
 	std::cout << "Target frame is " << std::string(target_frame_name) << std::endl;
 #endif
 
-	// links with a target will not be browsed to - up to caller to kick off 
-	// another navigate event if they want to visit that URL
 	std::string url = std::string(target_url);
 	std::string target = std::string(target_frame_name);
-	if (target.length())
+
+	// open in the same frame if we see a taget that matches there
+	if (target == "_self" || target == "_top" || target == "_parent")
 	{
-		mParent->onNavigateURL(url, target);
+		browser->GetMainFrame()->LoadURL(target_url);
+		return true;
+	}
+	
+	// no target appears to indicate a "_blank" value
+	// (remember we only get here if target is specified)
+	if (target.length() == 0)
+	{
+		mParent->onNavigateURL(url, "_blank");
 		return true;
 	}
 
-	browser->GetMainFrame()->LoadURL(target_url);
-
+	// other target frame names
+	mParent->onNavigateURL(url, target);
 	return true;
 }
 
@@ -240,7 +248,7 @@ bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPt
 {
 	CEF_REQUIRE_IO_THREAD();
 
-	static const int64 max_size = 1024 * 1024 * 5;  // 5mb.
+	static const int64 max_size = 1024 * 1024 * 1;  // 5mb.
 
 	callback->Continue(new_size <= max_size);
 	return true;

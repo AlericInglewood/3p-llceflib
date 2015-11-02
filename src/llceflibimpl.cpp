@@ -384,7 +384,7 @@ bool LLCEFLibImpl::setCookie(std::string url, std::string name, std::string valu
 	CefString(&cookie.value) = value;
 	CefString(&cookie.domain) = domain;
 	CefString(&cookie.path) = path;
-	cookie.httponly = true;
+	cookie.httponly = false;
 	cookie.secure = true; 
 
 	// TODO set from input

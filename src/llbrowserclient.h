@@ -94,15 +94,11 @@ class LLBrowserClient :
 		bool OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& origin_url, int64 new_size, CefRefPtr<CefQuotaCallback> callback) OVERRIDE;
 #endif
 
-		// utility methods
-		bool isBrowserClosing();
-
     private:
         LLCEFLibImpl* mParent;
         CefRefPtr<CefRenderHandler> mLLRenderHandler;
 		typedef std::list<CefRefPtr<CefBrowser>> BrowserList;
 		BrowserList mBrowserList;
-		bool mIsBrowserClosing;
 
     public:
         IMPLEMENT_REFCOUNTING(LLBrowserClient);

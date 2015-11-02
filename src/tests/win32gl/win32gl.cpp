@@ -94,6 +94,7 @@ void init( HWND hWnd )
 	settings.initial_height = gTextureHeight;
 	settings.javascript_enabled = true;
 	settings.cookies_enabled = true;
+	settings.cookie_store_path = "c:\\win32gl-cef-cookies";
 	settings.user_agent_substring = "SecondLife";
 	settings.accept_language_list = "en-us";
 
@@ -171,9 +172,9 @@ LRESULT CALLBACK window_proc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 		case WM_RBUTTONUP:
 		{
-			mLLCEFLib->requestExit();
-			//bool result = mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/");
-			//if (result) MessageBoxA(0, "Set Cookie Okay", 0, 0); else MessageBoxA(0, "Unable to set cookie", 0, 0);
+			//mLLCEFLib->requestExit();
+			bool result = mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/");
+			if (result) MessageBoxA(0, "Set Cookie Okay", 0, 0); else MessageBoxA(0, "Unable to set cookie", 0, 0);
 
 			return 0;
 		};
@@ -211,6 +212,12 @@ LRESULT CALLBACK window_proc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
             resize_gl_screen( new_width, new_height );
             return 0;
         };
+
+		case WM_CLOSE:
+		{
+			mLLCEFLib->requestExit();
+			return 0;
+		};
     };
 
     return DefWindowProc( hWnd, uMsg, wParam, lParam );
@@ -227,8 +234,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     wc.cbWndExtra = 0;
     wc.hInstance = hInstance;
     wc.hIcon = LoadIcon( NULL, IDI_WINLOGO );
-	wc.hCursor = NULL;
-    wc.hbrBackground = NULL;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hbrBackground = NULL;
     wc.lpszMenuName = NULL;
     wc.lpszClassName = "Win32GL";
     RegisterClass( &wc );
@@ -296,13 +303,13 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
         };
     };
 
+	mLLCEFLib->shutdown();
+	
     wglMakeCurrent( NULL,NULL );
     wglDeleteContext( hRC );
     ReleaseDC( hWnd,hDC );
     DestroyWindow( hWnd );
     UnregisterClass( "Win32GL", hInstance );
-
-	mLLCEFLib->shutdown();
 
     return 0;
 }

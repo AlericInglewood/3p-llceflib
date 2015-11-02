@@ -151,18 +151,18 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 			cookiePath = std::string(user_settings.cookie_store_path);
 		}
 
-		// CEF changed interfaces between these two branches
+		mContextHandler = new LLContextHandler(cookiePath.c_str());
+
 #if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
+		// CEF changed interfaces between these two branches
 		CefRequestContextSettings contextSettings;
 		if (user_settings.cache_enabled && user_settings.cache_path.length())
 		{
 			CefString(&contextSettings.cache_path) = user_settings.cache_path;
-		}	
-
-		mContextHandler = new LLContextHandler(cookiePath.c_str());
+		}
 		rc = CefRequestContext::CreateContext(contextSettings, mContextHandler.get());
 #else // CEF_BRANCH_2272
-		rc = CefRequestContext::CreateContext(new LLContextHandler(cookiePath.c_str()));
+		rc = CefRequestContext::CreateContext(mContextHandler);
 #endif
 	}
 
@@ -174,24 +174,7 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 
 void LLCEFLibImpl::update()
 {
-	if (mBrowserClient)
-	{
-		CefDoMessageLoopWork();
-
-		if (mBrowserClient->isBrowserClosing())
-		{
-			CefQuitMessageLoop();
-#ifdef LLCEFLIB_DEBUG
-			std::cout << "Update loop told to close, call CefShutdown() then call exit callback" << std::endl;
-#endif
-			
-
-			mBrowserClient = 0;
-
-			// tell the app counsuming us it's okay to exit now
-			onRequestExit();
-		}
-	}
+	CefDoMessageLoopWork();
 }
 
 void LLCEFLibImpl::shutdown()

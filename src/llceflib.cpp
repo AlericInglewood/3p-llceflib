@@ -29,13 +29,10 @@
 LLCEFLib::LLCEFLib()
     :mImpl(new LLCEFLibImpl())
 {
-	mImpl->AddRef();
 }
 
 LLCEFLib::~LLCEFLib()
 {
-	mImpl->Release();
-
 }
 
 bool LLCEFLib::init(LLCEFLib::LLCEFLibSettings& user_settings)

@@ -32,8 +32,7 @@
 
 LLBrowserClient::LLBrowserClient(LLCEFLibImpl* parent, LLRenderHandler *render_handler) :
     mParent(parent),
-    mLLRenderHandler(render_handler),
-	mIsBrowserClosing(false)
+    mLLRenderHandler(render_handler)
 {
 }
 
@@ -268,12 +267,7 @@ void LLBrowserClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 
 	if (mBrowserList.empty())
 	{
-		mIsBrowserClosing = true;
 		CefQuitMessageLoop();
+		mParent->onRequestExit();
 	}
-}
-
-bool LLBrowserClient::isBrowserClosing()
-{
-	return mIsBrowserClosing;
 }

@@ -83,6 +83,7 @@
     <PostBuildEvent>
       <Command>if not exist $(OutDir)freeglut.dll copy freeglut\bin\freeglut.dll $(OutDir)
 if not exist $(OutDir)cef.pak copy $(SolutionDir)..\$(CEF_DIR)\Resources\*.* $(OutDir)
+if not exist $(OutDir)libcef.dll copy $(SolutionDir)..\$(CEF_DIR)\bin\release\*.* $(OutDir)
 if not exist $(OutDir)locales mkdir $(OutDir)\locales
 if not exist $(OutDir)locales\en-US.pak copy $(SolutionDir)..\$(CEF_DIR)\Resources\locales\*.* $(OutDir)\locales</Command>
     </PostBuildEvent>
@@ -118,6 +119,7 @@ if not exist $(OutDir)locales\en-US.pak copy $(SolutionDir)..\$(CEF_DIR)\Resourc
     <PostBuildEvent>
       <Command>if not exist $(OutDir)freeglut.dll copy freeglut\bin\freeglut.dll $(OutDir)
 if not exist $(OutDir)cef.pak copy $(SolutionDir)..\$(CEF_DIR)\Resources\*.* $(OutDir)
+if not exist $(OutDir)libcef.dll copy $(SolutionDir)..\$(CEF_DIR)\bin\release\*.* $(OutDir)
 if not exist $(OutDir)locales mkdir $(OutDir)\locales
 if not exist $(OutDir)locales\en-US.pak copy $(SolutionDir)..\$(CEF_DIR)\Resources\locales\*.* $(OutDir)\locales</Command>
     </PostBuildEvent>

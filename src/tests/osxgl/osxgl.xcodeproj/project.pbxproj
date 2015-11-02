@@ -1,0 +1,482 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1522FEBB1BDF0219006391AA /* libLLCefLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1522FEB81BDF01FB006391AA /* libLLCefLib.a */; };
+		156400371BDAACC000263EDF /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 156400361BDAACC000263EDF /* AppDelegate.mm */; };
+		1564003A1BDAACC000263EDF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 156400391BDAACC000263EDF /* main.m */; };
+		1564003C1BDAACC000263EDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1564003B1BDAACC000263EDF /* Assets.xcassets */; };
+		1564003F1BDAACC000263EDF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1564003D1BDAACC000263EDF /* MainMenu.xib */; };
+		1591EE2C1BE0003400336D6D /* libcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1591EE2B1BE0003400336D6D /* libcef_dll_wrapper.a */; settings = {ASSET_TAGS = (); }; };
+		159543F71BE0027400DC7E79 /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159543F61BE0027400DC7E79 /* Chromium Embedded Framework.framework */; settings = {ASSET_TAGS = (); }; };
+		15BBAA051BDAAF180021C8E1 /* LLOsxglView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15BBAA041BDAAF180021C8E1 /* LLOsxglView.mm */; settings = {ASSET_TAGS = (); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1522FEB71BDF01FB006391AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1522FEB21BDF01FB006391AA /* llceflib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5634D8C41AFFE06900EB109F;
+			remoteInfo = LLCefLib;
+		};
+		1522FEB91BDF020F006391AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1522FEB21BDF01FB006391AA /* llceflib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5634D8C31AFFE06900EB109F;
+			remoteInfo = LLCefLib;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1522FEB21BDF01FB006391AA /* llceflib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = llceflib.xcodeproj; path = ../../llceflib.xcodeproj; sourceTree = "<group>"; };
+		156400321BDAACC000263EDF /* osxgl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = osxgl.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		156400351BDAACC000263EDF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		156400361BDAACC000263EDF /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		156400391BDAACC000263EDF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1564003B1BDAACC000263EDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1564003E1BDAACC000263EDF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		156400401BDAACC000263EDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1591EE2B1BE0003400336D6D /* libcef_dll_wrapper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcef_dll_wrapper.a; path = ../../../cef_2171_OSX_32/build/libcef_dll/Release/libcef_dll_wrapper.a; sourceTree = "<group>"; };
+		159543F61BE0027400DC7E79 /* Chromium Embedded Framework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Chromium Embedded Framework.framework"; path = "../../../cef_2171_OSX_32/Release/Chromium Embedded Framework.framework"; sourceTree = "<group>"; };
+		15BBAA031BDAAF180021C8E1 /* LLOsxglView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLOsxglView.h; sourceTree = "<group>"; };
+		15BBAA041BDAAF180021C8E1 /* LLOsxglView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LLOsxglView.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1564002F1BDAACC000263EDF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				159543F71BE0027400DC7E79 /* Chromium Embedded Framework.framework in Frameworks */,
+				1522FEBB1BDF0219006391AA /* libLLCefLib.a in Frameworks */,
+				1591EE2C1BE0003400336D6D /* libcef_dll_wrapper.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1522FEB31BDF01FB006391AA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1522FEB81BDF01FB006391AA /* libLLCefLib.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		156400291BDAACC000263EDF = {
+			isa = PBXGroup;
+			children = (
+				159543F61BE0027400DC7E79 /* Chromium Embedded Framework.framework */,
+				1591EE2B1BE0003400336D6D /* libcef_dll_wrapper.a */,
+				1522FEB21BDF01FB006391AA /* llceflib.xcodeproj */,
+				156400341BDAACC000263EDF /* osxgl */,
+				156400331BDAACC000263EDF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		156400331BDAACC000263EDF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				156400321BDAACC000263EDF /* osxgl.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		156400341BDAACC000263EDF /* osxgl */ = {
+			isa = PBXGroup;
+			children = (
+				156400351BDAACC000263EDF /* AppDelegate.h */,
+				156400361BDAACC000263EDF /* AppDelegate.mm */,
+				1564003B1BDAACC000263EDF /* Assets.xcassets */,
+				156400401BDAACC000263EDF /* Info.plist */,
+				15BBAA031BDAAF180021C8E1 /* LLOsxglView.h */,
+				15BBAA041BDAAF180021C8E1 /* LLOsxglView.mm */,
+				1564003D1BDAACC000263EDF /* MainMenu.xib */,
+				156400381BDAACC000263EDF /* Supporting Files */,
+			);
+			path = osxgl;
+			sourceTree = "<group>";
+		};
+		156400381BDAACC000263EDF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				156400391BDAACC000263EDF /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		156400311BDAACC000263EDF /* osxgl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 156400431BDAACC000263EDF /* Build configuration list for PBXNativeTarget "osxgl" */;
+			buildPhases = (
+				1564002E1BDAACC000263EDF /* Sources */,
+				1564002F1BDAACC000263EDF /* Frameworks */,
+				156400301BDAACC000263EDF /* Resources */,
+				15FBF04B1BDB712C004D9ADA /* ShellScript */,
+				159543F81BE0040700DC7E79 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1522FEBA1BDF020F006391AA /* PBXTargetDependency */,
+			);
+			name = osxgl;
+			productName = osxgl;
+			productReference = 156400321BDAACC000263EDF /* osxgl.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1564002A1BDAACC000263EDF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = lindenlab;
+				TargetAttributes = {
+					156400311BDAACC000263EDF = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 1564002D1BDAACC000263EDF /* Build configuration list for PBXProject "osxgl" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				am,
+				ar,
+				bg,
+				bn,
+				ca,
+				cs,
+				da,
+				de,
+				el,
+				en_GB,
+				es,
+				es_419,
+				et,
+				fa,
+				fi,
+				fil,
+				fr,
+				gu,
+				he,
+				hi,
+				hr,
+				hu,
+				id,
+				it,
+				ja,
+				kn,
+				ko,
+				lt,
+				lv,
+				ml,
+				mr,
+				ms,
+				nb,
+				nl,
+				pl,
+				pt_BR,
+				pt_PT,
+				ro,
+				ru,
+				sk,
+				sl,
+				sr,
+				sv,
+				sw,
+				ta,
+				te,
+				th,
+				tr,
+				uk,
+				vi,
+				zh_CN,
+				zh_TW,
+			);
+			mainGroup = 156400291BDAACC000263EDF;
+			productRefGroup = 156400331BDAACC000263EDF /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1522FEB31BDF01FB006391AA /* Products */;
+					ProjectRef = 1522FEB21BDF01FB006391AA /* llceflib.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				156400311BDAACC000263EDF /* osxgl */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1522FEB81BDF01FB006391AA /* libLLCefLib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLLCefLib.a;
+			remoteRef = 1522FEB71BDF01FB006391AA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		156400301BDAACC000263EDF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1564003C1BDAACC000263EDF /* Assets.xcassets in Resources */,
+				1564003F1BDAACC000263EDF /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		159543F81BE0040700DC7E79 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -change \"@executable_path/Chromium Embedded Framework\" \"@executable_path/../../../../Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework\" \"$TARGET_BUILD_DIR/$EXECUTABLE_FOLDER_PATH/$EXECUTABLE_NAME\"";
+		};
+		15FBF04B1BDB712C004D9ADA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Remove any existing Frameworks dir\nrm -f -R \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks\"\n\n# Create Frameworks dir\nmkdir -p \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks\"\n#####\n\n# Cp CEF to the Frameworks dir\ncp -R -p \"$PROJECT_DIR/../../../cef_2171_OSX_32/Release/Chromium Embedded Framework.framework\" \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks\"\n#####\n\n# Cp LLCefLib Helper to the Frameworks dir\ncp -R -p \"$PROJECT_DIR/../../llceflib_host/mac/build/Release/LLCefLib Helper.app\" \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks/\"\n#####\n\n# Cp LLCefLib Helper EH to the Frameworks dir\ncp -R -p \"$PROJECT_DIR/../../llceflib_host/mac/build/Release/LLCefLib Helper EH.app\" \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks/\"\n#####";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1564002E1BDAACC000263EDF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1564003A1BDAACC000263EDF /* main.m in Sources */,
+				15BBAA051BDAAF180021C8E1 /* LLOsxglView.mm in Sources */,
+				156400371BDAACC000263EDF /* AppDelegate.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1522FEBA1BDF020F006391AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = LLCefLib;
+			targetProxy = 1522FEB91BDF020F006391AA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1564003D1BDAACC000263EDF /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1564003E1BDAACC000263EDF /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		156400411BDAACC000263EDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					../../../include,
+				);
+				LIBRARY_SEARCH_PATHS = ../../../build/Release;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		156400421BDAACC000263EDF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					../../../include,
+				);
+				LIBRARY_SEARCH_PATHS = ../../../build/Release;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		156400441BDAACC000263EDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../../../cef_2171_OSX_32/Release",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../..",
+					"$(SRCROOT)/../../include",
+					"$(SRCROOT)/../../../cef_2171_OSX_32",
+				);
+				INFOPLIST_FILE = osxgl/Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					../../../cef_2171_OSX_32/build/libcef_dll/Release,
+					"$(PROJECT_DIR)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lindenlab.osxgl;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		156400451BDAACC000263EDF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../../../cef_2171_OSX_32/Release",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../..",
+					"$(SRCROOT)/../../include",
+					"$(SRCROOT)/../../../cef_2171_OSX_32",
+				);
+				INFOPLIST_FILE = osxgl/Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					../../../cef_2171_OSX_32/build/libcef_dll/Release,
+					"$(PROJECT_DIR)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lindenlab.osxgl;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1564002D1BDAACC000263EDF /* Build configuration list for PBXProject "osxgl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				156400411BDAACC000263EDF /* Debug */,
+				156400421BDAACC000263EDF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		156400431BDAACC000263EDF /* Build configuration list for PBXNativeTarget "osxgl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				156400441BDAACC000263EDF /* Debug */,
+				156400451BDAACC000263EDF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1564002A1BDAACC000263EDF /* Project object */;
+}

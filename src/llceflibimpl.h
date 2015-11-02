@@ -100,6 +100,7 @@ class LLCEFLibImpl :
 		void nativeMouseEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
 
 		void nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam);
+        void nativeKeyboardEventOSX(void *nsEvent);
 		void keyboardEvent(
 			LLCEFLib::EKeyEvent key_event,
 			uint32_t key_code,

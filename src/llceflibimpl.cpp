@@ -122,7 +122,6 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
     
     CefBrowserSettings browser_settings;
     browser_settings.windowless_frame_rate = 60; // 30 is default - hook into LL media scheduling system?
-    browser_settings.java = STATE_DISABLED;
     browser_settings.webgl = STATE_ENABLED;
     
     // change settings based on what was passed in

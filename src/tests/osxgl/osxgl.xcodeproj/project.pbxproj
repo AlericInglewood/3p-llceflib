@@ -273,7 +273,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Remove any existing Frameworks dir\nrm -f -R \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks\"\n\n# Create Frameworks dir\nmkdir -p \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks\"\n#####\n\n# Cp CEF to the Frameworks dir\ncp -R -p \"$PROJECT_DIR/../../../cef_2171_OSX_32/Release/Chromium Embedded Framework.framework\" \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks\"\n#####\n\n# Cp LLCefLib Helper to the Frameworks dir\ncp -R -p \"$PROJECT_DIR/../../llceflib_host/mac/build/Release/LLCefLib Helper.app\" \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks/\"\n#####\n\n# Cp LLCefLib Helper EH to the Frameworks dir\ncp -R -p \"$PROJECT_DIR/../../llceflib_host/mac/build/Release/LLCefLib Helper EH.app\" \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks/\"\n#####";
+			shellScript = "# Remove any existing Frameworks dir\nrm -f -R \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks\"\n\n# Create Frameworks dir\nmkdir -p \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks\"\n#####\n\n# Cp CEF to the Frameworks dir\ncp -R -p \"$PROJECT_DIR/../../../cef_2171_OSX_32/Release/Chromium Embedded Framework.framework\" \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks\"\n#####\n\n# Cp LLCefLib Helper to the Frameworks dir\ncp -R -p \"$TARGET_BUILD_DIR/LLCefLib Helper.app\" \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks/\"\n#####\n\n# Cp LLCefLib Helper EH to the Frameworks dir\ncp -R -p \"$TARGET_BUILD_DIR/LLCefLib Helper EH.app\" \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Contents/Frameworks/\"\n#####";
 		};
 /* End PBXShellScriptBuildPhase section */
 

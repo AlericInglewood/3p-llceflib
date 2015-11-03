@@ -169,3 +169,8 @@ void LLCEFLibImpl::keyboardEvent(
 		}
 	}
 }
+
+void LLCEFLibImpl::nativeKeyboardEventOSX(void *nsEvent)
+{
+	// not used on Windows
+}

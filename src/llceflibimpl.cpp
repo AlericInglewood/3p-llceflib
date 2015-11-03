@@ -48,6 +48,8 @@ LLCEFLibImpl::LLCEFLibImpl() :
     std::vector<std::string> default_schemes;
     default_schemes.push_back("secondlife://"); // bah - clang doesn't like the explicit initialization form
 	mCustomSchemes = default_schemes;
+    
+    mFlushStoreCallback = new FlushStoreCallback();
 }
 
 LLCEFLibImpl::~LLCEFLibImpl()
@@ -476,7 +478,7 @@ void LLCEFLibImpl::requestExit()
 {
 	if (mContextHandler && mContextHandler->GetCookieManager())
 	{
-		mContextHandler->GetCookieManager()->FlushStore(NULL);
+        mContextHandler->GetCookieManager()->FlushStore(mFlushStoreCallback);
 	}
 
 	if (mBrowser && mBrowser->GetHost())

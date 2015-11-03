@@ -9,5 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 int main(int argc, const char * argv[]) {
-    return NSApplicationMain(argc, argv);
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    // Note that NSApplicationMain never returns.
+    int result = NSApplicationMain(argc, argv);
+
+    [pool drain];
+    return result;
 }

@@ -192,7 +192,14 @@ static void onRequestExitCallback() {
 - (void)update:(NSTimer *)timer {
     if (self.llCefLib) {
         if (self.needsShutdown) {
+            [self.timer invalidate];
+            [self.timer release];
+            self.timer = nil;
+
             self.llCefLib->shutdown();
+            
+            delete self.llCefLib;
+            self.llCefLib = nil;
             [[NSApplication sharedApplication] terminate:self];
         } else {
             self.llCefLib->update();

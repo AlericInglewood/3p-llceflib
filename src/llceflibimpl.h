@@ -38,6 +38,18 @@ struct LLCEFLibSettings;
 class LLBrowserClient;
 class LLContextHandler;
 
+
+class FlushStoreCallback:
+    public CefCompletionCallback
+{
+    public:
+        void OnComplete() OVERRIDE
+        {
+        }
+    
+        IMPLEMENT_REFCOUNTING(FlushStoreCallback);
+};
+
 class LLCEFLibImpl :
     public CefApp
 {
@@ -155,6 +167,8 @@ class LLCEFLibImpl :
 		boost::function<void()> mOnRequestExitCallbackFunc;
 		boost::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> mOnCursorChangedCallbackFunc;
 
+        CefRefPtr<FlushStoreCallback> mFlushStoreCallback;
+    
 		IMPLEMENT_REFCOUNTING(LLCEFLibImpl);
 };
 

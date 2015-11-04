@@ -12,9 +12,9 @@
 		1564003A1BDAACC000263EDF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 156400391BDAACC000263EDF /* main.m */; };
 		1564003C1BDAACC000263EDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1564003B1BDAACC000263EDF /* Assets.xcassets */; };
 		1564003F1BDAACC000263EDF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1564003D1BDAACC000263EDF /* MainMenu.xib */; };
-		1591EE2C1BE0003400336D6D /* libcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1591EE2B1BE0003400336D6D /* libcef_dll_wrapper.a */; settings = {ASSET_TAGS = (); }; };
-		159543F71BE0027400DC7E79 /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159543F61BE0027400DC7E79 /* Chromium Embedded Framework.framework */; settings = {ASSET_TAGS = (); }; };
-		15BBAA051BDAAF180021C8E1 /* LLOsxglView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15BBAA041BDAAF180021C8E1 /* LLOsxglView.mm */; settings = {ASSET_TAGS = (); }; };
+		1591EE2C1BE0003400336D6D /* libcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1591EE2B1BE0003400336D6D /* libcef_dll_wrapper.a */; };
+		159543F71BE0027400DC7E79 /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159543F61BE0027400DC7E79 /* Chromium Embedded Framework.framework */; };
+		15BBAA051BDAAF180021C8E1 /* LLOsxglView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15BBAA041BDAAF180021C8E1 /* LLOsxglView.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

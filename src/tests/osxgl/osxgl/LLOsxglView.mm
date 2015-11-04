@@ -36,6 +36,7 @@ static void onRequestExitCallback() {
 @synthesize openGLContext = _openGLContext;
 @synthesize llCefLib = _llCefLib;
 @synthesize timer = _timer;
+@synthesize isClosing = _isClosing;
 @synthesize needsShutdown = _needsShutdown;
 
 + (LLOsxglView *)current {
@@ -111,6 +112,9 @@ static void onRequestExitCallback() {
     _timer = nil;
 
     gCurrent = nil;
+
+    delete _llCefLib;
+    _llCefLib = NULL;
 
     [super dealloc];
 }
@@ -196,10 +200,10 @@ static void onRequestExitCallback() {
             [self.timer release];
             self.timer = nil;
 
+            [self.window close];
+
             self.llCefLib->shutdown();
-            
-            delete self.llCefLib;
-            self.llCefLib = nil;
+
             [[NSApplication sharedApplication] terminate:self];
         } else {
             self.llCefLib->update();
@@ -305,6 +309,22 @@ static void onRequestExitCallback() {
 
     [self.openGLContext flushBuffer];
 }
+
+#pragma mark - NSWindowDelegate
+
+- (BOOL)windowShouldClose:(id)sender {
+    if (!self.isClosing) {
+        self.isClosing = YES;
+        if (self.llCefLib) {
+            self.llCefLib->requestExit();
+        }
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+#pragma mark - Private Methods
 
 - (int)getTextureMouseX:(NSEvent *)theEvent {
     NSPoint locationInView = [self convertPoint:theEvent.locationInWindow fromView:nil];

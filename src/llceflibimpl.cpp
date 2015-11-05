@@ -401,7 +401,7 @@ bool LLCEFLibImpl::setCookie(std::string url, std::string name, std::string valu
 	manager->FlushStore(nullptr);
 #elif __APPLE__
 	bool result = manager->SetCookie(url, cookie);
-	manager->FlushStore(NULL);
+	manager->FlushStore(mFlushStoreCallback);
 #endif
 
 	return result;

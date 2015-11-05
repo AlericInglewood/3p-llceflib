@@ -85,6 +85,8 @@ static void onRequestExitCallback() {
     settings.initial_height = 1024;
     settings.javascript_enabled = true;
     settings.cookies_enabled = true;
+    settings.cookie_store_path = "/tmp/cef_cookiez";
+    //
     settings.user_agent_substring = "SecondLife";
     settings.accept_language_list = "en-us";
 
@@ -177,7 +179,9 @@ static void onRequestExitCallback() {
 - (void)rightMouseUp:(NSEvent *)theEvent {
     if (self.llCefLib) {
         // HACK: Clicking the right mouse button quits.
-        self.llCefLib->requestExit();
+        bool result = self.llCefLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/");
+        NSLog(@"Setting cookie result was %d", result);
+        //self.llCefLib->requestExit();
     }
 }
 

@@ -16,7 +16,7 @@ CEF_SOURCE_DIR_OSX="cef_2171_OSX_32"
 MSVC_PROPS_FILE="./${LLCEFLIB_SOURCE_DIR}/cef.props"
 CEF_SOURCE_DIR_WIN=$(sed -n 's:.*<CEF_DIR>\(.*\)</CEF_DIR>.*:\1:p' "${MSVC_PROPS_FILE}")
 
-if [ -z "$AUTOBUILD" ] ; then 
+if [ -z "$AUTOBUILD" ] ; then
     fail
 fi
 
@@ -71,15 +71,15 @@ pushd "$LLCEFLIB_SOURCE_DIR"
         ;;
         "darwin")
             # xcode project is set up to build in the llcef source folder
-            xcodebuild -workspace llceflib.xcworkspace -scheme LLCefLib -configuration Release -derivedDataPath build_mac
+            xcodebuild -project llceflib.xcodeproj -scheme LLCefLib -configuration Release -derivedDataPath build_mac
             cd ..
             mkdir -p "$stage/include/cef"
             mkdir -p "$stage/lib/release"
 
-            cp "$LLCEFLIB_SOURCE_DIR/build_mac/Build/Products/Release/libLLCefLib.a" "$stage/lib/release/"
+            cp "$LLCEFLIB_SOURCE_DIR/build/Release/libLLCefLib.a" "$stage/lib/release/"
             cp "$LLCEFLIB_SOURCE_DIR/llceflib.h" "$stage/include/cef/"
-            cp -R "$LLCEFLIB_SOURCE_DIR/build_mac/Build/Products/Release/LLCefLib Helper EH.app" "$stage/lib/release"
-            cp -R "$LLCEFLIB_SOURCE_DIR/build_mac/Build/Products/Release/LLCefLib Helper.app" "$stage/lib/release"
+            cp -R "$LLCEFLIB_SOURCE_DIR/llceflib_host/mac/build/Release/LLCefLib Helper EH.app" "$stage/lib/release"
+            cp -R "$LLCEFLIB_SOURCE_DIR/llceflib_host/mac/build/Release/LLCefLib Helper.app" "$stage/lib/release"
 
             cp "$CEF_SOURCE_DIR_OSX/build/libcef_dll/Release/libcef_dll_wrapper.a" "$stage/lib/release"
             cp -R "$CEF_SOURCE_DIR_OSX/Release/Chromium Embedded Framework.framework" "$stage/lib/release"

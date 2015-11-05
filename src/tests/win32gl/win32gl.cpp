@@ -117,7 +117,7 @@ void update()
     glLoadIdentity();
 
 	// todo - move
-    glBindTexture( GL_TEXTURE_2D, texture_handle );
+//    glBindTexture( GL_TEXTURE_2D, texture_handle );
 
     glEnable( GL_TEXTURE_2D );
     glColor3f( 1.0f, 1.0f, 1.0f );

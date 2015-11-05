@@ -87,10 +87,10 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 	}
 
 	// list of language locale codes used to configure the Accept-Language HTTP header value
-#ifdef WIN32
+#ifdef LATEST_CEF_VERSION
 	std::string accept_language_list(user_settings.accept_language_list);
 	cef_string_utf8_to_utf16(accept_language_list.c_str(), accept_language_list.size(), &settings.accept_language_list);
-#elif __APPLE__
+#else
 	// feature not supported on revision of OS X CEF we are locked to in 32 bit land
 #endif
 
@@ -99,7 +99,6 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 	{
 		CefString(&settings.cache_path) = user_settings.cache_path;
 	}
-
 
 #ifdef WIN32
     // turn on only for Windows 7+
@@ -154,15 +153,14 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 
 		mContextHandler = new LLContextHandler(cookiePath.c_str());
 
-#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
-		// CEF changed interfaces between these two branches
+#ifdef LATEST_CEF_VERSION
 		CefRequestContextSettings contextSettings;
 		if (user_settings.cache_enabled && user_settings.cache_path.length())
 		{
 			CefString(&contextSettings.cache_path) = user_settings.cache_path;
 		}
 		rc = CefRequestContext::CreateContext(contextSettings, mContextHandler.get());
-#else // CEF_BRANCH_2272
+#else
 		rc = CefRequestContext::CreateContext(mContextHandler);
 #endif
 	}
@@ -396,7 +394,7 @@ bool LLCEFLibImpl::setCookie(std::string url, std::string name, std::string valu
 	cookie.expires.day_of_week = 5;
 	cookie.expires.day_of_month = 10;
 
-#ifdef WIN32
+#ifdef LATEST_CEF_VERSION
 	bool result = manager->SetCookie(url, cookie, nullptr);
 	manager->FlushStore(nullptr);
 #elif __APPLE__

@@ -29,16 +29,16 @@
 #include <string>
 #include <memory>
 #include <vector>
-#include "boost/function.hpp"			// dependency on boost until we move to C++11 (std::function)
+#include "boost/function.hpp"			// dependency on boost until we move to C++11 (std::function) on OS X
 #include "boost/move/unique_ptr.hpp"
 
 class LLCEFLibImpl;
 
 // version information
-const std::string LLCEFLIB_BASE_VERSION = "1.3.0";
+const std::string LLCEFLIB_BASE_VERSION = "1.3.1";
 const std::string CEF_VERSION_WIN = "(CEF-WIN-3.2526.1347-32)";
 const std::string CEF_VERSION_OSX = "(CEF-OSX-3.2171.2069-32)";
-#ifdef _MSC_VER
+#ifdef WIN32
 const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_WIN;
 #else
 const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_OSX;

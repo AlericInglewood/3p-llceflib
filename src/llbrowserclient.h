@@ -51,7 +51,7 @@ class LLBrowserClient :
 
 		// CefLifeSpanHandler overrides
 		CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
-#if (CEF_CURRENT_BRANCH >= CEF_BRANCH_2357)
+#ifdef LATEST_CEF_VERSION
 		bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, 
 			const CefString& target_url, const CefString& target_frame_name, 
 			CefLifeSpanHandler::WindowOpenDisposition target_disposition, 
@@ -88,10 +88,16 @@ class LLBrowserClient :
 		bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
 		bool GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback) OVERRIDE;
 
-#if (CEF_CURRENT_BRANCH >= CEF_BRANCH_2357)
-		bool OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& origin_url, int64 new_size, CefRefPtr<CefRequestCallback> callback) OVERRIDE;
+#ifdef LATEST_CEF_VERSION
+		bool OnQuotaRequest(CefRefPtr<CefBrowser> browser,
+			const CefString& origin_url,
+			int64 new_size,
+			CefRefPtr<CefRequestCallback> callback);
 #else
-		bool OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& origin_url, int64 new_size, CefRefPtr<CefQuotaCallback> callback) OVERRIDE;
+		bool OnQuotaRequest(CefRefPtr<CefBrowser> browser,
+			const CefString& origin_url,
+			int64 new_size,
+			CefRefPtr<CefQuotaCallback> callback)
 #endif
 
     private:

@@ -53,7 +53,7 @@ class FlushStoreCallback:
 class LLCEFLibImpl :
     public CefApp
 {
-    public:         // TODO: divide up methods into those uin pImpl interface and not
+    public:
         LLCEFLibImpl();
         virtual ~LLCEFLibImpl();
 

@@ -178,10 +178,6 @@ static void onRequestExitCallback() {
 
 - (void)rightMouseUp:(NSEvent *)theEvent {
     if (self.llCefLib) {
-        // HACK: Clicking the right mouse button quits.
-        bool result = self.llCefLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/");
-        NSLog(@"Setting cookie result was %d", result);
-        //self.llCefLib->requestExit();
     }
 }
 
@@ -338,6 +334,16 @@ static void onRequestExitCallback() {
 - (int)getTextureMouseY:(NSEvent *)theEvent {
     NSPoint locationInView = [self convertPoint:theEvent.locationInWindow fromView:nil];
     return textureHeight - (textureHeight * locationInView.y / NSHeight(self.bounds));
+}
+
+-(IBAction)setCookie:(id)sender {
+    if (self.llCefLib) {
+        bool result = self.llCefLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/");
+        if ( result)
+            NSLog(@"Setting cookie result was TRUE");
+        else
+            NSLog(@"Setting cookie result was FALSE");
+    }
 }
 
 @end

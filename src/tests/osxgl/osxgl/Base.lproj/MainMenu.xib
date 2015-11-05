@@ -664,13 +664,26 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Tests" id="xwH-MM-dGk" userLabel="Tests">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Tests" systemMenu="help" id="Jvv-oa-qlG">
+                        <items>
+                            <menuItem title="Set a Cookie" id="Pbd-3m-4iQ" userLabel="Set a Cookie">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="setCookie:" target="EiT-Mj-1SZ" id="hMQ-hy-Ccs"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
             </items>
         </menu>
         <window title="osxgl" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" topStrut="YES"/>
             <rect key="contentRect" x="0.0" y="0.0" width="1024" height="1024"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="EiT-Mj-1SZ" customClass="LLOsxglView">
                 <rect key="frame" x="0.0" y="0.0" width="1024" height="1024"/>
                 <autoresizingMask key="autoresizingMask"/>

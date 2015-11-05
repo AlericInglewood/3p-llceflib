@@ -38,29 +38,29 @@ public:
    LLContextHandler(std::string cookieStorageDirectory)
    {
 #ifdef LLCEFLIB_DEBUG
-       std::cout << "Cookie storage directory: " << cookieStorageDirectory << std::endl;
+       std::cout << "----> Cookie storage directory: " << cookieStorageDirectory << std::endl;
 #endif
     
        // CEF changed interfaces between these two branches
 #if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
-       _cookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false, nullptr);
-#else // CEF_BRANCH_2272
-       _cookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false);
+       mCookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false, nullptr);
+#else // mCookieManager
+       mCookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false);
 #endif
    };
 
-   virtual ~LLContextHandler(){};
+    virtual ~LLContextHandler(){};
    
-   CefRefPtr<CefCookieManager> GetCookieManager() OVERRIDE
-   {
-      return _cookieManager; 
-   }
+    CefRefPtr<CefCookieManager> GetCookieManager() OVERRIDE
+    {
+        std::cout << "--> Cookie manager getting sent back" << std::endl;
+        return mCookieManager;
+    }
    
 private:
-   CefRefPtr<CefCookieManager> _cookieManager;
+    CefRefPtr<CefCookieManager> mCookieManager;
    
-   // Include the default reference counting implementation.
-   IMPLEMENT_REFCOUNTING(LLContextHandler);
+    IMPLEMENT_REFCOUNTING(LLContextHandler);
 };
 
 #endif  // _LLContextHandler

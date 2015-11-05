@@ -37,14 +37,15 @@ class CefSchemeRegistrar;
 
 class LLCEFLibImpl;
 
-namespace scheme_handler {
-    
-    // Register the scheme.
-    void RegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar);
-    
-    // Create the scheme handler.
-    void RegisterSchemeHandlers(LLCEFLibImpl* parent);
-    
+namespace scheme_handler
+{
+
+// Register the scheme.
+void RegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar);
+
+// Create the scheme handler.
+void RegisterSchemeHandlers(LLCEFLibImpl* parent);
+
 } // scheme_handler
 
 #endif  // _LLSCHEMEHANDLER

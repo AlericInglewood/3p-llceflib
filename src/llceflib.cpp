@@ -27,7 +27,7 @@
 #include "llceflibimpl.h"
 
 LLCEFLib::LLCEFLib()
-    :mImpl(new LLCEFLibImpl())
+    : mImpl(new LLCEFLibImpl())
 {
 }
 
@@ -65,25 +65,25 @@ void LLCEFLib::navigate(std::string url)
 
 void LLCEFLib::postData(std::string url, std::string data, std::string headers)
 {
-	if (url.length() > 0)
-	{
-		mImpl->postData(url, data, headers);
-	}
+    if (url.length() > 0)
+    {
+        mImpl->postData(url, data, headers);
+    }
 }
 
 bool LLCEFLib::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
 {
-	if (url.length() > 0)
-	{
-		return mImpl->setCookie(url, name, value, domain, path);
-	}
+    if (url.length() > 0)
+    {
+        return mImpl->setCookie(url, name, value, domain, path);
+    }
 
-	return false;
+    return false;
 }
 
 void LLCEFLib::setPageZoom(double zoom_val)
 {
-	mImpl->setPageZoom(zoom_val);
+    mImpl->setPageZoom(zoom_val);
 }
 
 void LLCEFLib::setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback)
@@ -103,52 +103,52 @@ void LLCEFLib::setOnConsoleMessageCallback(boost::function<void(std::string, std
 
 void LLCEFLib::setOnAddressChangeCallback(boost::function<void(std::string value)> callback)
 {
-	mImpl->setOnAddressChangeCallback(callback);
+    mImpl->setOnAddressChangeCallback(callback);
 }
 
 void LLCEFLib::setOnStatusMessageCallback(boost::function<void(std::string value)> callback)
 {
-	mImpl->setOnStatusMessageCallback(callback);
+    mImpl->setOnStatusMessageCallback(callback);
 }
 
 void LLCEFLib::setOnTitleChangeCallback(boost::function<void(std::string title)> callback)
 {
-	mImpl->setOnTitleChangeCallback(callback);
+    mImpl->setOnTitleChangeCallback(callback);
 }
 
 void LLCEFLib::setOnLoadStartCallback(boost::function<void()> callback)
 {
-	mImpl->setOnLoadStartCallback(callback);
+    mImpl->setOnLoadStartCallback(callback);
 }
 
 void LLCEFLib::setOnRequestExitCallback(boost::function<void()> callback)
 {
-	mImpl->setOnRequestExitCallback(callback);
+    mImpl->setOnRequestExitCallback(callback);
 }
 
 void LLCEFLib::setOnCursorChangedCallback(boost::function<void(LLCEFLib::ECursorType type, unsigned int)> callback)
 {
-	mImpl->setOnCursorChangedCallback(callback);
+    mImpl->setOnCursorChangedCallback(callback);
 }
 
 void LLCEFLib::setOnLoadEndCallback(boost::function<void(int)> callback)
 {
-	mImpl->setOnLoadEndCallback(callback);
+    mImpl->setOnLoadEndCallback(callback);
 }
 
 void LLCEFLib::setOnNavigateURLCallback(boost::function<void(std::string url, std::string target)> callback)
 {
-	mImpl->setOnNavigateURLCallback(callback);
+    mImpl->setOnNavigateURLCallback(callback);
 }
 
 void LLCEFLib::setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string& username, std::string& password)> callback)
 {
-	mImpl->setOnHTTPAuthCallback(callback);
+    mImpl->setOnHTTPAuthCallback(callback);
 }
 
 void LLCEFLib::setCustomSchemes(std::vector<std::string> custom_schemes)
 {
-	mImpl->setCustomSchemes(custom_schemes);
+    mImpl->setCustomSchemes(custom_schemes);
 }
 
 void LLCEFLib::requestExit()
@@ -158,7 +158,7 @@ void LLCEFLib::requestExit()
 
 void LLCEFLib::shutdown()
 {
-	mImpl->shutdown();
+    mImpl->shutdown();
 }
 
 void LLCEFLib::mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y)
@@ -174,24 +174,24 @@ void LLCEFLib::mouseMove(int x, int y)
 
 void LLCEFLib::nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lparam)
 {
-	mImpl->nativeKeyboardEvent(msg, wparam, lparam);
+    mImpl->nativeKeyboardEvent(msg, wparam, lparam);
 }
 
-void LLCEFLib::nativeKeyboardEventOSX(void *nsEvent)
+void LLCEFLib::nativeKeyboardEventOSX(void* nsEvent)
 {
     mImpl->nativeKeyboardEventOSX(nsEvent);
 }
 
 void LLCEFLib::keyboardEvent(
-	EKeyEvent key_event,
-	uint32_t key_code,
-	const char *utf8_text,
-	EKeyboardModifier modifiers,
-	uint32_t native_scan_code,
-	uint32_t native_virtual_key,
-	uint32_t native_modifiers)
+    EKeyEvent key_event,
+    uint32_t key_code,
+    const char* utf8_text,
+    EKeyboardModifier modifiers,
+    uint32_t native_scan_code,
+    uint32_t native_virtual_key,
+    uint32_t native_modifiers)
 {
-	mImpl->keyboardEvent(key_event, key_code, utf8_text, modifiers, native_scan_code, native_virtual_key, native_modifiers);
+    mImpl->keyboardEvent(key_event, key_code, utf8_text, modifiers, native_scan_code, native_virtual_key, native_modifiers);
 }
 
 void LLCEFLib::mouseWheel(int deltaX, int deltaY)
@@ -236,36 +236,37 @@ void LLCEFLib::goForward()
 
 bool LLCEFLib::isLoading()
 {
-	return mImpl->isLoading();
+    return mImpl->isLoading();
 }
 
 
 bool LLCEFLib::editCanCopy()
 {
-	return mImpl->editCanCopy();
+    return mImpl->editCanCopy();
 }
 
 bool LLCEFLib::editCanCut()
 {
-	return mImpl->editCanCut();
+    return mImpl->editCanCut();
 }
 
 bool LLCEFLib::editCanPaste()
 {
-	return mImpl->editCanPaste();
+    return mImpl->editCanPaste();
 }
 
 void LLCEFLib::editCopy()
 {
-	mImpl->editCopy();
+    mImpl->editCopy();
 }
 
 void LLCEFLib::editCut()
 {
-	mImpl->editCut();
+    mImpl->editCut();
 }
 
 void LLCEFLib::editPaste()
 {
-	mImpl->editPaste();
+    mImpl->editPaste();
 }
+

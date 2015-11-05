@@ -31,13 +31,13 @@
 #include <iostream>
 #endif
 
-// Latest version of CEF in use on Windows platform has 
+// Latest version of CEF in use on Windows platform has
 // different interfaces from 2171 in use on OS X. This
 // flag is used to switch between the two.
 #ifdef WIN32
-	#define LATEST_CEF_VERSION
+#define LATEST_CEF_VERSION
 #elif __APPLE__
-	#undef  LATEST_CEF_VERSION
+#undef  LATEST_CEF_VERSION
 #endif
 
 // flip the output in the Y direction so it's compatible with SL

@@ -30,7 +30,7 @@
 #include "llbrowserclient.h"
 #include "llceflibimpl.h"
 
-LLBrowserClient::LLBrowserClient(LLCEFLibImpl* parent, LLRenderHandler *render_handler) :
+LLBrowserClient::LLBrowserClient(LLCEFLibImpl* parent, LLRenderHandler* render_handler) :
     mParent(parent),
     mLLRenderHandler(render_handler)
 {
@@ -43,84 +43,84 @@ CefRefPtr<CefRenderHandler> LLBrowserClient::GetRenderHandler()
 
 #ifdef LATEST_CEF_VERSION
 bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
-	CefRefPtr<CefFrame> frame,
-	const CefString& target_url,
-	const CefString& target_frame_name,
-	CefLifeSpanHandler::WindowOpenDisposition target_disposition,
-	bool user_gesture,
-	const CefPopupFeatures& popupFeatures,
-	CefWindowInfo& windowInfo,
-	CefRefPtr<CefClient>& client,
-	CefBrowserSettings& settings,
-	bool* no_javascript_access)
+                                    CefRefPtr<CefFrame> frame,
+                                    const CefString& target_url,
+                                    const CefString& target_frame_name,
+                                    CefLifeSpanHandler::WindowOpenDisposition target_disposition,
+                                    bool user_gesture,
+                                    const CefPopupFeatures& popupFeatures,
+                                    CefWindowInfo& windowInfo,
+                                    CefRefPtr<CefClient>& client,
+                                    CefBrowserSettings& settings,
+                                    bool* no_javascript_access)
 #else
 bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
-	CefRefPtr<CefFrame> frame,
-	const CefString& target_url,
-	const CefString& target_frame_name,
-	const CefPopupFeatures& popupFeatures,
-	CefWindowInfo& windowInfo,
-	CefRefPtr<CefClient>& client,
-	CefBrowserSettings& settings,
-	bool* no_javascript_access)
+                                    CefRefPtr<CefFrame> frame,
+                                    const CefString& target_url,
+                                    const CefString& target_frame_name,
+                                    const CefPopupFeatures& popupFeatures,
+                                    CefWindowInfo& windowInfo,
+                                    CefRefPtr<CefClient>& client,
+                                    CefBrowserSettings& settings,
+                                    bool* no_javascript_access)
 #endif
 {
-	CEF_REQUIRE_IO_THREAD();
+    CEF_REQUIRE_IO_THREAD();
 
 #ifdef LLCEFLIB_DEBUG
-	std::cout << "LLBrowserClient::OnBeforePopup" << std::endl;
-	std::cout << "Target frame is " << std::string(target_frame_name) << std::endl;
+    std::cout << "LLBrowserClient::OnBeforePopup" << std::endl;
+    std::cout << "Target frame is " << std::string(target_frame_name) << std::endl;
 #endif
 
-	std::string url = std::string(target_url);
-	std::string target = std::string(target_frame_name);
+    std::string url = std::string(target_url);
+    std::string target = std::string(target_frame_name);
 
-	// open in the same frame if we see a taget that matches there
-	if (target == "_self" || target == "_top" || target == "_parent")
-	{
-		browser->GetMainFrame()->LoadURL(target_url);
-		return true;
-	}
-	
-	// no target appears to indicate a "_blank" value
-	// (remember we only get here if target is specified)
-	if (target.length() == 0)
-	{
-		mParent->onNavigateURL(url, "_blank");
-		return true;
-	}
+    // open in the same frame if we see a taget that matches there
+    if (target == "_self" || target == "_top" || target == "_parent")
+    {
+        browser->GetMainFrame()->LoadURL(target_url);
+        return true;
+    }
 
-	// other target frame names
-	mParent->onNavigateURL(url, target);
-	return true;
+    // no target appears to indicate a "_blank" value
+    // (remember we only get here if target is specified)
+    if (target.length() == 0)
+    {
+        mParent->onNavigateURL(url, "_blank");
+        return true;
+    }
+
+    // other target frame names
+    mParent->onNavigateURL(url, target);
+    return true;
 }
 
 void LLBrowserClient::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 {
-	CEF_REQUIRE_UI_THREAD();
+    CEF_REQUIRE_UI_THREAD();
 
-	mBrowserList.push_back(browser);
+    mBrowserList.push_back(browser);
 }
 
 bool LLBrowserClient::RunModal(CefRefPtr<CefBrowser> browser)
 {
-	CEF_REQUIRE_UI_THREAD();
+    CEF_REQUIRE_UI_THREAD();
 
 #ifdef LLCEFLIB_DEBUG
-	std::cout << "LLBrowserClient::RunModal" << std::endl;
+    std::cout << "LLBrowserClient::RunModal" << std::endl;
 #endif
 
-	return false;
+    return false;
 }
 
 bool LLBrowserClient::DoClose(CefRefPtr<CefBrowser> browser)
 {
-	CEF_REQUIRE_UI_THREAD();
+    CEF_REQUIRE_UI_THREAD();
 
 #ifdef LLCEFLIB_DEBUG
-	std::cout << "LLBrowserClient::DoClose" << std::endl;
+    std::cout << "LLBrowserClient::DoClose" << std::endl;
 #endif
-	return false;
+    return false;
 }
 
 bool LLBrowserClient::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
@@ -136,10 +136,10 @@ bool LLBrowserClient::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefS
 
 void LLBrowserClient::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url)
 {
-	CEF_REQUIRE_UI_THREAD();
+    CEF_REQUIRE_UI_THREAD();
 
-	std::string new_url = url;
-	mParent->onAddressChange(new_url);
+    std::string new_url = url;
+    mParent->onAddressChange(new_url);
 }
 
 void LLBrowserClient::OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value)
@@ -161,16 +161,20 @@ void LLBrowserClient::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefStri
 
 void LLBrowserClient::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
 {
-	CEF_REQUIRE_UI_THREAD();
-	if (frame->IsMain())
-		mParent->onLoadStart();
+    CEF_REQUIRE_UI_THREAD();
+    if (frame->IsMain())
+    {
+        mParent->onLoadStart();
+    }
 }
 
 void LLBrowserClient::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
 {
-	CEF_REQUIRE_UI_THREAD();
-	if (frame->IsMain())
-		mParent->onLoadEnd(httpStatusCode);
+    CEF_REQUIRE_UI_THREAD();
+    if (frame->IsMain())
+    {
+        mParent->onLoadEnd(httpStatusCode);
+    }
 }
 
 void LLBrowserClient::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)
@@ -179,101 +183,101 @@ void LLBrowserClient::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFr
 
 bool LLBrowserClient::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
 {
-	CEF_REQUIRE_UI_THREAD();
-	std::string url = request->GetURL();
+    CEF_REQUIRE_UI_THREAD();
+    std::string url = request->GetURL();
 
-	// for conmparison
-	std::transform(url.begin(), url.end(), url.begin(), ::tolower);
+    // for conmparison
+    std::transform(url.begin(), url.end(), url.begin(), ::tolower);
 
-	std::vector<std::string>::iterator iter = mParent->getCustomSchemes().begin();
-	while (iter != mParent->getCustomSchemes().end())
-	{
-		if (url.substr(0, (*iter).length()) == (*iter))
-		{
-			// get URL again since we lower cased it for comparison
-			url = request->GetURL();
-			mParent->onCustomSchemeURL(url);
+    std::vector<std::string>::iterator iter = mParent->getCustomSchemes().begin();
+    while (iter != mParent->getCustomSchemes().end())
+    {
+        if (url.substr(0, (*iter).length()) == (*iter))
+        {
+            // get URL again since we lower cased it for comparison
+            url = request->GetURL();
+            mParent->onCustomSchemeURL(url);
 
-			// don't continute with navigation
-			return true;
-		}
+            // don't continute with navigation
+            return true;
+        }
 
-		++iter;
-	}
+        ++iter;
+    }
 
-	// might think this is the right approach to trigger a callback to say we're navigating 
-	// but this causes a catastophic loop in SL where it sends a navigate request when it
-	// gets this callback.  For the moment, until i can unravel all that, I'm just not sending it here.
-	// It is send for links with a target.
-	//std::string link_target("");
-	//mParent->onNavigateURL(url, link_target);
+    // might think this is the right approach to trigger a callback to say we're navigating
+    // but this causes a catastophic loop in SL where it sends a navigate request when it
+    // gets this callback.  For the moment, until i can unravel all that, I'm just not sending it here.
+    // It is send for links with a target.
+    //std::string link_target("");
+    //mParent->onNavigateURL(url, link_target);
 
-	// continue with navigation
-	return false;
+    // continue with navigation
+    return false;
 }
 
-bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy, 
-	const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
+bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
+        const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
 {
-	CEF_REQUIRE_IO_THREAD();
+    CEF_REQUIRE_IO_THREAD();
 
-	std::string host_str = host;
-	std::string realm_str = realm;
-	std::string scheme_str = scheme;
+    std::string host_str = host;
+    std::string realm_str = realm;
+    std::string scheme_str = scheme;
 
-	std::string username="";
-	std::string password="";
-	bool proceed = mParent->onHTTPAuth(host_str, realm_str, username, password);
+    std::string username = "";
+    std::string password = "";
+    bool proceed = mParent->onHTTPAuth(host_str, realm_str, username, password);
 
-	if (proceed)
-	{
-		callback->Continue(username.c_str(), password.c_str());
-		return true; // continue with request
-	}
-	else
-	{
-		callback->Cancel();
-		return false; // cancel request
-	}
+    if (proceed)
+    {
+        callback->Continue(username.c_str(), password.c_str());
+        return true; // continue with request
+    }
+    else
+    {
+        callback->Cancel();
+        return false; // cancel request
+    }
 }
 
 #ifdef LATEST_CEF_VERSION
-		bool LLBrowserClient::OnQuotaRequest(CefRefPtr<CefBrowser> browser, 
-												const CefString& origin_url, 
-												int64 new_size, 
-												CefRefPtr<CefRequestCallback> callback)
+bool LLBrowserClient::OnQuotaRequest(CefRefPtr<CefBrowser> browser,
+                                     const CefString& origin_url,
+                                     int64 new_size,
+                                     CefRefPtr<CefRequestCallback> callback)
 #else
-		bool LLBrowserClient::OnQuotaRequest(CefRefPtr<CefBrowser> browser, 
-												const CefString& origin_url, 
-												int64 new_size, 
-												CefRefPtr<CefQuotaCallback> callback)
+bool LLBrowserClient::OnQuotaRequest(CefRefPtr<CefBrowser> browser,
+                                     const CefString& origin_url,
+                                     int64 new_size,
+                                     CefRefPtr<CefQuotaCallback> callback)
 #endif
 {
-	CEF_REQUIRE_IO_THREAD();
+    CEF_REQUIRE_IO_THREAD();
 
-	static const int64 max_size = 1024 * 1024 * 5;  // 5mb.
+    static const int64 max_size = 1024 * 1024 * 5;  // 5mb.
 
-	callback->Continue(new_size <= max_size);
-	return true;
+    callback->Continue(new_size <= max_size);
+    return true;
 }
 
 void LLBrowserClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 {
-	CEF_REQUIRE_UI_THREAD();
+    CEF_REQUIRE_UI_THREAD();
 
-	BrowserList::iterator bit = mBrowserList.begin();
-	for (; bit != mBrowserList.end(); ++bit)
-	{
-		if ((*bit)->IsSame(browser))
-		{
-			mBrowserList.erase(bit);
-			break;
-		}
-}
+    BrowserList::iterator bit = mBrowserList.begin();
+    for (; bit != mBrowserList.end(); ++bit)
+    {
+        if ((*bit)->IsSame(browser))
+        {
+            mBrowserList.erase(bit);
+            break;
+        }
+    }
 
-	if (mBrowserList.empty())
-	{
-		CefQuitMessageLoop();
-		mParent->onRequestExit();
-	}
+    if (mBrowserList.empty())
+    {
+        CefQuitMessageLoop();
+        mParent->onRequestExit();
+    }
 }

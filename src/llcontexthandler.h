@@ -34,29 +34,29 @@
 
 class LLContextHandler: public CefRequestContextHandler
 {
-public:
-   LLContextHandler(std::string cookieStorageDirectory)
-   {
+    public:
+        LLContextHandler(std::string cookieStorageDirectory)
+        {
 #ifdef LATEST_CEF_VERSION
-       mCookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false, nullptr);
+            mCookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false, nullptr);
 #else
-       mCookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false);
+            mCookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false);
 #endif
-   };
+        };
 
-    virtual ~LLContextHandler()
-	{
-	};
-   
-    CefRefPtr<CefCookieManager> GetCookieManager() OVERRIDE
-    {
-        return mCookieManager;
-    }
-   
-private:
-    CefRefPtr<CefCookieManager> mCookieManager;
-   
-    IMPLEMENT_REFCOUNTING(LLContextHandler);
+        virtual ~LLContextHandler()
+        {
+        };
+
+        CefRefPtr<CefCookieManager> GetCookieManager() OVERRIDE
+        {
+            return mCookieManager;
+        }
+
+    private:
+        CefRefPtr<CefCookieManager> mCookieManager;
+
+        IMPLEMENT_REFCOUNTING(LLContextHandler);
 };
 
 #endif  // _LLCONTEXTHANDLER_H

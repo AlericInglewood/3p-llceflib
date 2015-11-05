@@ -37,74 +37,74 @@ class LLCEFLibImpl;
 class LLRenderHandler;
 
 class LLBrowserClient :
-	public CefClient,
-	public CefLifeSpanHandler,
-	public CefDisplayHandler,
-	public CefLoadHandler,
-	public CefRequestHandler
+    public CefClient,
+    public CefLifeSpanHandler,
+    public CefDisplayHandler,
+    public CefLoadHandler,
+    public CefRequestHandler
 {
     public:
         LLBrowserClient(LLCEFLibImpl* parent, LLRenderHandler* render_handler);
 
         // point to our CefRenderHandler
-		CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE;
+        CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE;
 
-		// CefLifeSpanHandler overrides
-		CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
+        // CefLifeSpanHandler overrides
+        CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
 #ifdef LATEST_CEF_VERSION
-		bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, 
-			const CefString& target_url, const CefString& target_frame_name, 
-			CefLifeSpanHandler::WindowOpenDisposition target_disposition, 
-			bool user_gesture, const CefPopupFeatures& popupFeatures, 
-			CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, 
-			CefBrowserSettings& settings, bool* no_javascript_access) OVERRIDE;
+        bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+                           const CefString& target_url, const CefString& target_frame_name,
+                           CefLifeSpanHandler::WindowOpenDisposition target_disposition,
+                           bool user_gesture, const CefPopupFeatures& popupFeatures,
+                           CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client,
+                           CefBrowserSettings& settings, bool* no_javascript_access) OVERRIDE;
 #else
-		bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, 
-			const CefString& target_url, const CefString& target_frame_name, const 
-			CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, 
-			CefRefPtr<CefClient>& client, CefBrowserSettings& settings, 
-			bool* no_javascript_access) OVERRIDE;
+        bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+                           const CefString& target_url, const CefString& target_frame_name, const
+                           CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo,
+                           CefRefPtr<CefClient>& client, CefBrowserSettings& settings,
+                           bool* no_javascript_access) OVERRIDE;
 #endif
-		void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
-		bool RunModal(CefRefPtr<CefBrowser> browser) OVERRIDE;
-		bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
-		void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
+        void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
+        bool RunModal(CefRefPtr<CefBrowser> browser) OVERRIDE;
+        bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
+        void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 
         // CefDisplayhandler overrides
-		CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE{ return this; }
-		void OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url) OVERRIDE;
+        CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE{ return this; }
+        void OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url) OVERRIDE;
         bool OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line) OVERRIDE;
         void OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value) OVERRIDE;
         void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) OVERRIDE;
 
-		// CefLoadHandler overrides
-		CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }
-		void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;
-		void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) OVERRIDE;
-		void OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl) OVERRIDE;
+        // CefLoadHandler overrides
+        CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }
+        void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;
+        void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) OVERRIDE;
+        void OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl) OVERRIDE;
 
-		// CefRequestHandler overrides
-		CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE{ return this; }
-		bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
-		bool GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback) OVERRIDE;
+        // CefRequestHandler overrides
+        CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE{ return this; }
+        bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
+        bool GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback) OVERRIDE;
 
 #ifdef LATEST_CEF_VERSION
-		bool OnQuotaRequest(CefRefPtr<CefBrowser> browser,
-			const CefString& origin_url,
-			int64 new_size,
-			CefRefPtr<CefRequestCallback> callback);
+        bool OnQuotaRequest(CefRefPtr<CefBrowser> browser,
+                            const CefString& origin_url,
+                            int64 new_size,
+                            CefRefPtr<CefRequestCallback> callback);
 #else
-		bool OnQuotaRequest(CefRefPtr<CefBrowser> browser,
-			const CefString& origin_url,
-			int64 new_size,
-			CefRefPtr<CefQuotaCallback> callback);
+        bool OnQuotaRequest(CefRefPtr<CefBrowser> browser,
+                            const CefString& origin_url,
+                            int64 new_size,
+                            CefRefPtr<CefQuotaCallback> callback);
 #endif
 
     private:
         LLCEFLibImpl* mParent;
         CefRefPtr<CefRenderHandler> mLLRenderHandler;
-		typedef std::list<CefRefPtr<CefBrowser> > BrowserList;
-		BrowserList mBrowserList;
+        typedef std::list<CefRefPtr<CefBrowser>> BrowserList;
+        BrowserList mBrowserList;
 
     public:
         IMPLEMENT_REFCOUNTING(LLBrowserClient);

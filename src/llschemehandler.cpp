@@ -42,47 +42,48 @@
 
 #include "llceflibimpl.h"
 
-namespace scheme_handler {
-    
-    class ClientSchemeHandler : public CefResourceHandler
-    {
+namespace scheme_handler
+{
+
+class ClientSchemeHandler : public CefResourceHandler
+{
     public:
         ClientSchemeHandler(LLCEFLibImpl* parent) :
-			mParent(parent),
-			offset_(0)
-		{
-		}
-        
+            mParent(parent),
+            offset_(0)
+        {
+        }
+
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback) OVERRIDE
-		{
+        {
             CEF_REQUIRE_IO_THREAD();
-            
+
             std::string url = request->GetURL();
 #ifdef LLCEFLIB_DEBUG
-			std::cout << "ClientSchemeHandler - url is " << url << std::endl;
+            std::cout << "ClientSchemeHandler - url is " << url << std::endl;
 #endif
             mParent->onCustomSchemeURL(url);
-            
+
             mime_type_ = "none/secondlife";
             callback->Continue();
-            
+
             return true;
         }
-        
+
         virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl) OVERRIDE
         {
             CEF_REQUIRE_IO_THREAD();
-            
+
             response->SetMimeType(mime_type_);
             response->SetStatus(200);
             response_length = 0;
         }
-        
+
         virtual void Cancel() OVERRIDE
         {
             CEF_REQUIRE_IO_THREAD();
         }
-        
+
         virtual bool ReadResponse(void* data_out,
                                   int bytes_to_read,
                                   int& bytes_read,
@@ -91,52 +92,52 @@ namespace scheme_handler {
             CEF_REQUIRE_IO_THREAD();
             return false;
         }
-        
+
     private:
         LLCEFLibImpl* mParent;
         std::string data_;
         std::string mime_type_;
         size_t offset_;
-        
+
         IMPLEMENT_REFCOUNTING(ClientSchemeHandler);
-    };
-    
-    class ClientSchemeHandlerFactory : public CefSchemeHandlerFactory
-    {
+};
+
+class ClientSchemeHandlerFactory : public CefSchemeHandlerFactory
+{
     public:
         ClientSchemeHandlerFactory(LLCEFLibImpl* parent) :
-        mParent(parent)
+            mParent(parent)
         {
         }
-        
+
         virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser,
-                                                     CefRefPtr<CefFrame> frame,
-                                                     const CefString& scheme_name,
-                                                     CefRefPtr<CefRequest> request) OVERRIDE
+                CefRefPtr<CefFrame> frame,
+                const CefString& scheme_name,
+                CefRefPtr<CefRequest> request) OVERRIDE
         {
             CEF_REQUIRE_IO_THREAD();
 
             return new ClientSchemeHandler(mParent);
         }
-        
+
         IMPLEMENT_REFCOUNTING(ClientSchemeHandlerFactory);
-        
+
     private:
         LLCEFLibImpl* mParent;
-    };
-    
-    const CefString& schemeName("secondlife");  // scheme name we want to catch
-    const CefString& domainName("");            // domain name ignored for non-standard schemes
-    
-    void RegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar)
-	{
-        registrar->AddCustomScheme(schemeName, true, false, false);
-    }
-    
-    void RegisterSchemeHandlers(LLCEFLibImpl* parent)
-	{
-        CefRegisterSchemeHandlerFactory(schemeName, domainName,
-			new scheme_handler::ClientSchemeHandlerFactory(parent));
-    }
-    
+};
+
+const CefString& schemeName("secondlife");  // scheme name we want to catch
+const CefString& domainName("");            // domain name ignored for non-standard schemes
+
+void RegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar)
+{
+    registrar->AddCustomScheme(schemeName, true, false, false);
+}
+
+void RegisterSchemeHandlers(LLCEFLibImpl* parent)
+{
+    CefRegisterSchemeHandlerFactory(schemeName, domainName,
+                                    new scheme_handler::ClientSchemeHandlerFactory(parent));
+}
+
 } // scheme_handler

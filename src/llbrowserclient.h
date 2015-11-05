@@ -97,7 +97,7 @@ class LLBrowserClient :
 		bool OnQuotaRequest(CefRefPtr<CefBrowser> browser,
 			const CefString& origin_url,
 			int64 new_size,
-			CefRefPtr<CefQuotaCallback> callback)
+			CefRefPtr<CefQuotaCallback> callback);
 #endif
 
     private:

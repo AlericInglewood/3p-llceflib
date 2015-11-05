@@ -668,8 +668,8 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Tests" systemMenu="help" id="Jvv-oa-qlG">
                         <items>
-                            <menuItem title="Set a Cookie" id="Pbd-3m-4iQ" userLabel="Set a Cookie">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Set a Cookie" keyEquivalent="C" id="Pbd-3m-4iQ" userLabel="Set a Cookie">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                 <connections>
                                     <action selector="setCookie:" target="EiT-Mj-1SZ" id="hMQ-hy-Ccs"/>
                                 </connections>

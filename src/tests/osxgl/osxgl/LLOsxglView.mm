@@ -84,10 +84,11 @@ static void onRequestExitCallback() {
     settings.initial_width = 1024;
     settings.initial_height = 1024;
     settings.javascript_enabled = true;
+    settings.cache_enabled = true;
+    settings.cache_path = "/tmp/cef_cachez";
     settings.cookies_enabled = true;
     settings.cookie_store_path = "/tmp/cef_cookiez";
-    //
-    settings.user_agent_substring = "SecondLife";
+    settings.user_agent_substring = "osxgl";
     settings.accept_language_list = "en-us";
 
     bool result = _llCefLib->init(settings);

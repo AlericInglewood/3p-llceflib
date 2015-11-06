@@ -71,14 +71,12 @@ void LLCEFLib::postData(std::string url, std::string data, std::string headers)
     }
 }
 
-bool LLCEFLib::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
+void LLCEFLib::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
 {
     if (url.length() > 0)
     {
-        return mImpl->setCookie(url, name, value, domain, path);
+        mImpl->setCookie(url, name, value, domain, path);
     }
-
-    return false;
 }
 
 void LLCEFLib::setPageZoom(double zoom_val)

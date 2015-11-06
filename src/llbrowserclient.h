@@ -92,12 +92,12 @@ class LLBrowserClient :
         bool OnQuotaRequest(CefRefPtr<CefBrowser> browser,
                             const CefString& origin_url,
                             int64 new_size,
-                            CefRefPtr<CefRequestCallback> callback);
+                            CefRefPtr<CefRequestCallback> callback) OVERRIDE;
 #else
         bool OnQuotaRequest(CefRefPtr<CefBrowser> browser,
                             const CefString& origin_url,
                             int64 new_size,
-                            CefRefPtr<CefQuotaCallback> callback);
+                            CefRefPtr<CefQuotaCallback> callback) OVERRIDE;
 #endif
 
     private:

@@ -43,7 +43,7 @@ class LLRenderHandler :
     public:
         bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE;
         void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer, int width, int height) OVERRIDE;
-        void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type, const CefCursorInfo& custom_cursor_info);
+        void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type, const CefCursorInfo& custom_cursor_info) OVERRIDE;
 
         // CefBase interface
     public:

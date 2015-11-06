@@ -164,7 +164,7 @@ class LLCEFLib
         void getSize(int& width, int& height);
         void navigate(std::string url);
         void postData(std::string url, std::string data, std::string headers);
-        bool setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path);
+        void setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path);
         void setPageZoom(double zoom_val)   ;
         void mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y);
         void mouseMove(int x, int y);

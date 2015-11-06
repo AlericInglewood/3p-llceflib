@@ -34,6 +34,9 @@
 #include "llcontexthandler.h"
 
 #include "include/cef_runnable.h"
+#include "include/base/cef_bind.h"
+#include "include/wrapper/cef_closure_task.h"
+//#include "include/wrapper/cef_helpers.h"
 
 #ifdef __APPLE__
 #import <Cocoa/Cocoa.h>
@@ -399,8 +402,44 @@ void LLCEFLibImpl::postData(std::string url, std::string data, std::string heade
     }
 }
 
-bool LLCEFLibImpl::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
+void LLCEFLibImpl::setTestCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
 {
+    if (! CefCurrentlyOn(TID_IO))
+    {
+        CefPostTask(TID_IO, base::Bind(&LLCEFLibImpl::setTestCookie, this, url, name, value, domain, path));
+        return;
+    }
+
+    CefRefPtr<CefCookieManager> manager = mContextHandler->GetCookieManager();
+    CefCookie cookie;
+    CefString(&cookie.name) = name;
+    CefString(&cookie.value) = value;
+    CefString(&cookie.domain) = domain;
+    CefString(&cookie.path) = path;
+    cookie.httponly = false;
+    cookie.secure = true;
+    cookie.has_expires = true;
+    cookie.expires.year = 2064;
+    cookie.expires.month = 4;
+    cookie.expires.day_of_week = 5;
+    cookie.expires.day_of_month = 10;
+
+    manager->SetCookie(url, cookie);
+    manager->FlushStore(mFlushStoreCallback);
+}
+
+
+void LLCEFLibImpl::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
+{
+#ifndef LATEST_CEF_VERSION
+    // CEF 2171 SetCookie() needs to run on IO thread
+    if (! CefCurrentlyOn(TID_IO))
+    {
+        CefPostTask(TID_IO, base::Bind(&LLCEFLibImpl::setCookie, this, url, name, value, domain, path));
+        return;
+    }
+#endif
+
     CefRefPtr<CefCookieManager> manager = mContextHandler->GetCookieManager();
     CefCookie cookie;
     CefString(&cookie.name) = name;
@@ -418,14 +457,12 @@ bool LLCEFLibImpl::setCookie(std::string url, std::string name, std::string valu
     cookie.expires.day_of_month = 10;
 
 #ifdef LATEST_CEF_VERSION
-    bool result = manager->SetCookie(url, cookie, nullptr);
+    manager->SetCookie(url, cookie, nullptr);
     manager->FlushStore(nullptr);
-#elif __APPLE__
-    bool result = manager->SetCookie(url, cookie);
+#else
+    manager->SetCookie(url, cookie);
     manager->FlushStore(mFlushStoreCallback);
 #endif
-
-    return result;
 }
 
 void LLCEFLibImpl::setPageZoom(double zoom_val)

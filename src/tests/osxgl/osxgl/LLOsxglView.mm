@@ -356,11 +356,7 @@ static void onRequestExitCallback() {
 
 -(IBAction)setCookie:(id)sender {
     if (self.llCefLib) {
-        bool result = self.llCefLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/");
-        if ( result)
-            NSLog(@"Setting cookie result was TRUE");
-        else
-            NSLog(@"Setting cookie result was FALSE");
+        self.llCefLib->setCookie("http://sasm.com", "my_cookie_sasm", "my_cookie_value_sasm", ".sasm.com", "/");
     }
 }
 

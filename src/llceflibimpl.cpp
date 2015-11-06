@@ -402,33 +402,6 @@ void LLCEFLibImpl::postData(std::string url, std::string data, std::string heade
     }
 }
 
-void LLCEFLibImpl::setTestCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
-{
-    if (! CefCurrentlyOn(TID_IO))
-    {
-        CefPostTask(TID_IO, base::Bind(&LLCEFLibImpl::setTestCookie, this, url, name, value, domain, path));
-        return;
-    }
-
-    CefRefPtr<CefCookieManager> manager = mContextHandler->GetCookieManager();
-    CefCookie cookie;
-    CefString(&cookie.name) = name;
-    CefString(&cookie.value) = value;
-    CefString(&cookie.domain) = domain;
-    CefString(&cookie.path) = path;
-    cookie.httponly = false;
-    cookie.secure = true;
-    cookie.has_expires = true;
-    cookie.expires.year = 2064;
-    cookie.expires.month = 4;
-    cookie.expires.day_of_week = 5;
-    cookie.expires.day_of_month = 10;
-
-    manager->SetCookie(url, cookie);
-    manager->FlushStore(mFlushStoreCallback);
-}
-
-
 void LLCEFLibImpl::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
 {
 #ifndef LATEST_CEF_VERSION

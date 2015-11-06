@@ -175,7 +175,7 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_RBUTTONUP:
         {
             //mLLCEFLib->requestExit();
-            LLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/");
+            mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/");
             return 0;
         };
 

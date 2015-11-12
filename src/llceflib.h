@@ -35,7 +35,7 @@
 class LLCEFLibImpl;
 
 // version information
-const std::string LLCEFLIB_BASE_VERSION = "1.3.1";
+const std::string LLCEFLIB_BASE_VERSION = "1.4.0";
 const std::string CEF_VERSION_WIN = "(CEF-WIN-3.2526.1347-32)";
 const std::string CEF_VERSION_OSX = "(CEF-OSX-3.2171.2069-32)";
 #ifdef WIN32

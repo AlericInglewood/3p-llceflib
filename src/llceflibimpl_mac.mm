@@ -122,6 +122,13 @@ void LLCEFLibImpl::keyboardEvent(
     {
         if (mBrowser->GetHost())
         {
+            uint32_t translatedModifiers = modifiers;
+            
+            if (native_modifiers)
+            {   // native modifiers will override the modifiers variable.
+                translatedModifiers = LLCEFLibImplMacAssist::modifiersForModifierFlags(native_modifiers);
+            }
+            
             key_code = LLCEFLibImplMacAssist::slToASCIIKey(key_code);
 
             if(LLCEFLibImplMacAssist::isSpecialKey(key_code))
@@ -133,7 +140,7 @@ void LLCEFLibImpl::keyboardEvent(
                     event.character = 0;
                     event.unmodified_character = 0;
                     event.native_key_code = native_key_code;
-                    event.modifiers = 0;
+                    event.modifiers = translatedModifiers;
                     event.type = KEYEVENT_KEYDOWN;
 
                     mBrowser->GetHost()->SendKeyEvent(event);
@@ -144,7 +151,7 @@ void LLCEFLibImpl::keyboardEvent(
 
             CefKeyEvent event;
             event.is_system_key = false;
-            event.modifiers = 0;
+            event.modifiers = translatedModifiers;
             event.character = key_code;
 
             if(key_event == LLCEFLib::KE_KEY_DOWN)
@@ -173,6 +180,7 @@ void LLCEFLibImpl::nativeKeyboardEventOSX(void *nsEvent)
 {
     if (mBrowser)
     {
+        CefKeyEvent cefEvent;
         if (mBrowser->GetHost())
         {
             static uint32_t lastModifiers = LLCEFLibImplMacAssist::modifiersForModifierFlags([NSEvent modifierFlags]);

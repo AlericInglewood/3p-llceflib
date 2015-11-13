@@ -176,11 +176,26 @@ void LLCEFLibImpl::nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t l
     // not implemented for OS X yet - may only be useful for Windows version
 }
 
+void LLCEFLibImpl::keyboardEventOSX(uint32_t eventType, uint32_t modifiers, const char *characters, const char *unmodChars, bool repeat, uint32_t keyCode)
+{
+    NSEvent *anEvent = [NSEvent keyEventWithType: eventType
+                                        location: NSMakePoint(0.0f, 0.0f)
+                                   modifierFlags: modifiers
+                                       timestamp: 0
+                                    windowNumber: 0
+                                         context: NULL
+                                      characters: [ NSString stringWithFormat: @"%s", characters ]
+                     charactersIgnoringModifiers: [ NSString stringWithFormat: @"%s", unmodChars ]
+                                       isARepeat: repeat
+                                         keyCode: keyCode];
+
+    nativeKeyboardEventOSX( anEvent );
+}
+
 void LLCEFLibImpl::nativeKeyboardEventOSX(void *nsEvent)
 {
     if (mBrowser)
     {
-        CefKeyEvent cefEvent;
         if (mBrowser->GetHost())
         {
             static uint32_t lastModifiers = LLCEFLibImplMacAssist::modifiersForModifierFlags([NSEvent modifierFlags]);
@@ -195,13 +210,16 @@ void LLCEFLibImpl::nativeKeyboardEventOSX(void *nsEvent)
             {
                 // Do nothing.
             }
-            else if ([theEvent type] == NSKeyDown)
+            else if (([theEvent type] == NSKeyDown) || ([theEvent type] == NSKeyUp))
             {
                 NSString *c = [theEvent characters];
                 NSString *cim = [theEvent charactersIgnoringModifiers];
 
                 CefKeyEvent keyEvent;
-                keyEvent.type = KEYEVENT_KEYDOWN;
+                if ([theEvent type] == NSKeyDown)
+                    keyEvent.type = KEYEVENT_KEYDOWN;
+                else
+                    keyEvent.type = KEYEVENT_KEYUP;
                 if ([c length] > 0)
                 {
                     keyEvent.character = [c characterAtIndex:0];
@@ -215,15 +233,11 @@ void LLCEFLibImpl::nativeKeyboardEventOSX(void *nsEvent)
 
                 mBrowser->GetHost()->SendKeyEvent(keyEvent);
 
-                if (std::isprint(keyEvent.character))
+                if (std::isprint(keyEvent.character) && ([theEvent type] == NSKeyDown))
                 {
                     keyEvent.type = KEYEVENT_CHAR;
                     mBrowser->GetHost()->SendKeyEvent(keyEvent);
                 }
-            }
-            else if ([theEvent type] == NSKeyUp)
-            {
-                // Do nothing.
             }
         }
     }

@@ -175,12 +175,11 @@ void LLCEFLib::nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t lpara
     mImpl->nativeKeyboardEvent(msg, wparam, lparam);
 }
 
-void LLCEFLib::keyboardEventOSX(uint32_t eventType, uint32_t modifiers, const char *characters,
-    const char *unmodCharacters, bool repeat, uint32_t keyCode)
+void LLCEFLib::keyboardEventOSX(uint32_t eventType, uint32_t modifiers, const char* characters,
+                                const char* unmodCharacters, bool repeat, uint32_t keyCode)
 {
     mImpl->keyboardEventOSX(eventType, modifiers, characters, unmodCharacters, repeat, keyCode);
 }
-
 
 void LLCEFLib::nativeKeyboardEventOSX(void* nsEvent)
 {

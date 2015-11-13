@@ -202,7 +202,12 @@ void LLCEFLibImpl::keyboardEvent(
     }
 }
 
-void LLCEFLibImpl::nativeKeyboardEventOSX(void* nsEvent)
+void LLCEFLibImpl::nativeKeyboardEventOSX(void*)
+{
+    // not used on Windows
+}
+
+void LLCEFLibImpl::keyboardEventOSX(unsigned int, unsigned int, char const*, char const*, bool, unsigned int)
 {
     // not used on Windows
 }

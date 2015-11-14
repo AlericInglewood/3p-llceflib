@@ -178,14 +178,17 @@ void LLCEFLibImpl::nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t l
 
 void LLCEFLibImpl::keyboardEventOSX(uint32_t eventType, uint32_t modifiers, const char *characters, const char *unmodChars, bool repeat, uint32_t keyCode)
 {
+    NSString *strChars = (characters) ? [ NSString stringWithFormat: @"%c", *characters] : @"";
+    NSString *strUnmod = (unmodChars) ? [ NSString stringWithFormat: @"%c", *unmodChars] : @"";
+    
     NSEvent *anEvent = [NSEvent keyEventWithType: eventType
                                         location: NSMakePoint(0.0f, 0.0f)
                                    modifierFlags: modifiers
                                        timestamp: 0
                                     windowNumber: 0
                                          context: NULL
-                                      characters: [ NSString stringWithFormat: @"%s", characters ]
-                     charactersIgnoringModifiers: [ NSString stringWithFormat: @"%s", unmodChars ]
+                                      characters: strChars
+                     charactersIgnoringModifiers: strUnmod
                                        isARepeat: repeat
                                          keyCode: keyCode];
 

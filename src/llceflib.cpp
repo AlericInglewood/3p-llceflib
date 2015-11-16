@@ -75,7 +75,7 @@ void LLCEFLib::setCookie(std::string url, std::string name, std::string value, s
 {
     if (url.length() > 0)
     {
-        mImpl->setCookie(url, name, value, domain, path, httponly, secure);
+        mImpl->setCookie(url, name, value, domain, path);
     }
 }
 

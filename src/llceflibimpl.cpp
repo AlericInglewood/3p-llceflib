@@ -402,7 +402,7 @@ void LLCEFLibImpl::postData(std::string url, std::string data, std::string heade
     }
 }
 
-void LLCEFLibImpl::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path, bool httponly, bool secure)
+void LLCEFLibImpl::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
 {
 #ifndef LATEST_CEF_VERSION
     // CEF 2171 SetCookie() needs to run on IO thread
@@ -419,8 +419,8 @@ void LLCEFLibImpl::setCookie(std::string url, std::string name, std::string valu
     CefString(&cookie.value) = value;
     CefString(&cookie.domain) = domain;
     CefString(&cookie.path) = path;
-    cookie.httponly = httponly;
-    cookie.secure = secure;
+    cookie.httponly = true;     // IMPORTANT: these 2 fields are always set to true for now and do
+    cookie.secure = true;       // do not use the parameters from llceflib.h because of limitation of CEF::Bind() # params
 
     // TODO set from input
     cookie.has_expires = true;
@@ -674,7 +674,9 @@ void LLCEFLibImpl::showDevTools(bool show)
             window_info.y = 0;
             window_info.width = 400;
             window_info.height = 400;
+#ifdef WIN32
             window_info.SetAsPopup(NULL, "LLCEFLib Dev Tools");
+#endif
             CefRefPtr<CefClient> client = mBrowserClient;
             CefBrowserSettings browser_settings;
             CefPoint inspect_element_at;

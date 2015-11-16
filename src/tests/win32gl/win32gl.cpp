@@ -118,9 +118,6 @@ void update()
     // TODO - move
     glLoadIdentity();
 
-    // todo - move
-//    glBindTexture( GL_TEXTURE_2D, texture_handle );
-
     glEnable(GL_TEXTURE_2D);
     glColor3f(1.0f, 1.0f, 1.0f);
     glBegin(GL_QUADS);
@@ -175,7 +172,12 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_RBUTTONUP:
         {
             //mLLCEFLib->requestExit();
-            mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/");
+			//bool httponly = true;
+			//bool secure = true;
+			//mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/", httponly, secure);
+
+			//bool show = true;
+			//mLLCEFLib->showDevTools(show);
             return 0;
         };
 

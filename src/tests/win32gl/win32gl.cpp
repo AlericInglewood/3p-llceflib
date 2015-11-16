@@ -172,12 +172,12 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_RBUTTONUP:
         {
             //mLLCEFLib->requestExit();
-			//bool httponly = true;
-			//bool secure = true;
-			//mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/", httponly, secure);
+            //bool httponly = true;
+            //bool secure = true;
+            //mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/", httponly, secure);
 
-			//bool show = true;
-			//mLLCEFLib->showDevTools(show);
+            //bool show = true;
+            //mLLCEFLib->showDevTools(show);
             return 0;
         };
 

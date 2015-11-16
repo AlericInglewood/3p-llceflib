@@ -665,24 +665,24 @@ void LLCEFLibImpl::editPaste()
 
 void LLCEFLibImpl::showDevTools(bool show)
 {
-	if (mBrowser.get() && mBrowser->GetHost())
-	{
-		if (show)
-		{
-			CefWindowInfo window_info;
-			window_info.x = 0;
-			window_info.y = 0;
-			window_info.width = 400;
-			window_info.height = 400;
-			window_info.SetAsPopup(NULL, "LLCEFLib Dev Tools");
-			CefRefPtr<CefClient> client = mBrowserClient;
-			CefBrowserSettings browser_settings;
-			CefPoint inspect_element_at;
-			mBrowser->GetHost()->ShowDevTools(window_info, client, browser_settings, inspect_element_at);
-		}
-		else
-		{
-			mBrowser->GetHost()->CloseDevTools();
-		}
-	}
+    if (mBrowser.get() && mBrowser->GetHost())
+    {
+        if (show)
+        {
+            CefWindowInfo window_info;
+            window_info.x = 0;
+            window_info.y = 0;
+            window_info.width = 400;
+            window_info.height = 400;
+            window_info.SetAsPopup(NULL, "LLCEFLib Dev Tools");
+            CefRefPtr<CefClient> client = mBrowserClient;
+            CefBrowserSettings browser_settings;
+            CefPoint inspect_element_at;
+            mBrowser->GetHost()->ShowDevTools(window_info, client, browser_settings, inspect_element_at);
+        }
+        else
+        {
+            mBrowser->GetHost()->CloseDevTools();
+        }
+    }
 }

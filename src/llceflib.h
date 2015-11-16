@@ -164,7 +164,7 @@ class LLCEFLib
         void getSize(int& width, int& height);
         void navigate(std::string url);
         void postData(std::string url, std::string data, std::string headers);
-		void setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path, bool httponly, bool secure);
+        void setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path, bool httponly, bool secure);
         void setPageZoom(double zoom_val)   ;
         void mouseButton(EMouseButton mouse_button, EMouseEvent mouse_event, int x, int y);
         void mouseMove(int x, int y);
@@ -205,7 +205,7 @@ class LLCEFLib
 
         void setCustomSchemes(std::vector<std::string> custom_schemes);
 
-		void showDevTools(bool show);
+        void showDevTools(bool show);
 
         void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);
         void setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback);

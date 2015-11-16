@@ -64,7 +64,7 @@ class LLCEFLibImpl :
         int getDepth();
         void navigate(std::string url);
         void postData(std::string url, std::string data, std::string headers);
-        void setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path);
+        void setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path, bool httponly, bool secure);
         void setPageZoom(double zoom_val);
         void requestExit();
         void shutdown();
@@ -145,6 +145,8 @@ class LLCEFLibImpl :
 
         void setCustomSchemes(std::vector<std::string> custom_schemes);
         std::vector<std::string>& getCustomSchemes();
+
+        void showDevTools(bool show);
 
         /* virtual */
         void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE;

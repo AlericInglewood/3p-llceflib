@@ -71,11 +71,11 @@ void LLCEFLib::postData(std::string url, std::string data, std::string headers)
     }
 }
 
-void LLCEFLib::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
+void LLCEFLib::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path, bool httponly, bool secure)
 {
     if (url.length() > 0)
     {
-        mImpl->setCookie(url, name, value, domain, path);
+        mImpl->setCookie(url, name, value, domain, path, httponly, secure);
     }
 }
 
@@ -274,3 +274,7 @@ void LLCEFLib::editPaste()
     mImpl->editPaste();
 }
 
+void LLCEFLib::showDevTools(bool show)
+{
+    mImpl->showDevTools(show);
+}

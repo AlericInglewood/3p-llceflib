@@ -356,7 +356,14 @@ static void onRequestExitCallback() {
 
 -(IBAction)setCookie:(id)sender {
     if (self.llCefLib) {
-        self.llCefLib->setCookie("http://sasm.com", "my_cookie_sasm", "my_cookie_value_sasm", ".sasm.com", "/");
+        self.llCefLib->setCookie("http://sasm.com", "my_cookie_sasm", "my_cookie_value_sasm", ".sasm.com", "/", true, true);
+    }
+}
+
+
+-(IBAction)showDevTools:(id)sender {
+    if (self.llCefLib) {
+        self.llCefLib->showDevTools(true);
     }
 }
 

@@ -12,3 +12,4 @@ testGLrunner/debug.log
 *.orig
 *.wwdb
 .DS_Store
+*.aps

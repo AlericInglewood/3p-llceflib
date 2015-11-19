@@ -61,11 +61,11 @@ LLCEFLibImpl::~LLCEFLibImpl()
 
 void LLCEFLibImpl::OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line)
 {
-	if (process_type.empty())
-	{
-		command_line->AppendSwitch("disable-surfaces");  // for PDF files
-		command_line->AppendSwitch("enable-media-stream");  // for webcam/media access
-	}
+    if (process_type.empty())
+    {
+        command_line->AppendSwitch("disable-surfaces");  // for PDF files
+        command_line->AppendSwitch("enable-media-stream");  // for webcam/media access
+    }
 }
 
 bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
@@ -700,10 +700,22 @@ void LLCEFLibImpl::showDevTools(bool show)
 
 CefRefPtr<CefBrowser> LLCEFLibImpl::getBrowser()
 {
-	return mBrowser;
+    return mBrowser;
 }
 
 void LLCEFLibImpl::setBrowser(CefRefPtr<CefBrowser> browser)
 {
-	mBrowser = browser;
+    mBrowser = browser;
+}
+
+std::string LLCEFLibImpl::makeCompatibleUserAgentString(const std::string base)
+{
+	std::string frag = base + " (Chrome/";
+#ifdef WIN32
+	frag += CEF_CHROME_VERSION_WIN;
+#else
+	frag += CEF_CHROME_VERSION_OSX;
+#endif
+	frag += ") ";
+	return frag;
 }

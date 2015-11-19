@@ -37,7 +37,9 @@ class LLCEFLibImpl;
 // version information
 const std::string LLCEFLIB_BASE_VERSION = "1.4.0";
 const std::string CEF_VERSION_WIN = "(CEF-WIN-3.2526.1347-32)";
+const std::string CEF_CHROME_VERSION_WIN = "47.0.2526";
 const std::string CEF_VERSION_OSX = "(CEF-OSX-3.2171.2069-32)";
+const std::string CEF_CHROME_VERSION_OSX = "39.0.2171";
 #ifdef WIN32
 const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_WIN;
 #else
@@ -219,6 +221,8 @@ class LLCEFLib
         void setOnLoadEndCallback(boost::function<void(int)> callback);
         void setOnNavigateURLCallback(boost::function<void(std::string url, std::string target)> callback);
         void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
+
+		std::string makeCompatibleUserAgentString(const std::string base);
 
     private:
         boost::movelib::unique_ptr <LLCEFLibImpl> mImpl;

@@ -57,8 +57,8 @@ class LLCEFLibImpl :
         LLCEFLibImpl();
         virtual ~LLCEFLibImpl();
 
-		// CefApp overrides
-		virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE;
+        // CefApp overrides
+        virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE;
 
         bool init(LLCEFLib::LLCEFLibSettings& user_settings);
         void update();
@@ -154,8 +154,10 @@ class LLCEFLibImpl :
         /* virtual */
         void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE;
 
-		CefRefPtr<CefBrowser> getBrowser();
-		void setBrowser(CefRefPtr<CefBrowser> browser);
+        CefRefPtr<CefBrowser> getBrowser();
+        void setBrowser(CefRefPtr<CefBrowser> browser);
+		
+		std::string makeCompatibleUserAgentString(const std::string base);
 
     private:
         CefRefPtr<LLBrowserClient> mBrowserClient;

@@ -243,7 +243,6 @@ bool LLCEFLib::isLoading()
     return mImpl->isLoading();
 }
 
-
 bool LLCEFLib::editCanCopy()
 {
     return mImpl->editCanCopy();
@@ -277,4 +276,9 @@ void LLCEFLib::editPaste()
 void LLCEFLib::showDevTools(bool show)
 {
     mImpl->showDevTools(show);
+}
+
+std::string LLCEFLib::makeCompatibleUserAgentString(const std::string base)
+{
+	return mImpl->makeCompatibleUserAgentString(base);
 }

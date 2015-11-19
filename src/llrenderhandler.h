@@ -44,12 +44,12 @@ class LLRenderHandler :
         bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE;
         void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer, int width, int height) OVERRIDE;
         void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type, const CefCursorInfo& custom_cursor_info) OVERRIDE;
-		void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE;
-		void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE;
+        void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE;
+        void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE;
 
-		// utility functions
-		void setPopupLocation(const CefRect& rect);
-		const CefRect& getPopupLocation();
+        // utility functions
+        void setPopupLocation(const CefRect& rect);
+        const CefRect& getPopupLocation();
 
         // CefBase interface
     public:
@@ -63,7 +63,7 @@ class LLRenderHandler :
         int flipBufferWidth;
         int flipBufferHeight;
         int flipBufferDepth;
-		CefRect mPopupRect;
+        CefRect mPopupRect;
 };
 
 #endif // _LLRENDERHANDLER

@@ -128,6 +128,12 @@ if not exist $(OutDir)locales\en-US.pak copy $(SolutionDir)..\$(CEF_DIR)\Resourc
   <ItemGroup>
     <ClCompile Include="win32gl.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="win32gl.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

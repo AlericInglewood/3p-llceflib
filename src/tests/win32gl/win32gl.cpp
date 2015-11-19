@@ -27,6 +27,8 @@
 #include <string>
 #include <iostream>
 
+#include "resource.h"
+
 #include "boost/function.hpp"
 #include "boost/bind.hpp"
 
@@ -44,6 +46,7 @@ int gcharcode = 0;
 LLCEFLib* mLLCEFLib;
 unsigned char pixels[gTextureWidth * gTextureHeight * gTextureDepth];
 GLuint texture_handle = 0;
+const std::string gHomePage("https://callum-linden.s3.amazonaws.com/ceftests.html");
 
 /////////////////////////////////////////////////////////////////////////////////
 //
@@ -70,7 +73,7 @@ void resize_gl_screen(int width, int height)
 void onPageChangedCallback(unsigned char* pixels, int x, int y, int width, int height, bool is_popup)
 {
     glTexSubImage2D(GL_TEXTURE_2D, 0,
-					x, gTextureHeight - y - height,
+                    x, gTextureHeight - y - height,
                     width, height,
                     GL_BGRA_EXT,
                     GL_UNSIGNED_BYTE,
@@ -97,13 +100,13 @@ void init(HWND hWnd)
     settings.javascript_enabled = true;
     settings.cookies_enabled = true;
     settings.cookie_store_path = "c:\\win32gl-cef-cookies";
-    //settings.user_agent_substring = "SecondLife";
+	settings.user_agent_substring = mLLCEFLib->makeCompatibleUserAgentString("Win32GL");
     settings.accept_language_list = "en-us";
 
     bool result = mLLCEFLib->init(settings);
     if (result)
     {
-        mLLCEFLib->navigate("https://callum-linden.s3.amazonaws.com/ceftests.html");
+        mLLCEFLib->navigate(gHomePage);
     }
 }
 
@@ -147,9 +150,37 @@ void keyboard_event(UINT uMsg, WPARAM wParam, LPARAM lParam)
 LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     static int last_char_code = 0;
+    int wmId;
+    int wmEvent;
 
     switch (uMsg)
     {
+        case WM_COMMAND:
+            wmId = LOWORD(wParam);
+            wmEvent = HIWORD(wParam);
+            switch (wmId)
+            {
+                case ID_TESTS_REQUESTEXIT:
+                    mLLCEFLib->requestExit();
+                    break;
+
+                case ID_TESTS_NAVIGATEHOME:
+                    mLLCEFLib->navigate(gHomePage);
+                    break;
+
+                case ID_TESTS_SETACOOKIE:
+                    mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/", true, true);
+                    break;
+
+                case ID_TESTS_OPENDEVELOPERCONSOLE:
+                    mLLCEFLib->showDevTools(true);
+                    break;
+
+                default:
+                    return DefWindowProc(hWnd, uMsg, wParam, lParam);
+            }
+            break;
+
         case WM_LBUTTONDOWN:
         {
             int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
@@ -169,13 +200,6 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         case WM_RBUTTONUP:
         {
-            //mLLCEFLib->requestExit();
-            //bool httponly = true;
-            //bool secure = true;
-            //mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/", httponly, secure);
-
-            //bool show = true;
-            //mLLCEFLib->showDevTools(show);
             return 0;
         };
 
@@ -236,7 +260,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = NULL;
-    wc.lpszMenuName = NULL;
+    wc.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);
     wc.lpszClassName = "Win32GL";
     RegisterClass(&wc);
 
@@ -281,7 +305,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     init(hWnd);
 
     bool done = false;
-    while (! done)
+    while (!done)
     {
         MSG msg;
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))

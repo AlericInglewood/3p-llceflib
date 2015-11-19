@@ -44,6 +44,6 @@ class LLCEFLib;
 
 + (LLOsxglView*)current;
 
-- (void)onPageChangedCallbackPixels:(unsigned char*)pixels width:(int)width height:(int)height;
+- (void)onPageChangedCallbackPixels:(unsigned char*)pixels x:(int)x y:(int)y width:(int)width height:(int)height is_popup:(bool)is_popup;
 
 @end

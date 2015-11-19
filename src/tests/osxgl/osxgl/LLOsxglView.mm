@@ -40,8 +40,8 @@ static GLuint textureHandle = 0;
 
 static LLOsxglView *gCurrent = nil;
 
-static void onPageChangedCallback(unsigned char *pixels, int width, int height) {
-    [[LLOsxglView current] onPageChangedCallbackPixels:pixels width:width height:height];
+static void onPageChangedCallback(unsigned char *pixels, int x, int y, int width, int height, bool is_popup) {
+    [[LLOsxglView current] onPageChangedCallbackPixels:pixels x:x y:y width:width height:height is_popup:is_popup];
 }
 
 static void onRequestExitCallback() {
@@ -94,7 +94,7 @@ static void onRequestExitCallback() {
 
     _llCefLib = new LLCEFLib();
 
-    _llCefLib->setOnPageChangedCallback(boost::bind(onPageChangedCallback, _1, _2, _3));
+    _llCefLib->setOnPageChangedCallback(boost::bind(onPageChangedCallback, _1, _2, _3, _4, _5, _6));
     _llCefLib->setOnRequestExitCallback(boost::bind(onRequestExitCallback));
 
     LLCEFLib::LLCEFLibSettings settings;
@@ -229,7 +229,7 @@ static void onRequestExitCallback() {
     }
 }
 
-- (void)onPageChangedCallbackPixels:(unsigned char *)pixels width:(int)width height:(int)height {
+- (void)onPageChangedCallbackPixels:(unsigned char *)pixels x:(int)x y:(int)y width:(int)width height:(int)height is_popup:(bool)is_popup {
     if (width != textureWidth) {
         NSLog(@"onPageChagnedCallback width does not match.");
         return;
@@ -246,8 +246,8 @@ static void onRequestExitCallback() {
 
         glTexSubImage2D(GL_TEXTURE_2D, // target
                         0, // level
-                        0, // xoffset
-                        0, // yoffset
+                        x, // xoffset
+                        y, // yoffset
                         width, // width
                         height, // height
                         GL_BGRA_EXT, // format

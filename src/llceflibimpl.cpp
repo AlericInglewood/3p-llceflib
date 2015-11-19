@@ -59,6 +59,15 @@ LLCEFLibImpl::~LLCEFLibImpl()
 {
 }
 
+void LLCEFLibImpl::OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line)
+{
+	if (process_type.empty())
+	{
+		command_line->AppendSwitch("disable-surfaces");  // for PDF files
+		command_line->AppendSwitch("enable-media-stream");  // for webcam/media access
+	}
+}
+
 bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 {
 #ifdef LLCEFLIB_DEBUG
@@ -183,7 +192,7 @@ void LLCEFLibImpl::shutdown()
     CefShutdown();
 }
 
-void LLCEFLibImpl::setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback)
+void LLCEFLibImpl::setOnPageChangedCallback(boost::function<void(unsigned char*, int, int, int, int, bool)> callback)
 {
     mOnPageChangedCallbackFunc = callback;
 }
@@ -260,11 +269,11 @@ void LLCEFLibImpl::getSize(int& width, int& height)
     height = mViewHeight;
 }
 
-void LLCEFLibImpl::onPageChanged(unsigned char* pixels, int width, int height)
+void LLCEFLibImpl::onPageChanged(unsigned char* pixels, int x, int y, int width, int height, bool is_popup)
 {
     if (mOnPageChangedCallbackFunc)
     {
-        mOnPageChangedCallbackFunc(pixels, width, height);
+        mOnPageChangedCallbackFunc(pixels, x, y, width, height, is_popup);
     }
 }
 
@@ -687,4 +696,14 @@ void LLCEFLibImpl::showDevTools(bool show)
             mBrowser->GetHost()->CloseDevTools();
         }
     }
+}
+
+CefRefPtr<CefBrowser> LLCEFLibImpl::getBrowser()
+{
+	return mBrowser;
+}
+
+void LLCEFLibImpl::setBrowser(CefRefPtr<CefBrowser> browser)
+{
+	mBrowser = browser;
 }

@@ -76,8 +76,19 @@ bool LLRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
 
 void LLRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer, int width, int height)
 {
+	int x = 0;
+	int y = 0;
+	bool is_popup = type == PET_POPUP ? true : false;
+
+	if (type == PET_POPUP)
+	{
+		x = mPopupRect.x;
+		y = mPopupRect.y;
+	}
+
 #ifdef FLIP_OUTPUT_Y
-    // change flip buffer size only if it changed
+
+	// change flip buffer size only if it changed
     resizeFlipBuffer(width, height);
 
     for (int y = 0; y < height; ++y)
@@ -85,13 +96,38 @@ void LLRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType ty
         memcpy(flipBuffer + y * width * 4, (unsigned char*)buffer + (height - y - 1) * width * 4, width * 4);
     }
 
-    mParent->onPageChanged(flipBuffer, width, height);
+    mParent->onPageChanged(flipBuffer, x, y, width, height, is_popup);
 #elif
-    mParent->onPageChanged((unsigned char*)(buffer), width, height);
+    mParent->onPageChanged((unsigned char*)(buffer), x, y, width, height, is_popup);
 #endif
 }
 
 void LLRenderHandler::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type, const CefCursorInfo& custom_cursor_info)
 {
     mParent->onCursorChanged((LLCEFLib::ECursorType)type, (unsigned int)cursor);
+}
+
+void LLRenderHandler::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show)
+{
+	if (!show)
+	{
+		mPopupRect.Set(0, 0, 0, 0);
+
+		mParent->getBrowser()->GetHost()->Invalidate(PET_VIEW);
+	}
+}
+
+void LLRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
+{
+	setPopupLocation(rect);
+}
+
+void LLRenderHandler::setPopupLocation(const CefRect& rect)
+{
+	mPopupRect = rect;
+}
+
+const CefRect& LLRenderHandler::getPopupLocation()
+{
+	return mPopupRect;
 }

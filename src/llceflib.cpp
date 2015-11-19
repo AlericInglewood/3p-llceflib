@@ -84,7 +84,7 @@ void LLCEFLib::setPageZoom(double zoom_val)
     mImpl->setPageZoom(zoom_val);
 }
 
-void LLCEFLib::setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback)
+void LLCEFLib::setOnPageChangedCallback(boost::function<void(unsigned char*, int, int, int, int, bool)> callback)
 {
     mImpl->setOnPageChangedCallback(callback);
 }

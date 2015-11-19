@@ -57,6 +57,9 @@ class LLCEFLibImpl :
         LLCEFLibImpl();
         virtual ~LLCEFLibImpl();
 
+		// CefApp overrides
+		virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE;
+
         bool init(LLCEFLib::LLCEFLibSettings& user_settings);
         void update();
         void setSize(int width, int height);
@@ -69,8 +72,8 @@ class LLCEFLibImpl :
         void requestExit();
         void shutdown();
 
-        void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);
-        void onPageChanged(unsigned char*, int, int);
+        void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int, int, int, bool)> callback);
+        void onPageChanged(unsigned char*, int, int, int, int, bool);
 
         void setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback);
         void onCustomSchemeURL(std::string url);
@@ -151,6 +154,9 @@ class LLCEFLibImpl :
         /* virtual */
         void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE;
 
+		CefRefPtr<CefBrowser> getBrowser();
+		void setBrowser(CefRefPtr<CefBrowser> browser);
+
     private:
         CefRefPtr<LLBrowserClient> mBrowserClient;
         CefRefPtr<CefBrowser> mBrowser;
@@ -159,7 +165,7 @@ class LLCEFLibImpl :
         int mViewHeight;
         const int mViewDepth = 4;
         std::vector<std::string> mCustomSchemes;
-        boost::function<void(unsigned char*, int, int)> mOnPageChangedCallbackFunc;
+        boost::function<void(unsigned char*, int, int, int, int, bool)> mOnPageChangedCallbackFunc;
         boost::function<void(std::string)> mOnCustomSchemeURLCallbackFunc;
         boost::function<void(std::string, std::string, int line)> mOnConsoleMessageCallbackFunc;
         boost::function<void(std::string)> mOnAddressChangeCallbackFunc;

@@ -207,7 +207,7 @@ class LLCEFLib
 
         void showDevTools(bool show);
 
-        void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int)> callback);
+        void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int, int, int, bool)> callback);
         void setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback);
         void setOnConsoleMessageCallback(boost::function<void(std::string, std::string, int)> callback);
         void setOnStatusMessageCallback(boost::function<void(std::string)> callback);

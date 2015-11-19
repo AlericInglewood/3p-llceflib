@@ -67,10 +67,10 @@ void resize_gl_screen(int width, int height)
     glLoadIdentity();
 }
 
-void onPageChangedCallback(unsigned char* pixels, int width, int height)
+void onPageChangedCallback(unsigned char* pixels, int x, int y, int width, int height, bool is_popup)
 {
     glTexSubImage2D(GL_TEXTURE_2D, 0,
-                    0, 0,
+					x, gTextureHeight - y - height,
                     width, height,
                     GL_BGRA_EXT,
                     GL_UNSIGNED_BYTE,
@@ -88,7 +88,7 @@ void init(HWND hWnd)
 {
     mLLCEFLib = new LLCEFLib();
 
-    mLLCEFLib->setOnPageChangedCallback(boost::bind(onPageChangedCallback, _1, _2, _3));
+    mLLCEFLib->setOnPageChangedCallback(boost::bind(onPageChangedCallback, _1, _2, _3, _4, _5, _6));
     mLLCEFLib->setOnRequestExitCallback(boost::bind(onRequestExitCallback));
 
     LLCEFLib::LLCEFLibSettings settings;
@@ -97,15 +97,13 @@ void init(HWND hWnd)
     settings.javascript_enabled = true;
     settings.cookies_enabled = true;
     settings.cookie_store_path = "c:\\win32gl-cef-cookies";
-    settings.user_agent_substring = "SecondLife";
+    //settings.user_agent_substring = "SecondLife";
     settings.accept_language_list = "en-us";
 
     bool result = mLLCEFLib->init(settings);
     if (result)
     {
         mLLCEFLib->navigate("https://callum-linden.s3.amazonaws.com/ceftests.html");
-        //mLLCEFLib->navigate("http://ll-pre-production.herokuapp.com/tos-testing");
-
     }
 }
 

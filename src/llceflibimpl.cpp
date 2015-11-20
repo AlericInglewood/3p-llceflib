@@ -36,7 +36,7 @@
 #include "include/cef_runnable.h"
 #include "include/base/cef_bind.h"
 #include "include/wrapper/cef_closure_task.h"
-//#include "include/wrapper/cef_helpers.h"
+
 
 #ifdef __APPLE__
 #import <Cocoa/Cocoa.h>
@@ -45,7 +45,8 @@
 LLCEFLibImpl::LLCEFLibImpl() :
     mViewWidth(0),
     mViewHeight(0),
-    mBrowser(0)
+    mBrowser(0),
+    mSystemFlashEnabled(false)
 {
     // default is second life scheme
     std::vector<std::string> default_schemes;
@@ -63,8 +64,12 @@ void LLCEFLibImpl::OnBeforeCommandLineProcessing(const CefString& process_type, 
 {
     if (process_type.empty())
     {
-        command_line->AppendSwitch("disable-surfaces");  // for PDF files
+        command_line->AppendSwitch("disable-surfaces");     // for PDF files
         command_line->AppendSwitch("enable-media-stream");  // for webcam/media access
+        if (mSystemFlashEnabled == true)                    // for Flash
+        {
+            command_line->AppendSwitch("enable-system-flash");
+        }
     }
 }
 
@@ -111,6 +116,8 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
         CefString(&settings.cache_path) = user_settings.cache_path;
     }
 
+    mSystemFlashEnabled = user_settings.plugins_enabled;
+
 #ifdef WIN32
     // turn on only for Windows 7+
     CefEnableHighDPISupport();
@@ -138,7 +145,7 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 
     // change settings based on what was passed in
     browser_settings.javascript = user_settings.javascript_enabled ? STATE_ENABLED : STATE_DISABLED;
-    browser_settings.plugins = user_settings.plugins_enabled ? STATE_ENABLED : STATE_DISABLED;
+    browser_settings.plugins = STATE_ENABLED;
 
     // CEF handler classes
     LLRenderHandler* renderHandler = new LLRenderHandler(this);
@@ -710,12 +717,12 @@ void LLCEFLibImpl::setBrowser(CefRefPtr<CefBrowser> browser)
 
 std::string LLCEFLibImpl::makeCompatibleUserAgentString(const std::string base)
 {
-	std::string frag = base + " (Chrome/";
+    std::string frag = base + " (Chrome/";
 #ifdef WIN32
-	frag += CEF_CHROME_VERSION_WIN;
+    frag += CEF_CHROME_VERSION_WIN;
 #else
-	frag += CEF_CHROME_VERSION_OSX;
+    frag += CEF_CHROME_VERSION_OSX;
 #endif
-	frag += ") ";
-	return frag;
+    frag += ") ";
+    return frag;
 }

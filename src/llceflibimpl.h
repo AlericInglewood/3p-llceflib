@@ -156,8 +156,8 @@ class LLCEFLibImpl :
 
         CefRefPtr<CefBrowser> getBrowser();
         void setBrowser(CefRefPtr<CefBrowser> browser);
-		
-		std::string makeCompatibleUserAgentString(const std::string base);
+
+        std::string makeCompatibleUserAgentString(const std::string base);
 
     private:
         CefRefPtr<LLBrowserClient> mBrowserClient;
@@ -166,6 +166,7 @@ class LLCEFLibImpl :
         int mViewWidth;
         int mViewHeight;
         const int mViewDepth = 4;
+        bool mSystemFlashEnabled;
         std::vector<std::string> mCustomSchemes;
         boost::function<void(unsigned char*, int, int, int, int, bool)> mOnPageChangedCallbackFunc;
         boost::function<void(std::string)> mOnCustomSchemeURLCallbackFunc;

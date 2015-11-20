@@ -123,12 +123,12 @@ void LLCEFLibImpl::keyboardEvent(
         if (mBrowser->GetHost())
         {
             uint32_t translatedModifiers = modifiers;
-            
+
             if (native_modifiers)
             {   // native modifiers will override the modifiers variable.
                 translatedModifiers = LLCEFLibImplMacAssist::modifiersForModifierFlags(native_modifiers);
             }
-            
+
             key_code = LLCEFLibImplMacAssist::slToASCIIKey(key_code);
 
             if(LLCEFLibImplMacAssist::isSpecialKey(key_code))
@@ -180,7 +180,7 @@ void LLCEFLibImpl::keyboardEventOSX(uint32_t eventType, uint32_t modifiers, cons
 {
     NSString *strChars = (characters) ? [ NSString stringWithFormat: @"%c", *characters] : @"";
     NSString *strUnmod = (unmodChars) ? [ NSString stringWithFormat: @"%c", *unmodChars] : @"";
-    
+
     NSEvent *anEvent = [NSEvent keyEventWithType: eventType
                                         location: NSMakePoint(0.0f, 0.0f)
                                    modifierFlags: modifiers

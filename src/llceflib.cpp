@@ -280,5 +280,5 @@ void LLCEFLib::showDevTools(bool show)
 
 std::string LLCEFLib::makeCompatibleUserAgentString(const std::string base)
 {
-	return mImpl->makeCompatibleUserAgentString(base);
+    return mImpl->makeCompatibleUserAgentString(base);
 }

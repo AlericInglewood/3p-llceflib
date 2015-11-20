@@ -53,6 +53,25 @@ class LLContextHandler: public CefRequestContextHandler
             return mCookieManager;
         }
 
+#ifdef LATEST_CEF_VERSION
+        bool OnBeforePluginLoad(const CefString& mime_type,
+                                const CefString& plugin_url,
+                                const CefString& top_origin_url,
+                                CefRefPtr<CefWebPluginInfo> plugin_info,
+                                PluginPolicy* plugin_policy)
+        {
+            if (*plugin_policy != PLUGIN_POLICY_ALLOW &&
+                    mime_type == "application/pdf")
+            {
+                *plugin_policy = PLUGIN_POLICY_ALLOW;
+                return true;
+
+            }
+
+            return false;
+        }
+#endif
+
     private:
         CefRefPtr<CefCookieManager> mCookieManager;
 

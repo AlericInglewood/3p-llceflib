@@ -222,7 +222,7 @@ class LLCEFLib
         void setOnNavigateURLCallback(boost::function<void(std::string url, std::string target)> callback);
         void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
 
-		std::string makeCompatibleUserAgentString(const std::string base);
+        std::string makeCompatibleUserAgentString(const std::string base);
 
     private:
         boost::movelib::unique_ptr <LLCEFLibImpl> mImpl;

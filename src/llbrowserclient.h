@@ -103,7 +103,7 @@ class LLBrowserClient :
     private:
         LLCEFLibImpl* mParent;
         CefRefPtr<CefRenderHandler> mLLRenderHandler;
-        typedef std::list<CefRefPtr<CefBrowser> > BrowserList;
+        typedef std::list<CefRefPtr<CefBrowser>> BrowserList;
         BrowserList mBrowserList;
 
     public:

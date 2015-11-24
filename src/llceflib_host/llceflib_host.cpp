@@ -1,6 +1,7 @@
 /**
  * @brief LLCEFLib - Wrapper for CEF SDK for use in LL Web Media Plugin
- *
+ * @author Callum Prentice 2015
+  *
  * $LicenseInfo:firstyear=2001&license=viewerlgpl$
  * Second Life Viewer Source Code
  * Copyright (C) 2015, Linden Research, Inc.

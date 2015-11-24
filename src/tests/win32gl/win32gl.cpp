@@ -1,5 +1,6 @@
 /**
 * @brief Windows test app for LLCefLib
+* @author Callum Prentice 2015
 *
 * $LicenseInfo:firstyear=2001&license=viewerlgpl$
 * Second Life Viewer Source Code

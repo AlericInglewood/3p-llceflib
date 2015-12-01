@@ -415,8 +415,8 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../..",
-					"$(SRCROOT)/../../include",
 					"$(SRCROOT)/../../../cef_2171_OSX_32",
+					"$(SRCROOT)/../../../stage/packages/include",
 				);
 				INFOPLIST_FILE = osxgl/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
@@ -442,8 +442,8 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../..",
-					"$(SRCROOT)/../../include",
 					"$(SRCROOT)/../../../cef_2171_OSX_32",
+					"$(SRCROOT)/../../../stage/packages/include",
 				);
 				INFOPLIST_FILE = osxgl/Info.plist;
 				LIBRARY_SEARCH_PATHS = (

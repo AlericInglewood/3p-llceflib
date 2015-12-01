@@ -236,7 +236,8 @@ void LLCEFLibImpl::nativeKeyboardEventOSX(void *nsEvent)
 
                 mBrowser->GetHost()->SendKeyEvent(keyEvent);
 
-                if (std::isprint(keyEvent.character) && ([theEvent type] == NSKeyDown))
+                if ((std::isprint(keyEvent.character) || (keyEvent.character == 13))
+                    && ([theEvent type] == NSKeyDown))
                 {
                     keyEvent.type = KEYEVENT_CHAR;
                     mBrowser->GetHost()->SendKeyEvent(keyEvent);

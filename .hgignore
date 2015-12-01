@@ -1,6 +1,7 @@
 syntax: glob
 
 ./build_mac/
+./stage
 llceflib.sdf
 llceflib.opensdf
 llceflib.v12.suo

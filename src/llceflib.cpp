@@ -182,6 +182,11 @@ void LLCEFLib::keyboardEventOSX(uint32_t eventType, uint32_t modifiers, const ch
     mImpl->keyboardEventOSX(eventType, modifiers, characters, unmodCharacters, repeat, keyCode);
 }
 
+void LLCEFLib::injectUnicodeText(wchar_t unicodeChars, wchar_t unmodChars, uint32_t keyCode, uint32_t modifiers)
+{
+    mImpl->injectUnicodeText(unmodChars, unmodChars, keyCode, modifiers);
+}
+
 void LLCEFLib::nativeKeyboardEventOSX(void* nsEvent)
 {
     mImpl->nativeKeyboardEventOSX(nsEvent);

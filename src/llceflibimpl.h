@@ -128,6 +128,7 @@ class LLCEFLibImpl :
             uint32_t native_scan_code,
             uint32_t native_virtual_key,
             uint32_t native_modifiers);
+        void injectUnicodeText(wchar_t unicodeChars, wchar_t unmodChars, uint32_t keyCode, uint32_t modifiers);
 
         void mouseWheel(int deltaX, int deltaY);
         void setFocus(bool focus);

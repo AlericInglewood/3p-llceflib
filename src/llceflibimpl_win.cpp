@@ -169,6 +169,20 @@ void LLCEFLibImpl::nativeKeyboardEvent(uint32_t msg, uint32_t wparam, uint64_t l
     }
 }
 
+void LLCEFLibImpl::injectUnicodeText(wchar_t unicodeChars, wchar_t unmodChars, uint32_t keyCode, uint32_t modifiers)
+{
+    CefKeyEvent event;
+    
+    event.type = KEYEVENT_CHAR;
+    event.character = unicodeChars;
+    event.modifiers = 0;
+    event.unmodified_character = unmodChars;
+    event.native_key_code = keyCode;
+
+    mBrowser->GetHost()->SendKeyEvent(event);
+}
+
+
 void LLCEFLibImpl::keyboardEvent(
     LLCEFLib::EKeyEvent key_event,
     uint32_t key_code,

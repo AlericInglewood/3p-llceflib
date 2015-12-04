@@ -236,13 +236,28 @@ void LLCEFLibImpl::nativeKeyboardEventOSX(void *nsEvent)
 
                 mBrowser->GetHost()->SendKeyEvent(keyEvent);
 
-                if ((std::isprint(keyEvent.character) || (keyEvent.character == 13))
-                    && ([theEvent type] == NSKeyDown))
-                {
+                if ((keyEvent.character == 13) && (keyEvent.type  == KEYEVENT_KEYDOWN))
+                {   // for CR only: The viewer will swallow the event long before it is passed
+                    // to the plugin.  So we create a fake keypress for Return.
                     keyEvent.type = KEYEVENT_CHAR;
                     mBrowser->GetHost()->SendKeyEvent(keyEvent);
                 }
             }
         }
     }
+}
+
+void LLCEFLibImpl::injectUnicodeText(wchar_t unicodeChars, wchar_t unmodChars,
+        uint32_t keyCode, uint32_t modifiers)
+{
+    CefKeyEvent keyEvent;
+
+    keyEvent.type = KEYEVENT_CHAR;
+    keyEvent.character = unicodeChars;
+    keyEvent.unmodified_character = unmodChars;
+    keyEvent.native_key_code = keyCode;
+    keyEvent.modifiers = LLCEFLibImplMacAssist::modifiersForModifierFlags( modifiers );
+    
+    mBrowser->GetHost()->SendKeyEvent(keyEvent);
+    
 }

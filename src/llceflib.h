@@ -183,6 +183,8 @@ class LLCEFLib
         void keyboardEventOSX(uint32_t eventType, uint32_t modifiers, const char* characters,
                               const char* unmodCharacters, bool repeat, uint32_t keyCode);
 
+        void injectUnicodeText(wchar_t unicodeChars, wchar_t unmodChars, uint32_t keyCode, uint32_t modifiers);
+    
         // native keyboard event for OS X
         void nativeKeyboardEventOSX(void* nsEvent);
 

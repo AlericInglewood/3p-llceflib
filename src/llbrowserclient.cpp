@@ -73,8 +73,8 @@ bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
     std::cout << "Target frame is " << std::string(target_frame_name) << std::endl;
 #endif
 
-    std::string url = std::string(target_url);
-    std::string target = std::string(target_frame_name);
+	std::string url = std::string(target_url);
+	std::string target = std::string(target_frame_name);
 
     // open in the same frame if we see a taget that matches there
     if (target == "_self" || target == "_top" || target == "_parent")
@@ -83,11 +83,11 @@ bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
         return true;
     }
 
-    // no target appears to indicate a "_blank" value
-    // (remember we only get here if target is specified)
+    // we assert that no target is a "_self" value - let consuming code 
+	// decide what to do with this type of frame name
     if (target.length() == 0)
     {
-        mParent->onNavigateURL(url, "_blank");
+		mParent->onNavigateURL(url, "_self");
         return true;
     }
 

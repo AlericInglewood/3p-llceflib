@@ -81,6 +81,11 @@ void onPageChangedCallback(unsigned char* pixels, int x, int y, int width, int h
                     pixels);
 }
 
+void onNavigateURL(std::string url, std::string target)
+{
+	mLLCEFLib->navigate(url);
+}
+
 void onRequestExitCallback()
 {
     PostQuitMessage(0);
@@ -93,6 +98,7 @@ void init(HWND hWnd)
     mLLCEFLib = new LLCEFLib();
 
     mLLCEFLib->setOnPageChangedCallback(boost::bind(onPageChangedCallback, _1, _2, _3, _4, _5, _6));
+	mLLCEFLib->setOnNavigateURLCallback(boost::bind(onNavigateURL, _1, _2));
     mLLCEFLib->setOnRequestExitCallback(boost::bind(onRequestExitCallback));
 
     LLCEFLib::LLCEFLibSettings settings;
@@ -183,6 +189,14 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             }
             break;
 
+		case WM_LBUTTONDBLCLK:
+		{
+			int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
+			int y = (HIWORD(lParam) * gTextureHeight) / mAppWindowHeight;
+			mLLCEFLib->mouseButton(LLCEFLib::MB_MOUSE_BUTTON_LEFT, LLCEFLib::ME_MOUSE_DOUBLE_CLICK, x, y);
+			return 0;
+		}
+
         case WM_LBUTTONDOWN:
         {
             int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
@@ -254,7 +268,7 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     WNDCLASS wc;
-    wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC | CS_DBLCLKS;
     wc.lpfnWndProc = (WNDPROC)window_proc;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;

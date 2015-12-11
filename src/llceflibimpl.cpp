@@ -491,10 +491,17 @@ void LLCEFLibImpl::mouseButton(LLCEFLib::EMouseButton mouse_button, LLCEFLib::EM
     {
         is_down = true;
     }
-    if (mouse_event == LLCEFLib::ME_MOUSE_UP)
-    {
-        is_down = false;
-    }
+	else
+	if (mouse_event == LLCEFLib::ME_MOUSE_UP)
+	{
+		is_down = false;
+	}
+	else
+	if (mouse_event == LLCEFLib::ME_MOUSE_DOUBLE_CLICK)
+	{
+		is_down = true;
+		last_click_count = 2;
+	}
 
     // send to CEF
     if (mBrowser && mBrowser->GetHost())
@@ -718,12 +725,11 @@ void LLCEFLibImpl::setBrowser(CefRefPtr<CefBrowser> browser)
 
 std::string LLCEFLibImpl::makeCompatibleUserAgentString(const std::string base)
 {
-    std::string frag = base + " (Chrome/";
+	std::string frag = "(" + base + ")" + " Chrome/";
 #ifdef WIN32
     frag += CEF_CHROME_VERSION_WIN;
 #else
     frag += CEF_CHROME_VERSION_OSX;
 #endif
-    frag += ") ";
     return frag;
 }

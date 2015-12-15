@@ -257,7 +257,12 @@ void LLCEFLibImpl::setOnNavigateURLCallback(boost::function<void(std::string, st
 
 void LLCEFLibImpl::setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback)
 {
-    mOnHTTPAuthCallbackFunc = callback;
+	mOnHTTPAuthCallbackFunc = callback;
+}
+
+void LLCEFLibImpl::setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback)
+{
+	mOnFileDownloadCallbackFunc = callback;
 }
 
 void LLCEFLibImpl::setSize(int width, int height)
@@ -373,6 +378,15 @@ bool LLCEFLibImpl::onHTTPAuth(const std::string host, const std::string realm, s
     }
 
     return false;
+}
+
+
+void LLCEFLibImpl::onFileDownload(const std::string filename)
+{
+	if (mOnFileDownloadCallbackFunc)
+	{
+		mOnFileDownloadCallbackFunc(filename);
+	}
 }
 
 int LLCEFLibImpl::getDepth()

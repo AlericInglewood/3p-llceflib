@@ -39,7 +39,7 @@ class LLCEFLibImpl;
 
 // version information
 // version of this library
-const std::string LLCEFLIB_BASE_VERSION = "1.5.0";
+const std::string LLCEFLIB_BASE_VERSION = "1.5.1";
 
 // version of CEF and the version of Chrome it represents on Windows
 const std::string CEF_VERSION_WIN = "(CEF-WIN-3.2526.1347-32)";
@@ -259,10 +259,13 @@ class LLCEFLib
         // called when a URL is navigated to (and has a target name)
         void setOnNavigateURLCallback(boost::function<void(std::string url, std::string target)> callback);
 
-        // called when an HTTP AUTH request is made
-        void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
+		// called when an HTTP AUTH request is made
+		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
 
-    private:
+		// called when a file download request is made
+		void setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback);
+
+private:
         boost::movelib::unique_ptr <LLCEFLibImpl> mImpl;
 };
 

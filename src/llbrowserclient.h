@@ -42,7 +42,8 @@ class LLBrowserClient :
     public CefLifeSpanHandler,
     public CefDisplayHandler,
     public CefLoadHandler,
-    public CefRequestHandler
+    public CefRequestHandler,
+	public CefDownloadHandler
 {
     public:
         LLBrowserClient(LLCEFLibImpl* parent, LLRenderHandler* render_handler);
@@ -100,6 +101,12 @@ class LLBrowserClient :
                             int64 new_size,
                             CefRefPtr<CefQuotaCallback> callback) OVERRIDE;
 #endif
+		// CefDownloadHandler overrides
+		CefRefPtr<CefDownloadHandler> GetDownloadHandler() OVERRIDE { return this; }
+		void OnBeforeDownload(CefRefPtr<CefBrowser> browser,
+								CefRefPtr<CefDownloadItem> download_item,
+								const CefString& suggested_name,
+								CefRefPtr<CefBeforeDownloadCallback> callback) OVERRIDE;
 
     private:
         LLCEFLibImpl* mParent;

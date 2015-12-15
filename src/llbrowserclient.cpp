@@ -282,3 +282,13 @@ void LLBrowserClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         mParent->onRequestExit();
     }
 }
+
+void LLBrowserClient::OnBeforeDownload(CefRefPtr<CefBrowser> browser,
+	CefRefPtr<CefDownloadItem> download_item,
+	const CefString& suggested_name,
+	CefRefPtr<CefBeforeDownloadCallback> callback)
+{
+	CEF_REQUIRE_UI_THREAD();
+
+	mParent->onFileDownload(std::string(suggested_name));
+}

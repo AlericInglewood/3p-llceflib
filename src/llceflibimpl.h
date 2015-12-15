@@ -102,10 +102,13 @@ class LLCEFLibImpl :
         void setOnNavigateURLCallback(boost::function<void(std::string, std::string)> callback);
         void onNavigateURL(std::string url, std::string target);
 
-        void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
-        bool onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password);
+		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
+		bool onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password);
 
-        void setOnRequestExitCallback(boost::function<void()> callback);
+		void setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback);
+		void onFileDownload(const std::string filename);
+
+		void setOnRequestExitCallback(boost::function<void()> callback);
         void onRequestExit();
 
         void setOnCursorChangedCallback(boost::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> callback);
@@ -179,7 +182,8 @@ class LLCEFLibImpl :
         boost::function<void()> mOnLoadStartCallbackFunc;
         boost::function<void(int)> mOnLoadEndCallbackFunc;
         boost::function<void(std::string, std::string)> mOnNavigateURLCallbackFunc;
-        boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> mOnHTTPAuthCallbackFunc;
+		boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> mOnHTTPAuthCallbackFunc;
+		boost::function<void(const std::string filename)> mOnFileDownloadCallbackFunc;
         boost::function<void()> mOnRequestExitCallbackFunc;
         boost::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> mOnCursorChangedCallbackFunc;
 

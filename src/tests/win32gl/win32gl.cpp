@@ -86,6 +86,12 @@ void onNavigateURL(std::string url, std::string target)
 	mLLCEFLib->navigate(url);
 }
 
+
+void onFileDownload(std::string filename)
+{
+	MessageBoxA(0, filename.c_str(), "File download", 0);
+}
+
 void onRequestExitCallback()
 {
     PostQuitMessage(0);
@@ -100,6 +106,7 @@ void init(HWND hWnd)
     mLLCEFLib->setOnPageChangedCallback(boost::bind(onPageChangedCallback, _1, _2, _3, _4, _5, _6));
 	mLLCEFLib->setOnNavigateURLCallback(boost::bind(onNavigateURL, _1, _2));
     mLLCEFLib->setOnRequestExitCallback(boost::bind(onRequestExitCallback));
+	mLLCEFLib->setOnFileDownloadCallback(boost::bind(onFileDownload, _1));
 
     LLCEFLib::LLCEFLibSettings settings;
     settings.initial_width = gTextureWidth;

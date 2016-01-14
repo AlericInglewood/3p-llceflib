@@ -440,7 +440,7 @@ void LLCEFLibImpl::postData(std::string url, std::string data, std::string heade
     }
 }
 
-bool LLCEFLibImpl::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
+void LLCEFLibImpl::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
 {
 #ifndef LATEST_CEF_VERSION
     // CEF 2171 SetCookie() needs to run on IO thread
@@ -474,8 +474,6 @@ bool LLCEFLibImpl::setCookie(std::string url, std::string name, std::string valu
     bool result = manager->SetCookie(url, cookie);
     manager->FlushStore(mFlushStoreCallback);
 #endif
-
-    return result;
 }
 
 void LLCEFLibImpl::setPageZoom(double zoom_val)

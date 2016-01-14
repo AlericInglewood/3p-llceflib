@@ -186,8 +186,7 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
                 case ID_TESTS_SETACOOKIE:
                 {
-                    bool result = mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/", true, true);
-                    OutputDebugStringA(result ? "Cookie set ok" : "Unable to set cookie");
+                    mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/", true, true);
                     break;
                 }
 

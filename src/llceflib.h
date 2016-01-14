@@ -156,8 +156,8 @@ class LLCEFLib
         // utility function to post data to a URL
         void postData(std::string url, std::string data, std::string headers);
 
-        // set a cook in the CEF cookie store
-        bool setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path, bool httponly, bool secure);
+        // set a cookie in the CEF cookie store
+        void setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path, bool httponly, bool secure);
 
         // set page zoom factor (1.0 == normal)
         void setPageZoom(double zoom_val);

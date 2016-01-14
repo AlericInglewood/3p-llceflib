@@ -79,7 +79,7 @@ bool LLCEFLib::setCookie(std::string url, std::string name, std::string value, s
         return mImpl->setCookie(url, name, value, domain, path);
     }
 
-	return false;
+    return false;
 }
 
 void LLCEFLib::setPageZoom(double zoom_val)
@@ -144,12 +144,12 @@ void LLCEFLib::setOnNavigateURLCallback(boost::function<void(std::string url, st
 
 void LLCEFLib::setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string& username, std::string& password)> callback)
 {
-	mImpl->setOnHTTPAuthCallback(callback);
+    mImpl->setOnHTTPAuthCallback(callback);
 }
 
 void LLCEFLib::setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback)
 {
-	mImpl->setOnFileDownloadCallback(callback);
+    mImpl->setOnFileDownloadCallback(callback);
 }
 
 void LLCEFLib::setCustomSchemes(std::vector<std::string> custom_schemes)

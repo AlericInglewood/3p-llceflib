@@ -73,8 +73,8 @@ bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
     std::cout << "Target frame is " << std::string(target_frame_name) << std::endl;
 #endif
 
-	std::string url = std::string(target_url);
-	std::string target = std::string(target_frame_name);
+    std::string url = std::string(target_url);
+    std::string target = std::string(target_frame_name);
 
     // open in the same frame if we see a taget that matches there
     if (target == "_self" || target == "_top" || target == "_parent")
@@ -83,11 +83,11 @@ bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
         return true;
     }
 
-    // we assert that no target is a "_self" value - let consuming code 
-	// decide what to do with this type of frame name
+    // we assert that no target is a "_self" value - let consuming code
+    // decide what to do with this type of frame name
     if (target.length() == 0)
     {
-		mParent->onNavigateURL(url, "_self");
+        mParent->onNavigateURL(url, "_self");
         return true;
     }
 
@@ -284,11 +284,11 @@ void LLBrowserClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 }
 
 void LLBrowserClient::OnBeforeDownload(CefRefPtr<CefBrowser> browser,
-	CefRefPtr<CefDownloadItem> download_item,
-	const CefString& suggested_name,
-	CefRefPtr<CefBeforeDownloadCallback> callback)
+                                       CefRefPtr<CefDownloadItem> download_item,
+                                       const CefString& suggested_name,
+                                       CefRefPtr<CefBeforeDownloadCallback> callback)
 {
-	CEF_REQUIRE_UI_THREAD();
+    CEF_REQUIRE_UI_THREAD();
 
-	mParent->onFileDownload(std::string(suggested_name));
+    mParent->onFileDownload(std::string(suggested_name));
 }

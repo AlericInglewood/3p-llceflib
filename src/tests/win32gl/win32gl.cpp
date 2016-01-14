@@ -83,13 +83,13 @@ void onPageChangedCallback(unsigned char* pixels, int x, int y, int width, int h
 
 void onNavigateURL(std::string url, std::string target)
 {
-	mLLCEFLib->navigate(url);
+    mLLCEFLib->navigate(url);
 }
 
 
 void onFileDownload(std::string filename)
 {
-	MessageBoxA(0, filename.c_str(), "File download", 0);
+    MessageBoxA(0, filename.c_str(), "File download", 0);
 }
 
 void onRequestExitCallback()
@@ -104,9 +104,9 @@ void init(HWND hWnd)
     mLLCEFLib = new LLCEFLib();
 
     mLLCEFLib->setOnPageChangedCallback(boost::bind(onPageChangedCallback, _1, _2, _3, _4, _5, _6));
-	mLLCEFLib->setOnNavigateURLCallback(boost::bind(onNavigateURL, _1, _2));
+    mLLCEFLib->setOnNavigateURLCallback(boost::bind(onNavigateURL, _1, _2));
     mLLCEFLib->setOnRequestExitCallback(boost::bind(onRequestExitCallback));
-	mLLCEFLib->setOnFileDownloadCallback(boost::bind(onFileDownload, _1));
+    mLLCEFLib->setOnFileDownloadCallback(boost::bind(onFileDownload, _1));
 
     LLCEFLib::LLCEFLibSettings settings;
     settings.initial_width = gTextureWidth;
@@ -114,6 +114,7 @@ void init(HWND hWnd)
     settings.javascript_enabled = true;
     settings.cookies_enabled = true;
     settings.plugins_enabled = true;
+    settings.media_stream_enabled = true;
     settings.cookie_store_path = "c:\\win32gl-cef-cookies";
     settings.user_agent_substring = mLLCEFLib->makeCompatibleUserAgentString("Win32GL");
     settings.accept_language_list = "en-us";
@@ -183,12 +184,12 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                     mLLCEFLib->navigate(gHomePage);
                     break;
 
-				case ID_TESTS_SETACOOKIE:
-				{
-					bool result = mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/", true, true);
-					OutputDebugStringA(result ? "Cookie set ok" : "Unable to set cookie");
-					break;
-				}
+                case ID_TESTS_SETACOOKIE:
+                {
+                    bool result = mLLCEFLib->setCookie("http://callum.com", "cookie_name", "cookie_value", ".callum.com", "/", true, true);
+                    OutputDebugStringA(result ? "Cookie set ok" : "Unable to set cookie");
+                    break;
+                }
 
                 case ID_TESTS_OPENDEVELOPERCONSOLE:
                     mLLCEFLib->showDevTools(true);
@@ -199,13 +200,13 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             }
             break;
 
-		case WM_LBUTTONDBLCLK:
-		{
-			int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
-			int y = (HIWORD(lParam) * gTextureHeight) / mAppWindowHeight;
-			mLLCEFLib->mouseButton(LLCEFLib::MB_MOUSE_BUTTON_LEFT, LLCEFLib::ME_MOUSE_DOUBLE_CLICK, x, y);
-			return 0;
-		}
+        case WM_LBUTTONDBLCLK:
+        {
+            int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
+            int y = (HIWORD(lParam) * gTextureHeight) / mAppWindowHeight;
+            mLLCEFLib->mouseButton(LLCEFLib::MB_MOUSE_BUTTON_LEFT, LLCEFLib::ME_MOUSE_DOUBLE_CLICK, x, y);
+            return 0;
+        }
 
         case WM_LBUTTONDOWN:
         {
@@ -278,7 +279,7 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     WNDCLASS wc;
-	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC | CS_DBLCLKS;
+    wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC | CS_DBLCLKS;
     wc.lpfnWndProc = (WNDPROC)window_proc;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;

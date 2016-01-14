@@ -73,6 +73,7 @@ class LLCEFLib
             // enable/disable features
             bool javascript_enabled = true;
             bool plugins_enabled = true;
+            bool media_stream_enabled = true;
             bool cookies_enabled = true;
             bool cache_enabled = true;
 
@@ -259,13 +260,13 @@ class LLCEFLib
         // called when a URL is navigated to (and has a target name)
         void setOnNavigateURLCallback(boost::function<void(std::string url, std::string target)> callback);
 
-		// called when an HTTP AUTH request is made
-		void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
+        // called when an HTTP AUTH request is made
+        void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
 
-		// called when a file download request is made
-		void setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback);
+        // called when a file download request is made
+        void setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback);
 
-private:
+    private:
         boost::movelib::unique_ptr <LLCEFLibImpl> mImpl;
 };
 

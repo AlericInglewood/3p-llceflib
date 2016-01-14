@@ -47,7 +47,8 @@ LLCEFLibImpl::LLCEFLibImpl() :
     mViewWidth(0),
     mViewHeight(0),
     mBrowser(0),
-    mSystemFlashEnabled(false)
+    mSystemFlashEnabled(false),
+    mMediaStreamEnabled(false)
 {
     // default is second life scheme
     std::vector<std::string> default_schemes;
@@ -66,7 +67,12 @@ void LLCEFLibImpl::OnBeforeCommandLineProcessing(const CefString& process_type, 
     if (process_type.empty())
     {
         command_line->AppendSwitch("disable-surfaces");     // for PDF files
-        command_line->AppendSwitch("enable-media-stream");  // for webcam/media access
+
+        if (mMediaStreamEnabled == true)                    // for webcam/media access
+        {
+            command_line->AppendSwitch("enable-media-stream");
+        }
+
         if (mSystemFlashEnabled == true)                    // for Flash
         {
             command_line->AppendSwitch("enable-system-flash");
@@ -118,6 +124,7 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
     }
 
     mSystemFlashEnabled = user_settings.plugins_enabled;
+    mMediaStreamEnabled = user_settings.media_stream_enabled;
 
 #ifdef WIN32
     // turn on only for Windows 7+
@@ -257,12 +264,12 @@ void LLCEFLibImpl::setOnNavigateURLCallback(boost::function<void(std::string, st
 
 void LLCEFLibImpl::setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback)
 {
-	mOnHTTPAuthCallbackFunc = callback;
+    mOnHTTPAuthCallbackFunc = callback;
 }
 
 void LLCEFLibImpl::setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback)
 {
-	mOnFileDownloadCallbackFunc = callback;
+    mOnFileDownloadCallbackFunc = callback;
 }
 
 void LLCEFLibImpl::setSize(int width, int height)
@@ -383,10 +390,10 @@ bool LLCEFLibImpl::onHTTPAuth(const std::string host, const std::string realm, s
 
 void LLCEFLibImpl::onFileDownload(const std::string filename)
 {
-	if (mOnFileDownloadCallbackFunc)
-	{
-		mOnFileDownloadCallbackFunc(filename);
-	}
+    if (mOnFileDownloadCallbackFunc)
+    {
+        mOnFileDownloadCallbackFunc(filename);
+    }
 }
 
 int LLCEFLibImpl::getDepth()
@@ -464,11 +471,11 @@ bool LLCEFLibImpl::setCookie(std::string url, std::string name, std::string valu
     bool result = manager->SetCookie(url, cookie, nullptr);
     manager->FlushStore(nullptr);
 #else
-	bool result = manager->SetCookie(url, cookie);
+    bool result = manager->SetCookie(url, cookie);
     manager->FlushStore(mFlushStoreCallback);
 #endif
 
-	return result;
+    return result;
 }
 
 void LLCEFLibImpl::setPageZoom(double zoom_val)
@@ -507,17 +514,15 @@ void LLCEFLibImpl::mouseButton(LLCEFLib::EMouseButton mouse_button, LLCEFLib::EM
     {
         is_down = true;
     }
-	else
-	if (mouse_event == LLCEFLib::ME_MOUSE_UP)
-	{
-		is_down = false;
-	}
-	else
-	if (mouse_event == LLCEFLib::ME_MOUSE_DOUBLE_CLICK)
-	{
-		is_down = true;
-		last_click_count = 2;
-	}
+    else if (mouse_event == LLCEFLib::ME_MOUSE_UP)
+    {
+        is_down = false;
+    }
+    else if (mouse_event == LLCEFLib::ME_MOUSE_DOUBLE_CLICK)
+    {
+        is_down = true;
+        last_click_count = 2;
+    }
 
     // send to CEF
     if (mBrowser && mBrowser->GetHost())
@@ -741,7 +746,7 @@ void LLCEFLibImpl::setBrowser(CefRefPtr<CefBrowser> browser)
 
 std::string LLCEFLibImpl::makeCompatibleUserAgentString(const std::string base)
 {
-	std::string frag = "(" + base + ")" + " Chrome/";
+    std::string frag = "(" + base + ")" + " Chrome/";
 #ifdef WIN32
     frag += CEF_CHROME_VERSION_WIN;
 #else

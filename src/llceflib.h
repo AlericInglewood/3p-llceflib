@@ -39,7 +39,7 @@ class LLCEFLibImpl;
 
 // version information
 // version of this library
-const std::string LLCEFLIB_BASE_VERSION = "1.5.1";
+const std::string LLCEFLIB_BASE_VERSION = "1.5.3";
 
 // version of CEF and the version of Chrome it represents on Windows
 const std::string CEF_VERSION_WIN = "(CEF-WIN-3.2526.1347-32)";

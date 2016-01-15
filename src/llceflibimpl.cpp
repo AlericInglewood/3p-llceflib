@@ -204,7 +204,14 @@ void LLCEFLibImpl::update()
 
 void LLCEFLibImpl::shutdown()
 {
-    CefShutdown();
+#ifdef WIN32
+	CefShutdown();
+#elif __APPLE__
+	// CefShutdown(); 
+	// remove for now - the very old version of CEF on OS X does 
+	// not shut down cleanly with this in place. Once we switch to
+	// 64 bit libs/viewer and update CEF to match Windows version, will enable.
+#endif
 }
 
 void LLCEFLibImpl::setOnPageChangedCallback(boost::function<void(unsigned char*, int, int, int, int, bool)> callback)

@@ -279,6 +279,11 @@ void LLCEFLibImpl::setOnFileDownloadCallback(boost::function<void(const std::str
     mOnFileDownloadCallbackFunc = callback;
 }
 
+void LLCEFLibImpl::setOnFileDialogCallback(boost::function<const std::string()> callback)
+{
+    mOnFileDialogCallbackFunc = callback;
+}
+
 void LLCEFLibImpl::setSize(int width, int height)
 {
     mViewWidth = width;
@@ -401,6 +406,16 @@ void LLCEFLibImpl::onFileDownload(const std::string filename)
     {
         mOnFileDownloadCallbackFunc(filename);
     }
+}
+
+const std::string LLCEFLibImpl::onFileDialog()
+{
+    if (mOnFileDialogCallbackFunc)
+    {
+        return mOnFileDialogCallbackFunc();
+    }
+
+    return std::string();
 }
 
 int LLCEFLibImpl::getDepth()

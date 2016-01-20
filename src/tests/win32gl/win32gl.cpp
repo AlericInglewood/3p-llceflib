@@ -92,6 +92,33 @@ void onFileDownload(std::string filename)
     MessageBoxA(0, filename.c_str(), "File download", 0);
 }
 
+const std::string onFileDialog()
+{
+    OPENFILENAME ofn;
+    char szFile[260];
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = GetDesktopWindow();
+    ofn.lpstrFile = szFile;
+    ofn.lpstrFile[0] = '\0';
+    ofn.nMaxFile = sizeof(szFile);
+    ofn.lpstrFilter = "JPEG files\0*.jpg\0";
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = NULL;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = NULL;
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+    if (GetOpenFileName(&ofn) == TRUE)
+    {
+        return std::string(ofn.lpstrFile);
+    }
+    else
+    {
+        return std::string();
+    }
+}
+
 void onRequestExitCallback()
 {
     PostQuitMessage(0);
@@ -107,6 +134,7 @@ void init(HWND hWnd)
     mLLCEFLib->setOnNavigateURLCallback(boost::bind(onNavigateURL, _1, _2));
     mLLCEFLib->setOnRequestExitCallback(boost::bind(onRequestExitCallback));
     mLLCEFLib->setOnFileDownloadCallback(boost::bind(onFileDownload, _1));
+    mLLCEFLib->setOnFileDialogCallback(boost::bind(onFileDialog));
 
     LLCEFLib::LLCEFLibSettings settings;
     settings.initial_width = gTextureWidth;

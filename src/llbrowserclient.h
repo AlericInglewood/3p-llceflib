@@ -43,7 +43,8 @@ class LLBrowserClient :
     public CefDisplayHandler,
     public CefLoadHandler,
     public CefRequestHandler,
-    public CefDownloadHandler
+    public CefDownloadHandler,
+    public CefDialogHandler
 {
     public:
         LLBrowserClient(LLCEFLibImpl* parent, LLRenderHandler* render_handler);
@@ -107,6 +108,16 @@ class LLBrowserClient :
                               CefRefPtr<CefDownloadItem> download_item,
                               const CefString& suggested_name,
                               CefRefPtr<CefBeforeDownloadCallback> callback) OVERRIDE;
+
+        // CefDialogHandler orerrides
+        CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE { return this; }
+        bool OnFileDialog(CefRefPtr<CefBrowser> browser,
+            FileDialogMode mode,
+            const CefString& title,
+            const CefString& default_file_path,
+            const std::vector<CefString>& accept_filters,
+            int selected_accept_filter,
+            CefRefPtr<CefFileDialogCallback> callback) OVERRIDE;
 
     private:
         LLCEFLibImpl* mParent;

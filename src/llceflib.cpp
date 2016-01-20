@@ -150,6 +150,11 @@ void LLCEFLib::setOnFileDownloadCallback(boost::function<void(const std::string 
     mImpl->setOnFileDownloadCallback(callback);
 }
 
+void LLCEFLib::setOnFileDialogCallback(boost::function<const std::string()> callback)
+{
+    mImpl->setOnFileDialogCallback(callback);
+}
+
 void LLCEFLib::setCustomSchemes(std::vector<std::string> custom_schemes)
 {
     mImpl->setCustomSchemes(custom_schemes);

@@ -108,6 +108,9 @@ class LLCEFLibImpl :
         void setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback);
         void onFileDownload(const std::string filename);
 
+        void setOnFileDialogCallback(boost::function<const std::string()> callback);
+        const std::string onFileDialog();
+
         void setOnRequestExitCallback(boost::function<void()> callback);
         void onRequestExit();
 
@@ -185,6 +188,7 @@ class LLCEFLibImpl :
         boost::function<void(std::string, std::string)> mOnNavigateURLCallbackFunc;
         boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> mOnHTTPAuthCallbackFunc;
         boost::function<void(const std::string filename)> mOnFileDownloadCallbackFunc;
+        boost::function<const std::string()> mOnFileDialogCallbackFunc;
         boost::function<void()> mOnRequestExitCallbackFunc;
         boost::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> mOnCursorChangedCallbackFunc;
 

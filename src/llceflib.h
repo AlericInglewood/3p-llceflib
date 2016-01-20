@@ -266,6 +266,9 @@ class LLCEFLib
         // called when a file download request is made
         void setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback);
 
+        // called when the file picker dialog is shown
+        void setOnFileDialogCallback(boost::function<const std::string()> callback);
+
     private:
         boost::movelib::unique_ptr <LLCEFLibImpl> mImpl;
 };

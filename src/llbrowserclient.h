@@ -111,13 +111,22 @@ class LLBrowserClient :
 
         // CefDialogHandler orerrides
         CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE { return this; }
+#ifdef LATEST_CEF_VERSION
         bool OnFileDialog(CefRefPtr<CefBrowser> browser,
-            FileDialogMode mode,
-            const CefString& title,
-            const CefString& default_file_path,
-            const std::vector<CefString>& accept_filters,
-            int selected_accept_filter,
-            CefRefPtr<CefFileDialogCallback> callback) OVERRIDE;
+                            FileDialogMode mode,
+                            const CefString& title,
+                            const CefString& default_file_path,
+                            const std::vector<CefString>& accept_filters,
+                            int selected_accept_filter,
+                            CefRefPtr<CefFileDialogCallback> callback) OVERRIDE;
+#else
+        bool OnFileDialog(CefRefPtr<CefBrowser> browser,
+                            FileDialogMode mode,
+                            const CefString& title,
+                            const CefString& default_file_name,
+                            const std::vector<CefString>& accept_types,
+                            CefRefPtr<CefFileDialogCallback> callback) OVERRIDE;
+#endif
 
     private:
         LLCEFLibImpl* mParent;

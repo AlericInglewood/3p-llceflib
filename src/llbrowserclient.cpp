@@ -293,6 +293,7 @@ void LLBrowserClient::OnBeforeDownload(CefRefPtr<CefBrowser> browser,
     mParent->onFileDownload(std::string(suggested_name));
 }
 
+#ifdef LATEST_CEF_VERSION
 bool LLBrowserClient::OnFileDialog(CefRefPtr<CefBrowser> browser,
                                     FileDialogMode mode,
                                     const CefString& title,
@@ -300,6 +301,14 @@ bool LLBrowserClient::OnFileDialog(CefRefPtr<CefBrowser> browser,
                                     const std::vector<CefString>& accept_filters,
                                     int selected_accept_filter,
                                     CefRefPtr<CefFileDialogCallback> callback)
+#else
+bool LLBrowserClient::OnFileDialog(CefRefPtr<CefBrowser> browser,
+                                    FileDialogMode mode,
+                                    const CefString& title,
+                                    const CefString& default_file_name,
+                                    const std::vector<CefString>& accept_types,
+                                    CefRefPtr<CefFileDialogCallback> callback)
+#endif
 {
     CEF_REQUIRE_UI_THREAD();
 
@@ -309,9 +318,13 @@ bool LLBrowserClient::OnFileDialog(CefRefPtr<CefBrowser> browser,
         std::vector<CefString> file_paths;
         file_paths.push_back(CefString(file_path));
 
+#ifdef LATEST_CEF_VERSION
         const int file_path_index = 0;
-
         callback->Continue(file_path_index, file_paths);
+
+#else
+        callback->Continue(file_paths);
+#endif
     }
     else
     {

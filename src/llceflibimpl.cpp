@@ -77,6 +77,11 @@ void LLCEFLibImpl::OnBeforeCommandLineProcessing(const CefString& process_type, 
         {
             command_line->AppendSwitch("enable-system-flash");
         }
+
+        // <FS:ND> Add enable-begin-frame-scheduling to synchronize frame rate between all CEF child processes from Drake Arconis/Alchemy
+        // speculative/hopefull fix for https://jira.secondlife.com/browse/BUG-11265
+        command_line->AppendSwitch("enable-begin-frame-scheduling"); // Synchronize the frame rate between all processes.
+        // </FS:ND>
     }
 }
 

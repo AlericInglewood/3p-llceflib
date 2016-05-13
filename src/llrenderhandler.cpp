@@ -98,7 +98,7 @@ void LLRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType ty
     }
 
     mParent->onPageChanged(flipBuffer, x, y, width, height, is_popup);
-#elif
+#else
     mParent->onPageChanged((unsigned char*)(buffer), x, y, width, height, is_popup);
 #endif
 }

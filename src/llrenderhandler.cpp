@@ -115,6 +115,7 @@ void LLRenderHandler::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show)
         mPopupRect.Set(0, 0, 0, 0);
 
         mParent->getBrowser()->GetHost()->Invalidate(PET_VIEW);
+        mParent->onPageChanged( NULL, 0, 0, 0, 0, true); // ND: Clear the hosts popup buffer
     }
 }
 

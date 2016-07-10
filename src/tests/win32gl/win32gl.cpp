@@ -36,6 +36,7 @@
 #include <gl\gl.h>
 #include "../../llCEFLib.h"
 
+FILE* gConsole;
 int mAppWindowWidth = 1024;
 int mAppWindowHeight = 1024;
 const int gTextureWidth = 1024;
@@ -74,7 +75,7 @@ void resize_gl_screen(int width, int height)
 void onPageChangedCallback(unsigned char* pixels, int x, int y, int width, int height, bool is_popup)
 {
     glTexSubImage2D(GL_TEXTURE_2D, 0,
-                    x, gTextureHeight - y - height,
+                    x, y,
                     width, height,
                     GL_BGRA_EXT,
                     GL_UNSIGNED_BYTE,
@@ -166,16 +167,17 @@ void update()
     glEnable(GL_TEXTURE_2D);
     glColor3f(1.0f, 1.0f, 1.0f);
     glBegin(GL_QUADS);
-    glTexCoord2f(1.0f, 1.0f);
+    
+    glTexCoord2f(1.0f, 0.0f);
     glVertex2d(mAppWindowWidth, 0);
 
-    glTexCoord2f(0.0f, 1.0f);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex2d(0, 0);
 
-    glTexCoord2f(0.0f, 0.0f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex2d(0, mAppWindowHeight);
 
-    glTexCoord2f(1.0f, 0.0f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex2d(mAppWindowWidth, mAppWindowHeight);
     glEnd();
 
@@ -303,8 +305,27 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////
 //
+void initConsole()
+{
+	AllocConsole();
+	freopen_s(&gConsole, "CON", "w", stdout);
+	freopen_s(&gConsole, "CON", "w", stderr);
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+void closeConsole()
+{
+	fclose(gConsole);
+	FreeConsole();
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	initConsole();
+	
     WNDCLASS wc;
     wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC | CS_DBLCLKS;
     wc.lpfnWndProc = (WNDPROC)window_proc;
@@ -326,7 +347,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     AdjustWindowRectEx(&window_rect, style, FALSE, ex_style);
 
     HWND hWnd = CreateWindowEx(ex_style, "Win32GL", "Win32GL LLCEFLib test", style | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
-                               80, 0, window_rect.right - window_rect.left, window_rect.bottom - window_rect.top,
+                               720, 0, window_rect.right - window_rect.left, window_rect.bottom - window_rect.top,
                                NULL, NULL, hInstance, NULL);
 
     static  PIXELFORMATDESCRIPTOR pfd =
@@ -388,6 +409,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     ReleaseDC(hWnd, hDC);
     DestroyWindow(hWnd);
     UnregisterClass("Win32GL", hInstance);
+
+	closeConsole();
 
     return 0;
 }

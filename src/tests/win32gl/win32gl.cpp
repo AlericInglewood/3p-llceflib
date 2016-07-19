@@ -24,6 +24,7 @@
 * $/LicenseInfo$
 */
 
+
 #include <windows.h>
 #include <string>
 #include <iostream>
@@ -75,7 +76,7 @@ void resize_gl_screen(int width, int height)
 void onPageChangedCallback(unsigned char* pixels, int x, int y, int width, int height, bool is_popup)
 {
     glTexSubImage2D(GL_TEXTURE_2D, 0,
-                    x, y,
+					x, gTextureHeight - y - height,
                     width, height,
                     GL_BGRA_EXT,
                     GL_UNSIGNED_BYTE,
@@ -161,25 +162,24 @@ void update()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // TODO - move
     glLoadIdentity();
 
     glEnable(GL_TEXTURE_2D);
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glBegin(GL_QUADS);
-    
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex2d(mAppWindowWidth, 0);
+	glColor3f(1.0f, 1.0f, 1.0f);
 
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex2d(0, 0);
+	glBegin(GL_QUADS);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex2d(mAppWindowWidth, 0);
 
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex2d(0, mAppWindowHeight);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex2d(0, 0);
 
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex2d(mAppWindowWidth, mAppWindowHeight);
-    glEnd();
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex2d(0, mAppWindowHeight);
+
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex2d(mAppWindowWidth, mAppWindowHeight);
+	glEnd();
 
     mLLCEFLib->update();
 }

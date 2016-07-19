@@ -42,6 +42,6 @@
 #endif
 
 // flip the output in the Y direction so it's compatible with SL
-//#define FLIP_OUTPUT_Y
+#define FLIP_OUTPUT_Y
 
 #endif // _LLCEFLIBPLATFORM

@@ -192,6 +192,8 @@ class LLCEFLibImpl :
         boost::function<void()> mOnRequestExitCallbackFunc;
         boost::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> mOnCursorChangedCallbackFunc;
 
+		void convertInputCoords(int& x, int& y);
+
         CefRefPtr<FlushStoreCallback> mFlushStoreCallback;
 
         IMPLEMENT_REFCOUNTING(LLCEFLibImpl);

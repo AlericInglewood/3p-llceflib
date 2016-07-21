@@ -24,7 +24,6 @@
 * $/LicenseInfo$
 */
 
-
 #include <windows.h>
 #include <string>
 #include <iostream>
@@ -145,7 +144,7 @@ void init(HWND hWnd)
     settings.cookies_enabled = true;
     settings.plugins_enabled = true;
     settings.media_stream_enabled = true;
-    settings.cookie_store_path = "c:\\win32gl-cef-cookies";
+    settings.cookie_store_path = ".\\cookies";
     settings.user_agent_substring = mLLCEFLib->makeCompatibleUserAgentString("Win32GL");
     settings.accept_language_list = "en-us";
 
@@ -233,7 +232,7 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
             int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
             int y = (HIWORD(lParam) * gTextureHeight) / mAppWindowHeight;
-            mLLCEFLib->mouseButton(LLCEFLib::MB_MOUSE_BUTTON_LEFT, LLCEFLib::ME_MOUSE_DOUBLE_CLICK, x, y);
+			mLLCEFLib->mouseButton(LLCEFLib::MB_MOUSE_BUTTON_LEFT, LLCEFLib::ME_MOUSE_DOUBLE_CLICK, x, mAppWindowHeight - y);
             return 0;
         }
 
@@ -241,7 +240,7 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
             int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
             int y = (HIWORD(lParam) * gTextureHeight) / mAppWindowHeight;
-            mLLCEFLib->mouseButton(LLCEFLib::MB_MOUSE_BUTTON_LEFT, LLCEFLib::ME_MOUSE_DOWN, x, y);
+			mLLCEFLib->mouseButton(LLCEFLib::MB_MOUSE_BUTTON_LEFT, LLCEFLib::ME_MOUSE_DOWN, x, mAppWindowHeight - y);
             mLLCEFLib->setFocus(true);
             return 0;
         };
@@ -250,7 +249,7 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
             int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
             int y = (HIWORD(lParam) * gTextureHeight) / mAppWindowHeight;
-            mLLCEFLib->mouseButton(LLCEFLib::MB_MOUSE_BUTTON_LEFT, LLCEFLib::ME_MOUSE_UP, x, y);
+			mLLCEFLib->mouseButton(LLCEFLib::MB_MOUSE_BUTTON_LEFT, LLCEFLib::ME_MOUSE_UP, x, mAppWindowHeight - y);
             return 0;
         };
 
@@ -263,7 +262,7 @@ LRESULT CALLBACK window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
             int x = (LOWORD(lParam) * gTextureWidth) / mAppWindowWidth;
             int y = (HIWORD(lParam) * gTextureHeight) / mAppWindowHeight;
-            mLLCEFLib->mouseMove(x, y);
+			mLLCEFLib->mouseMove(x, mAppWindowHeight - y);
             return 0;
         };
 
@@ -340,7 +339,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     RegisterClass(&wc);
 
     RECT window_rect;
-    SetRect(&window_rect, 0, 0, mAppWindowWidth, mAppWindowHeight);
+	SetRect(&window_rect, 0, 0, mAppWindowWidth, mAppWindowHeight + GetSystemMetrics(SM_CYMENU));
 
     DWORD ex_style = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
     DWORD style = WS_OVERLAPPEDWINDOW;

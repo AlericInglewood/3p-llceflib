@@ -8,12 +8,10 @@
   * You can find tools to extract this format here: http://www.7-zip.org/
   * Extract to a folder
 * Open a command prompt in the folder where you extracted the files and enter these commands:
-  ``` 
-    mkdir build
-    cd build
-    cmake -G "Visual Studio 12 2013" ..
-    start cef.sln
-  ```
+    `mkdir build`
+    `cd build`
+    `cmake -G "Visual Studio 12 2013" ..`
+    `start cef.sln`
 * Set `libcef_dll_wrapper` to be the StartUp Project
   * In `libcef_dll_wrapper -> Properties -> C/C++ -> Code Generation` change the `Runtime Library` to `Multi-threaded Debug DLL` for Debug configurations and `Multi-threaded DLL` for Release configurations
 * Build the Debug and Release configurations in the normal way

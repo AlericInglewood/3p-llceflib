@@ -4,21 +4,24 @@
 
 #### Windows
 * Visit http://cefbuilds.com and download the most recent (non-development branch) version of CEF (WIN 32) you can find.
- * The files are compressed using the  format ".7z"
- * You can find tools to extract this format here: http://www.7-zip.org/
- * Extract to a folder
+    * The files are compressed using the  format ".7z"
+    * You can find tools to extract this format here: http://www.7-zip.org/
+    * Extract to a folder
 * Open a command prompt in the folder where you extracted the files and enter these commands:
-  * `mkdir build`
-  * `cd build`
-  * `cmake -G "Visual Studio 12 2013" ..`
-  * `start cef.sln`
+
+        mkdir build
+        cd build
+        cmake -G "Visual Studio 12 2013" ..
+        start cef.sln
+
+
 * Set `libcef_dll_wrapper` to be the StartUp Project
-  * In `libcef_dll_wrapper -> Properties -> C/C++ -> Code Generation` change the `Runtime Library` to `Multi-threaded Debug DLL` for Debug configurations and `Multi-threaded DLL` for Release configurations
+    * In `libcef_dll_wrapper -> Properties -> C/C++ -> Code Generation` change the `Runtime Library` to `Multi-threaded Debug DLL` for Debug configurations and `Multi-threaded DLL` for Release configurations
 * Build the Debug and Release configurations in the normal way
 * Edit the `tools\make_autobuild_pkg.bat` batch file
-  * Change the value for `SRC_DIR` to point to the CEF binary folder you downloaded
-  * Change the value for `DST_DIR` to point to a folder along side existing CEF folder in the 3p-llceflib repo - e.g. `cef_2704_WIN_32`
-  * Run the batch file
+    * Change the value for `SRC_DIR` to point to the CEF binary folder you downloaded
+    * Change the value for `DST_DIR` to point to a folder along side existing CEF folder in the 3p-llceflib repo - e.g. `cef_2704_WIN_32`
+    * Run the batch file
 * From a command prompt in the LLCEFLib folder run  `autobuild install` to install the LLCEFLib dependencies via autobuild (Boost)
 * Open the `src\llceflib.sln` solution file
 * Set the StartUp Project to be `win32gl` (the test app)

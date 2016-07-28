@@ -1,4 +1,10 @@
-## Update the version of CEF that LLCEFLib builds against
+# LLCEFLib #
+
+## Purpose
+
+LLCEFLib uses the [Chromium Embedded Framework](https://en.wikipedia.org/wiki/Chromium_Embedded_Framework) (CEF) to render web content to a memory buffer that is then used in the [Second Life viewer](http://secondlife.com) to display media on 2D and 3D objects.
+
+## How to update the version of CEF that LLCEFLib builds against
 
 #### Note: This is mostly a manual process currently. As part of the switch to 64 bit viewers, this process will be significantly more automated.
 

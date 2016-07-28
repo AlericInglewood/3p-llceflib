@@ -4,9 +4,9 @@
 
 #### Windows
 * Visit http://cefbuilds.com and download the most recent (non-development branch) version of CEF (WIN 32) you can find.
-** The files are compressed using the  format ".7z"
-  * You can find tools to extract this format here: http://www.7-zip.org/
-  * Extract to a folder
+ * The files are compressed using the  format ".7z"
+ * You can find tools to extract this format here: http://www.7-zip.org/
+ * Extract to a folder
 * Open a command prompt in the folder where you extracted the files and enter these commands:
   * `mkdir build`
   * `cd build`

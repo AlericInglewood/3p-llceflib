@@ -23,7 +23,7 @@ LLCEFLib uses the [Chromium Embedded Framework](https://en.wikipedia.org/wiki/Ch
 
 * Set `libcef_dll_wrapper` to be the StartUp Project
     * In `libcef_dll_wrapper -> Properties -> C/C++ -> Code Generation` change the `Runtime Library` to `Multi-threaded Debug DLL` for Debug configurations and `Multi-threaded DLL` for Release configurations
-* Build the Debug and Release configurations in the normal way
+* Build the Debug and Release configurations of libcef_dll_wrapper (only) in the normal way
 * Edit the `tools\make_autobuild_pkg.bat` batch file
     * Change the value for `SRC_DIR` to point to the CEF binary folder you downloaded
     * Change the value for `DST_DIR` to point to a folder along side existing CEF folder in the 3p-llceflib repo - e.g. `cef_2704_WIN_32`

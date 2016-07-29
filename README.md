@@ -28,7 +28,7 @@ LLCEFLib uses the [Chromium Embedded Framework](https://en.wikipedia.org/wiki/Ch
     * Change the value for `SRC_DIR` to point to the CEF binary folder you downloaded
     * Change the value for `DST_DIR` to point to a folder along side existing CEF folder in the 3p-llceflib repo - e.g. `cef_2704_WIN_32`
     * Run the batch file
-* Edit the `src\cef.props` property file and change the value of the``<CEF_DIR>` tag to point to the one you just made - e.g. `cef_2704_WIN_32`
+* Edit the `src\cef.props` property file and change the value of the `<CEF_DIR>` tag to point to the one you just made - e.g. `cef_2704_WIN_32`
 * From a command prompt in the LLCEFLib folder run  `autobuild install` to install the LLCEFLib dependencies via autobuild (Boost)
 * Open the `src\llceflib.sln` solution file
 * Set the StartUp Project to be `win32gl` (the test app)

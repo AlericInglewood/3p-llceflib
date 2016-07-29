@@ -32,7 +32,7 @@ LLCEFLib uses the [Chromium Embedded Framework](https://en.wikipedia.org/wiki/Ch
 * From a command prompt in the LLCEFLib folder run  `autobuild install` to install the LLCEFLib dependencies via autobuild (Boost)
 * Open the `src\llceflib.sln` solution file
 * Set the StartUp Project to be `win32gl` (the test app)
-* Update the `CEF_VERSION_WIN` and `CEF_CHROME_VERSION_WIN` to reflect the new version numbers. Follow the pattern - you can get the values from http://cefbuilds.com
+* Edit `src\llceflib.h` and update the `CEF_VERSION_WIN` and `CEF_CHROME_VERSION_WIN` to reflect the new version numbers. Follow the pattern - you can get the values from http://cefbuilds.com
 * Build Release and Debug configurations.
 * Important: Is it likely that there will be errors - the CEF interface changes frequently. Fix up the errors.
 * Once there are no errors, try running the test app - you should see the web page of test links. Try a few and confirm most work. One to try for sure it the `Browser User Agent String` link. This page should display the same version of Chrome that you set in `CEF_CHROME_VERSION_WIN`

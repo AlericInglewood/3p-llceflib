@@ -47,6 +47,7 @@ LLCEFLibImpl::LLCEFLibImpl() :
     mViewWidth(0),
     mViewHeight(0),
     mBrowser(0),
+	mRequestedZoom(0.0),
     mSystemFlashEnabled(false),
     mMediaStreamEnabled(false)
 {
@@ -162,6 +163,9 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
     // change settings based on what was passed in
     browser_settings.javascript = user_settings.javascript_enabled ? STATE_ENABLED : STATE_DISABLED;
     browser_settings.plugins = STATE_ENABLED;
+
+	// set page zoom (won't be acted up until later but tha'ts okay)
+    mRequestedZoom = user_settings.page_zoom_factor;
 
     // CEF handler classes
     LLRenderHandler* renderHandler = new LLRenderHandler(this);
@@ -359,6 +363,15 @@ void LLCEFLibImpl::onTitleChange(std::string title)
 
 void LLCEFLibImpl::onLoadStart()
 {
+	if (mBrowser && mBrowser->GetHost())
+	{
+		double cur_zoom = convertZoomLevel(mBrowser->GetHost()->GetZoomLevel());
+		if (fabs(convertZoomLevel(mRequestedZoom)) - fabs(cur_zoom) > 0.001)
+		{
+			mBrowser->GetHost()->SetZoomLevel(convertZoomLevel(mRequestedZoom));
+		};
+	}
+
     if (mOnLoadStartCallbackFunc)
     {
         mOnLoadStartCallbackFunc();
@@ -510,7 +523,8 @@ void LLCEFLibImpl::setPageZoom(double zoom_val)
 {
     if (mBrowser && mBrowser->GetHost())
     {
-        mBrowser->GetHost()->SetZoomLevel(zoom_val);
+		mBrowser->GetHost()->SetZoomLevel(convertZoomLevel(zoom_val));
+		mRequestedZoom = zoom_val;
     }
 }
 
@@ -794,4 +808,18 @@ void LLCEFLibImpl::convertInputCoords(int& x, int& y)
 #ifdef FLIP_OUTPUT_Y
 	y = mViewHeight - y;
 #endif
+}
+
+// convert linear zoom (1.0, 2.0, 3.0 etc.) to log based zoom CEF uses
+// where 0.0 is 100%, 1.0 is 120%, 2.0 is 144% etc. (each 1.0 == 20% more)
+double LLCEFLibImpl::convertZoomLevel(double linear_zoom)
+{
+	if (linear_zoom == 0)
+	{
+		return 0.0;
+	}
+
+	double cef_zoom = log(linear_zoom) / log(1.2);
+
+	return cef_zoom;
 }

@@ -86,6 +86,9 @@ class LLCEFLib
             // list of language locale codes used to configure the Accept-Language HTTP header value
             // and change the default language of the browser
             std::string accept_language_list = "en-us";
+
+			// initial page zoom factor in linear units (not CEF units)
+			double page_zoom_factor = 1.0;
         };
 
         // keyboard event types

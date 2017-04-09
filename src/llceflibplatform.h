@@ -32,6 +32,7 @@
 #include <iostream>
 #endif
 
+#if 0 // <CV:HB>
 // Latest version of CEF in use on Windows platform has
 // different interfaces from 2171 in use on OS X. This
 // flag is used to switch between the two.
@@ -40,8 +41,25 @@
 #elif __APPLE__
 #undef  LATEST_CEF_VERSION
 #endif
+#endif // <CV:HB>
 
 // flip the output in the Y direction so it's compatible with SL
 #define FLIP_OUTPUT_Y
+
+#if 1 // <CV:HB>
+#define CEF_BRANCH_2526     (4)
+#define CEF_BRANCH_2454     (3)
+#define CEF_BRANCH_2357     (2)
+#define CEF_BRANCH_2272     (1)
+#define CEF_BRANCH_2171     (0)
+
+#if defined(__APPLE__)
+#define CEF_CURRENT_BRANCH  CEF_BRANCH_2171
+#elif defined(__linux__)
+#define CEF_CURRENT_BRANCH  CEF_BRANCH_2526
+#else
+#define CEF_CURRENT_BRANCH  CEF_BRANCH_2526
+#endif
+#endif // <CV:HB>
 
 #endif // _LLCEFLIBPLATFORM

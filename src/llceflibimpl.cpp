@@ -1,6 +1,8 @@
 /**
  * @brief LLCEFLib - Wrapper for CEF SDK for use in LL Web Media Plugin
  * @author Callum Prentice 2015
+ * - Improvements and Linux support by Henri Beauchamp (<CV:HB>).
+ * - Updated April 2017 to upstream version by Aleric (<SV:AI>).
  *
  * $LicenseInfo:firstyear=2001&license=viewerlgpl$
  * Second Life Viewer Source Code
@@ -24,8 +26,14 @@
  * $/LicenseInfo$
  */
 
+#ifdef __linux__
+//#include <cstdlib>
+//#include <sys/types.h>
+//#include <sys/stat.h>
+#endif
+
 #include "llceflibimpl.h"
-#include "llCEFLib.h"
+#include "llceflib.h"           // Must be lowercase <SV:AI>
 
 #include "llceflibplatform.h"
 
@@ -38,6 +46,9 @@
 #include "include/base/cef_bind.h"
 #include "include/wrapper/cef_closure_task.h"
 
+// <CV:HB>
+#include <iostream>             // Needed when mDebug is set.
+// </CV:HB>
 
 #ifdef __APPLE__
 #import <Cocoa/Cocoa.h>
@@ -49,7 +60,8 @@ LLCEFLibImpl::LLCEFLibImpl() :
     mBrowser(0),
 	mRequestedZoom(0.0),
     mSystemFlashEnabled(false),
-    mMediaStreamEnabled(false)
+    mMediaStreamEnabled(false),
+    mDebug(false)               // Added <CV:HB>
 {
     // default is second life scheme
     std::vector<std::string> default_schemes;
@@ -77,38 +89,63 @@ void LLCEFLibImpl::OnBeforeCommandLineProcessing(const CefString& process_type, 
         if (mSystemFlashEnabled == true)                    // for Flash
         {
             command_line->AppendSwitch("enable-system-flash");
+            // <CV:HB>
+#ifdef __linux__
+            if (getenv("LL_FLASH_PLUGIN") && getenv("LL_FLASH_VERSION"))
+            {
+                std::string flash_plugin = getenv("LL_FLASH_PLUGIN");
+                std::string flash_version = getenv("LL_FLASH_VERSION");
+                if (!flash_plugin.empty() && !flash_version.empty())
+                {
+                    command_line->AppendSwitchWithValue("ppapi-flash-path", flash_plugin);
+                    command_line->AppendSwitchWithValue("ppapi-flash-version", flash_version);
+                }
+            }
+#endif
+            // </CV:HB>
         }
 
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
         // <FS:ND> Add enable-begin-frame-scheduling to synchronize frame rate between all CEF child processes from Drake Arconis/Alchemy
         // speculative/hopefull fix for https://jira.secondlife.com/browse/BUG-11265
-#ifdef WIN32
         command_line->AppendSwitch("enable-begin-frame-scheduling"); // Synchronize the frame rate between all processes.
-#elif __APPLE__
-        // this breaks content on our old OS X version so turn off for now.
-#endif        // </FS:ND>
+        // </FS:ND>
+#endif
     }
 }
 
 bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 {
-#ifdef LLCEFLIB_DEBUG
-    std::cout << "Starting.." << std::endl;
-#endif
+    // <CV:HB>
+    mDebug = user_settings.debug;
+    if (mDebug)
+    {
+        std::cerr << "LLCEFLibImpl::init() starting..." << std::endl;
+    }
+    // </CV:HB>
 
 #ifdef WIN32
     CefMainArgs args(GetModuleHandle(NULL));
-#elif __APPLE__
+#else
     CefMainArgs args(0, NULL);
 #endif
 
     CefSettings settings;
 
-#ifdef WIN32
+#if defined(WIN32)
     CefString(&settings.browser_subprocess_path) = "llceflib_host.exe";
-#elif __APPLE__
+#elif defined(__APPLE__)
     NSString* appBundlePath = [[NSBundle mainBundle] bundlePath];
     CefString(&settings.browser_subprocess_path) = [[NSString stringWithFormat: @"%@/Contents/Frameworks/LLCefLib Helper.app/Contents/MacOS/LLCefLib Helper", appBundlePath] UTF8String];
+#elif defined(__linux__)
+    CefString(&settings.browser_subprocess_path) = "llceflib_host";
 #endif
+
+    // <CV:HB>
+    // Do not bother with the stupid sandbox which keeps failing under Windows
+    // and which must be set UID root under Linux...
+    settings.no_sandbox = true;
+    // </CV:HB>
 
     // change settings based on what was passed in
     // Only change user agent if user wants to
@@ -118,12 +155,15 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
         cef_string_utf8_to_utf16(user_agent.c_str(), user_agent.size(), &settings.product_version);
     }
 
+    // <CV:HB>
+    std::string locale = user_settings.locale;
+    cef_string_utf8_to_utf16(locale.c_str(), locale.size(), &settings.locale);
+    // </CV:HB>
+
     // list of language locale codes used to configure the Accept-Language HTTP header value
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
     std::string accept_language_list(user_settings.accept_language_list);
     cef_string_utf8_to_utf16(accept_language_list.c_str(), accept_language_list.size(), &settings.accept_language_list);
-#else
-    // feature not supported on revision of OS X CEF we are locked to in 32 bit land
 #endif
 
     // set path to cache if enabled and set
@@ -135,8 +175,8 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
     mSystemFlashEnabled = user_settings.plugins_enabled;
     mMediaStreamEnabled = user_settings.media_stream_enabled;
 
-#ifdef WIN32
-    // turn on only for Windows 7+
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
+    // Works for Windows 7 and newer, NOP for other OSes.
     CefEnableHighDPISupport();
 #endif
 
@@ -167,6 +207,22 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 	// set page zoom (won't be acted up until later but tha'ts okay)
     mRequestedZoom = user_settings.page_zoom_factor;
 
+    // <CV:HB>
+    if (!user_settings.preferred_font.empty())
+    {
+        CefString(&browser_settings.standard_font_family) = user_settings.preferred_font;
+        CefString(&browser_settings.serif_font_family) = user_settings.preferred_font;
+        CefString(&browser_settings.sans_serif_font_family) = user_settings.preferred_font;
+    }
+
+    if (user_settings.minimum_font_size)
+    {
+        browser_settings.minimum_logical_font_size = user_settings.minimum_font_size;
+        browser_settings.minimum_font_size = user_settings.minimum_font_size;
+    }
+    browser_settings.remote_fonts = user_settings.remote_fonts ? STATE_ENABLED : STATE_DISABLED;
+    // </CV:HB>
+
     // CEF handler classes
     LLRenderHandler* renderHandler = new LLRenderHandler(this);
     mBrowserClient = new LLBrowserClient(this, renderHandler);
@@ -181,7 +237,7 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
     {
 #ifdef WIN32
         std::string cookiePath = ".\\cookies";
-#elif __APPLE__
+#else
         std::string cookiePath = "./cookies";
 #endif
         if (user_settings.cookie_store_path.length())
@@ -191,7 +247,7 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 
         mContextHandler = new LLContextHandler(cookiePath.c_str());
 
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
         CefRequestContextSettings contextSettings;
         if (user_settings.cache_enabled && user_settings.cache_path.length())
         {
@@ -203,10 +259,30 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
 #endif
     }
 
+    // <CV:HB>
+    if (mDebug)
+    {
+        std::cerr << "LLCEFLibImpl::init() creating browser..." << std::endl;
+    }
+    // </CV:HB>
     CefString url = "";
     mBrowser = CefBrowserHost::CreateBrowserSync(window_info, mBrowserClient.get(), url, browser_settings, rc);
 
-    return true;
+    // <CV:HB>
+    if (mDebug)
+    {
+        if (mBrowser.get() != nullptr)
+        {
+            std::cerr << "LLCEFLibImpl::init() success." << std::endl;
+        }
+        else
+        {
+            std::cerr << "LLCEFLibImpl::init() failure !." << std::endl;
+        }
+    }
+    // </CV:HB>
+
+    return mBrowser.get() != nullptr;   // Return false when LLCEFLibImpl::init failed <CV:HB>.
 }
 
 void LLCEFLibImpl::update()
@@ -216,9 +292,9 @@ void LLCEFLibImpl::update()
 
 void LLCEFLibImpl::shutdown()
 {
-#ifdef WIN32
+#if defined(WIN32) || defined(__linux__)
 	CefShutdown();
-#elif __APPLE__
+#elif defined(__APPLE__)
 	// CefShutdown(); 
 	// remove for now - the very old version of CEF on OS X does 
 	// not shut down cleanly with this in place. Once we switch to
@@ -485,7 +561,7 @@ void LLCEFLibImpl::postData(std::string url, std::string data, std::string heade
 
 void LLCEFLibImpl::setCookie(std::string url, std::string name, std::string value, std::string domain, std::string path)
 {
-#ifndef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH <= CEF_BRANCH_2171
     // CEF 2171 SetCookie() needs to run on IO thread
     if (! CefCurrentlyOn(TID_IO))
     {
@@ -494,7 +570,15 @@ void LLCEFLibImpl::setCookie(std::string url, std::string name, std::string valu
     }
 #endif
 
+    // <CV:HB>
+    if (!mContextHandler) return;
+    // </CV:HB>
+
     CefRefPtr<CefCookieManager> manager = mContextHandler->GetCookieManager();
+    // <CV:HB>
+    if (!manager) return;
+    // </CV:HB>
+
     CefCookie cookie;
     CefString(&cookie.name) = name;
     CefString(&cookie.value) = value;
@@ -510,7 +594,7 @@ void LLCEFLibImpl::setCookie(std::string url, std::string name, std::string valu
     cookie.expires.day_of_week = 5;
     cookie.expires.day_of_month = 10;
 
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
     bool result = manager->SetCookie(url, cookie, nullptr);
     manager->FlushStore(nullptr);
 #else
@@ -544,10 +628,16 @@ void LLCEFLibImpl::mouseButton(LLCEFLib::EMouseButton mouse_button, LLCEFLib::EM
     if (mouse_button == LLCEFLib::MB_MOUSE_BUTTON_RIGHT)
     {
         btnType = MBT_RIGHT;
+        // <CV:HB>
+        cef_mouse_event.modifiers = EVENTFLAG_RIGHT_MOUSE_BUTTON;
+        // </CV:HB>
     }
     if (mouse_button == LLCEFLib::MB_MOUSE_BUTTON_MIDDLE)
     {
         btnType = MBT_MIDDLE;
+        // <CV:HB>
+        cef_mouse_event.modifiers = EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+        // </CV:HB>
     }
 
     // TODO: set this properly
@@ -795,10 +885,12 @@ void LLCEFLibImpl::setBrowser(CefRefPtr<CefBrowser> browser)
 std::string LLCEFLibImpl::makeCompatibleUserAgentString(const std::string base)
 {
     std::string frag = "(" + base + ")" + " Chrome/";
-#ifdef WIN32
+#if defined(WIN32)
     frag += CEF_CHROME_VERSION_WIN;
-#else
+#elif defined(__APPLE__)
     frag += CEF_CHROME_VERSION_OSX;
+#elif defined(__linux__)
+    frag += CEF_CHROME_VERSION_LIN;
 #endif
     return frag;
 }

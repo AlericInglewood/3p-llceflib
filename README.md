@@ -4,48 +4,55 @@
 
 LLCEFLib uses the [Chromium Embedded Framework](https://en.wikipedia.org/wiki/Chromium_Embedded_Framework) (CEF) to render web content to a memory buffer that is then used in the [Second Life viewer](http://secondlife.com) to display media on 2D and 3D objects.
 
+## Origin
+
+This is basically a fork of [LindenLabs llceflib](https://bitbucket.org/lindenlab/3p-llceflib).
+
+* Created as follows:
+
+```bash
+    git-hg clone https://bitbucket.org/lindenlab/3p-llceflib 3p-llceflib
+    cd 3p-llceflib
+    git checkout -b singularity
+```
+
+  Then updated with changes from http://sldev.free.fr/libraries/sources/llceflib-20160722-src.tar.bz2
+  to add linux support. Changes were manually applied making as little changes to the lindenlabs
+  code as possible; changes that made no difference (re-indentation, whitespace, line wrapping,
+  comments) where not applied and changes that are only needed for old (pre-C++11) compilers neither
+  (ie, in-class{} initialization, nullptr, ...). I also didn't use Henri's changes regarding cache
+  and cookies(cache) paths.
+
+  After creating a repository as above, one has to sync with upstream as follows (still in branch singularity):
+```bash
+    git-hg fetch
+    git merge master
+```
+
+* To build the package (in branch singularity):
+
+```bash
+    correct_autobuild_xml
+    git diff
+    git commit -a -m 'Updated urls of prebuilt packages.'
+    autobuild install
+    autobuild build
+    autobuild package
+```
+
+  Where `correct_autobuild_xml` is a script that I use
+  to update autobuild.xml with the md5sum and url's of the latest
+  packages that are currently used by singularity.
+
 ## How to update the version of CEF that LLCEFLib builds against
 
-#### Note: This is mostly a manual process currently. As part of the switch to 64 bit viewers, this process will be significantly more automated.
-
-#### Windows
-* Visit http://cefbuilds.com and download the most recent (non-development branch) version of CEF (WIN 32) you can find.
-    * The files are compressed using the  format ".7z"
-    * You can find tools to extract this format here: http://www.7-zip.org/
-    * Extract to a folder
-* Open a command prompt in the folder where you extracted the files and enter these commands:
-
-        mkdir build
-        cd build
-        cmake -G "Visual Studio 12 2013" ..
-        start cef.sln
-
-
-* Set `libcef_dll_wrapper` to be the StartUp Project
-    * In `libcef_dll_wrapper -> Properties -> C/C++ -> Code Generation` change the `Runtime Library` to `Multi-threaded Debug DLL` for Debug configurations and `Multi-threaded DLL` for Release configurations
-* Build the Debug and Release configurations of libcef_dll_wrapper (only) in the normal way
-* Edit the `tools\make_autobuild_pkg.bat` batch file
-    * Change the value for `SRC_DIR` to point to the CEF binary folder you downloaded
-    * Change the value for `DST_DIR` to point to a folder along side existing CEF folder in the 3p-llceflib repo - e.g. `cef_2704_WIN_32`
-    * Run the batch file
-* Edit the `src\cef.props` property file and change the value of the `<CEF_DIR>` tag to point to the one you just made - e.g. `cef_2704_WIN_32`
-* From a command prompt in the LLCEFLib folder run  `autobuild install` to install the LLCEFLib dependencies via autobuild (Boost)
-* Open the `src\llceflib.sln` solution file
-* Set the StartUp Project to be `win32gl` (the test app)
-* Edit `src\llceflib.h` and update the `CEF_VERSION_WIN` and `CEF_CHROME_VERSION_WIN` to reflect the new version numbers. Follow the pattern - you can get the values from http://cefbuilds.com
-* Build Release and Debug configurations.
-* Important: Is it likely that there will be errors - the CEF interface changes frequently. Fix up the errors.
-* Once there are no errors, try running the test app - you should see the web page of test links. Try a few and confirm most work. One to try for sure it the `Browser User Agent String` link. This page should display the same version of Chrome that you set in `CEF_CHROME_VERSION_WIN`
-* Push out the new CEF folder and any changes you made to the source code to the repository
-* Build it in Team City
-* Update the `autobuild.xml` for a viewer to point to it in the usual fashion
-* Build the viewer and confirm the embedded browser still functions as expected (login, search, profiles etc.)
-* Open the media test floater (web content floater) and visit http://www.useragentstring.com/ - confirm that the Chrome version number matches what you set for `CEF_CHROME_VERSION_WIN` in LLCEFLib
-* Using the media test floater, confirm that the reasons you did the update (CEF out of date, exploit fixes, bug fixes etc.) have been addressed.
-* Declare victory!
-
-## OS X
-CEF is not supported on 32 bit OS X systems anymore so the version is frozen at the 2171 branch until we switch to 64 bit versions.
-
 ## Linux
-TBD
+
+I've tested this (and am using it) for linux64.
+Before running autobuild you need to create a `cef_2526_LIN_64`
+directory in the root of this project by extracting a tar ball
+that you got from elsewhere. For example,
+```bash
+    wget http://sldev.free.fr/libraries/sources/cef_binary_3.2526.1371.gea9b6c8_linux64-no_tcmalloc-with_codecs.tar.bz2
+    tar xjf cef_binary_3.2526.1371.gea9b6c8_linux64-no_tcmalloc-with_codecs.tar.bz2
+```

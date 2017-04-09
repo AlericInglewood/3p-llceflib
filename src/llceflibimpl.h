@@ -173,7 +173,7 @@ class LLCEFLibImpl :
         CefRefPtr<LLContextHandler> mContextHandler;
         int mViewWidth;
         int mViewHeight;
-        const int mViewDepth = 4;
+        static int const mViewDepth = 4;        // 'static' added by <SV:AI>
         bool mSystemFlashEnabled;
         bool mMediaStreamEnabled;
 
@@ -199,6 +199,8 @@ class LLCEFLibImpl :
 		double convertZoomLevel(double linear_zoom);
 
         CefRefPtr<FlushStoreCallback> mFlushStoreCallback;
+
+        bool mDebug;    // Added by <CV:HB>
 
         IMPLEMENT_REFCOUNTING(LLCEFLibImpl);
 };

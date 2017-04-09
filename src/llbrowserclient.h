@@ -54,7 +54,7 @@ class LLBrowserClient :
 
         // CefLifeSpanHandler overrides
         CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
         bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                            const CefString& target_url, const CefString& target_frame_name,
                            CefLifeSpanHandler::WindowOpenDisposition target_disposition,
@@ -91,7 +91,7 @@ class LLBrowserClient :
         bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
         bool GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback) OVERRIDE;
 
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
         bool OnQuotaRequest(CefRefPtr<CefBrowser> browser,
                             const CefString& origin_url,
                             int64 new_size,
@@ -111,7 +111,7 @@ class LLBrowserClient :
 
         // CefDialogHandler orerrides
         CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE { return this; }
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
         bool OnFileDialog(CefRefPtr<CefBrowser> browser,
                             FileDialogMode mode,
                             const CefString& title,

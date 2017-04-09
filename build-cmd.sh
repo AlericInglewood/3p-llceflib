@@ -16,6 +16,9 @@ CEF_SOURCE_DIR_OSX="cef_2171_OSX_32"
 MSVC_PROPS_FILE="./${LLCEFLIB_SOURCE_DIR}/cef.props"
 CEF_SOURCE_DIR_WIN=$(sed -n 's:.*<CEF_DIR>\(.*\)</CEF_DIR>.*:\1:p' "${MSVC_PROPS_FILE}")
 
+# hard code the linux64 folder name
+CEF_SOURCE_DIR_LIN64="cef_2526_LIN_64"
+
 if [ -z "$AUTOBUILD" ] ; then
     fail
 fi
@@ -87,7 +90,48 @@ pushd "$LLCEFLIB_SOURCE_DIR"
             mkdir -p "$stage/LICENSES"
             cp -R "$LLCEFLIB_SOURCE_DIR/LICENSES" "$stage"
         ;;
-        "linux")
+        "linux64")
+          cd ..
+
+          # Build libcef_dll
+          pushd "$CEF_SOURCE_DIR_LIN64"
+          mkdir -p build
+          pushd build
+          cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+          make -j6 libcef_dll_wrapper
+          popd
+          popd
+
+          # Build libllceflib.a and llceflib_host
+          pushd "$LLCEFLIB_SOURCE_DIR"
+          mkdir -p build
+          pushd build
+          cmake -G "Unix Makefiles" -DARCH:STRING="-m64" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON ..
+          make
+          popd
+          popd
+
+          mkdir -p "$stage/include/cef"
+          mkdir -p "$stage/bin/release"
+          mkdir -p "$stage/lib/release"
+          rm -rf "$stage/resources" "$stage/LICENSES"
+          mkdir -p "$stage/resources"
+          mkdir -p "$stage/LICENSES"
+
+          cp $LLCEFLIB_SOURCE_DIR/build/llceflib_host $stage/bin/release
+          cp $CEF_SOURCE_DIR_LIN64/Release/*_blob.bin $stage/bin/release
+          cp $LLCEFLIB_SOURCE_DIR/llceflib.h $stage/include/cef
+          cp $CEF_SOURCE_DIR_LIN64/build/libcef_dll/libcef_dll_wrapper.a $stage/lib/release
+          cp $LLCEFLIB_SOURCE_DIR/build/libllceflib.a $stage/lib/release
+          cp $CEF_SOURCE_DIR_LIN64/Release/libcef.so $stage/lib/release
+          cp -R $CEF_SOURCE_DIR_LIN64/Resources/* $stage/resources
+          cp -R $LLCEFLIB_SOURCE_DIR/LICENSES/* $stage/LICENSES
+          mv $stage/LICENSES/LICENSE-source.txt $stage/LICENSES/llceflib.txt
+          chmod 664 $stage/LICENSES/*
+
+          VERSION_HEADER_FILE="$CEF_SOURCE_DIR_LIN64/include/cef_version.h"
+          version=$(sed -n -r 's/#define CEF_VERSION "([[:alnum:].]+)"/\1/p' "${VERSION_HEADER_FILE}")
+          echo "${version}" > "${stage}/VERSION.txt"
         ;;
     esac
 popd

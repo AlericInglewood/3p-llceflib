@@ -39,7 +39,7 @@ class LLCEFLibImpl;
 
 // version information
 // version of this library
-const std::string LLCEFLIB_BASE_VERSION = "1.5.3";
+const std::string LLCEFLIB_BASE_VERSION = "1.5.3c";     // 'c' added by <CV:HB>
 
 // version of CEF and the version of Chrome it represents on Windows
 const std::string CEF_VERSION_WIN = "(CEF-WIN-3.2526.1347-32)";
@@ -49,9 +49,19 @@ const std::string CEF_CHROME_VERSION_WIN = "47.0.2526.16";
 const std::string CEF_VERSION_OSX = "(CEF-OSX-3.2171.2069-32)";
 const std::string CEF_CHROME_VERSION_OSX = "39.0.2171.95";
 
+// <CV:HB>
+const std::string CEF_VERSION_LIN = "(CEF-LIN-3.2526.1347-32)";
+const std::string CEF_VERSION_LIN64 = "(CEF-LIN-3.2526.1371-64)";
+const std::string CEF_CHROME_VERSION_LIN = "47.0.2526.16";
+// </CV:HB>
+
 // composite version for display
-#ifdef WIN32
+#if defined(_MSC_VER)
 const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_WIN;
+#elif defined(__linux__) && (defined(__amd64__) || defined(__x86_64__))
+const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_LIN64;
+#elif defined(__linux__)
+const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_LIN;
 #else
 const std::string LLCEFLIB_VERSION = LLCEFLIB_BASE_VERSION + "-" + CEF_VERSION_OSX;
 #endif
@@ -64,11 +74,25 @@ class LLCEFLib
         struct LLCEFLibSettings
         {
             // initial dimensions of the browser window
-            unsigned int initial_width = 512;
-            unsigned int initial_height = 512;
+            static unsigned int const initial_width = 512;      // Added 'static' and 'const' <SV:AI>
+            static unsigned int const initial_height = 512;     // Added 'static' and 'const' <SV:AI>
+
+            // <CV:HB>
+            unsigned int minimum_font_size = 0;
+
+            // Preferred/default font to use (empty for system default)
+            std::string preferred_font;
+            // </CV:HB>
 
             // substring inserted into existing user agent string
-            std::string user_agent_substring = "";
+            std::string user_agent_substring = "LLCEFLib";
+
+            // <CV:HB>
+            // User data directory (per-account) for cookies and cache
+            std::string user_data_dir;
+            // Active locale
+            std::string locale = "en-US";
+            // </CV:HB>
 
             // enable/disable features
             bool javascript_enabled = true;
@@ -76,6 +100,8 @@ class LLCEFLib
             bool media_stream_enabled = true;
             bool cookies_enabled = true;
             bool cache_enabled = true;
+            bool remote_fonts = true;
+            bool debug = false;
 
             // path to browser cache
             std::string cache_path = "";

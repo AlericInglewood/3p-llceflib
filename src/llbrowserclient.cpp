@@ -42,7 +42,7 @@ CefRefPtr<CefRenderHandler> LLBrowserClient::GetRenderHandler()
     return mLLRenderHandler;
 }
 
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
 bool LLBrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser,
                                     CefRefPtr<CefFrame> frame,
                                     const CefString& target_url,
@@ -242,7 +242,7 @@ bool LLBrowserClient::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPt
     }
 }
 
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
 bool LLBrowserClient::OnQuotaRequest(CefRefPtr<CefBrowser> browser,
                                      const CefString& origin_url,
                                      int64 new_size,
@@ -293,7 +293,7 @@ void LLBrowserClient::OnBeforeDownload(CefRefPtr<CefBrowser> browser,
     mParent->onFileDownload(std::string(suggested_name));
 }
 
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
 bool LLBrowserClient::OnFileDialog(CefRefPtr<CefBrowser> browser,
                                     FileDialogMode mode,
                                     const CefString& title,
@@ -318,7 +318,7 @@ bool LLBrowserClient::OnFileDialog(CefRefPtr<CefBrowser> browser,
         std::vector<CefString> file_paths;
         file_paths.push_back(CefString(file_path));
 
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
         const int file_path_index = 0;
         callback->Continue(file_path_index, file_paths);
 

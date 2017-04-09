@@ -38,7 +38,7 @@ class LLContextHandler: public CefRequestContextHandler
     public:
         LLContextHandler(std::string cookieStorageDirectory)
         {
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
             mCookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false, nullptr);
 #else
             mCookieManager = CefCookieManager::CreateManager(CefString(cookieStorageDirectory), false);
@@ -54,7 +54,7 @@ class LLContextHandler: public CefRequestContextHandler
             return mCookieManager;
         }
 
-#ifdef LATEST_CEF_VERSION
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
         bool OnBeforePluginLoad(const CefString& mime_type,
                                 const CefString& plugin_url,
                                 const CefString& top_origin_url,

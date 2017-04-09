@@ -74,8 +74,8 @@ class LLCEFLib
         struct LLCEFLibSettings
         {
             // initial dimensions of the browser window
-            static unsigned int const initial_width = 512;      // Added 'static' and 'const' <SV:AI>
-            static unsigned int const initial_height = 512;     // Added 'static' and 'const' <SV:AI>
+            unsigned int initial_width = 512;
+            unsigned int initial_height = 512;
 
             // <CV:HB>
             unsigned int minimum_font_size = 0;

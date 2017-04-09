@@ -41,7 +41,7 @@
 #elif __APPLE__
 #undef  LATEST_CEF_VERSION
 #endif
-#endif // <CV:HB>
+#endif // </CV:HB>
 
 // flip the output in the Y direction so it's compatible with SL
 #define FLIP_OUTPUT_Y
@@ -60,6 +60,6 @@
 #else
 #define CEF_CURRENT_BRANCH  CEF_BRANCH_2526
 #endif
-#endif // <CV:HB>
+#endif // </CV:HB>
 
 #endif // _LLCEFLIBPLATFORM

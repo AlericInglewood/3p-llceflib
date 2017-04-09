@@ -100,8 +100,10 @@ class LLCEFLib
             bool media_stream_enabled = true;
             bool cookies_enabled = true;
             bool cache_enabled = true;
+            // <CV:HB>
             bool remote_fonts = true;
             bool debug = false;
+            // </CV:HB>
 
             // path to browser cache
             std::string cache_path = "";

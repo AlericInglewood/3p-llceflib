@@ -64,7 +64,9 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 {
     CefMainArgs args(GetModuleHandle(NULL));
 
+    // <CV:HB>
     enablePPAPIFlashHack(lpCmdLine);
+    // </CV:HB>
     return CefExecuteProcess(args, nullptr, nullptr);
 }
 #endif

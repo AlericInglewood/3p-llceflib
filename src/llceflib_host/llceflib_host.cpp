@@ -48,15 +48,13 @@ void enablePPAPIFlashHack(LPSTR lpCmdLine)
    if (i == std::string::npos) return;
 
    HANDLE hJob = CreateJobObject(nullptr, nullptr);
-   HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE,
-						      ::GetCurrentProcessId());
+   HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, ::GetCurrentProcessId());
    AssignProcessToJobObject(hJob, hProc);
 
    JOBOBJECT_BASIC_LIMIT_INFORMATION baseLimits = {};
    baseLimits.LimitFlags = JOB_OBJECT_LIMIT_ACTIVE_PROCESS;
    baseLimits.ActiveProcessLimit = 1;
-   SetInformationJobObject(hJob, JobObjectBasicLimitInformation, &baseLimits,
-						   sizeof(baseLimits));
+   SetInformationJobObject(hJob, JobObjectBasicLimitInformation, &baseLimits, sizeof(baseLimits));
 }
 // </CV:HB>
 

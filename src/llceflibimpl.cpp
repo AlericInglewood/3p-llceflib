@@ -58,7 +58,7 @@ LLCEFLibImpl::LLCEFLibImpl() :
     mViewWidth(0),
     mViewHeight(0),
     mBrowser(0),
-	mRequestedZoom(0.0),
+    mRequestedZoom(0.0),
     mSystemFlashEnabled(false),
     mMediaStreamEnabled(false),
     mDebug(false)               // Added <CV:HB>
@@ -204,7 +204,7 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
     browser_settings.javascript = user_settings.javascript_enabled ? STATE_ENABLED : STATE_DISABLED;
     browser_settings.plugins = STATE_ENABLED;
 
-	// set page zoom (won't be acted up until later but tha'ts okay)
+    // set page zoom (won't be acted up until later but tha'ts okay)
     mRequestedZoom = user_settings.page_zoom_factor;
 
     // <CV:HB>
@@ -293,12 +293,12 @@ void LLCEFLibImpl::update()
 void LLCEFLibImpl::shutdown()
 {
 #if defined(WIN32) || defined(__linux__)
-	CefShutdown();
+    CefShutdown();
 #elif defined(__APPLE__)
-	// CefShutdown(); 
-	// remove for now - the very old version of CEF on OS X does 
-	// not shut down cleanly with this in place. Once we switch to
-	// 64 bit libs/viewer and update CEF to match Windows version, will enable.
+    // CefShutdown();
+    // remove for now - the very old version of CEF on OS X does
+    // not shut down cleanly with this in place. Once we switch to
+    // 64 bit libs/viewer and update CEF to match Windows version, will enable.
 #endif
 }
 
@@ -439,14 +439,14 @@ void LLCEFLibImpl::onTitleChange(std::string title)
 
 void LLCEFLibImpl::onLoadStart()
 {
-	if (mBrowser && mBrowser->GetHost())
-	{
-		double cur_zoom = convertZoomLevel(mBrowser->GetHost()->GetZoomLevel());
-		if (fabs(convertZoomLevel(mRequestedZoom)) - fabs(cur_zoom) > 0.001)
-		{
-			mBrowser->GetHost()->SetZoomLevel(convertZoomLevel(mRequestedZoom));
-		};
-	}
+    if (mBrowser && mBrowser->GetHost())
+    {
+        double cur_zoom = convertZoomLevel(mBrowser->GetHost()->GetZoomLevel());
+        if (fabs(convertZoomLevel(mRequestedZoom)) - fabs(cur_zoom) > 0.001)
+        {
+            mBrowser->GetHost()->SetZoomLevel(convertZoomLevel(mRequestedZoom));
+        };
+    }
 
     if (mOnLoadStartCallbackFunc)
     {
@@ -607,15 +607,15 @@ void LLCEFLibImpl::setPageZoom(double zoom_val)
 {
     if (mBrowser && mBrowser->GetHost())
     {
-		mBrowser->GetHost()->SetZoomLevel(convertZoomLevel(zoom_val));
-		mRequestedZoom = zoom_val;
+        mBrowser->GetHost()->SetZoomLevel(convertZoomLevel(zoom_val));
+        mRequestedZoom = zoom_val;
     }
 }
 
 void LLCEFLibImpl::mouseButton(LLCEFLib::EMouseButton mouse_button, LLCEFLib::EMouseEvent mouse_event, int x, int y)
 {
-	// modify coords based on rules (Y flipped, scaled etc.)
-	convertInputCoords(x, y);
+    // modify coords based on rules (Y flipped, scaled etc.)
+    convertInputCoords(x, y);
 
     // select click location
     CefMouseEvent cef_mouse_event;
@@ -668,8 +668,8 @@ void LLCEFLibImpl::mouseButton(LLCEFLib::EMouseButton mouse_button, LLCEFLib::EM
 
 void LLCEFLibImpl::mouseMove(int x, int y)
 {
-	// modify coords based on rules (Y flipped, scaled etc.)
-	convertInputCoords(x, y);
+    // modify coords based on rules (Y flipped, scaled etc.)
+    convertInputCoords(x, y);
 
     CefMouseEvent mouse_event;
     mouse_event.x = x;
@@ -898,7 +898,7 @@ std::string LLCEFLibImpl::makeCompatibleUserAgentString(const std::string base)
 void LLCEFLibImpl::convertInputCoords(int& x, int& y)
 {
 #ifdef FLIP_OUTPUT_Y
-	y = mViewHeight - y;
+    y = mViewHeight - y;
 #endif
 }
 
@@ -906,12 +906,12 @@ void LLCEFLibImpl::convertInputCoords(int& x, int& y)
 // where 0.0 is 100%, 1.0 is 120%, 2.0 is 144% etc. (each 1.0 == 20% more)
 double LLCEFLibImpl::convertZoomLevel(double linear_zoom)
 {
-	if (linear_zoom == 0)
-	{
-		return 0.0;
-	}
+    if (linear_zoom == 0)
+    {
+        return 0.0;
+    }
 
-	double cef_zoom = log(linear_zoom) / log(1.2);
+    double cef_zoom = log(linear_zoom) / log(1.2);
 
-	return cef_zoom;
+    return cef_zoom;
 }

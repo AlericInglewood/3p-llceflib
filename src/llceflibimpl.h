@@ -177,7 +177,7 @@ class LLCEFLibImpl :
         bool mSystemFlashEnabled;
         bool mMediaStreamEnabled;
 
-		double mRequestedZoom;
+        double mRequestedZoom;
 
         std::vector<std::string> mCustomSchemes;
         boost::function<void(unsigned char*, int, int, int, int, bool)> mOnPageChangedCallbackFunc;
@@ -195,8 +195,8 @@ class LLCEFLibImpl :
         boost::function<void()> mOnRequestExitCallbackFunc;
         boost::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> mOnCursorChangedCallbackFunc;
 
-		void convertInputCoords(int& x, int& y);
-		double convertZoomLevel(double linear_zoom);
+        void convertInputCoords(int& x, int& y);
+        double convertZoomLevel(double linear_zoom);
 
         CefRefPtr<FlushStoreCallback> mFlushStoreCallback;
 

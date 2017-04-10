@@ -53,6 +53,7 @@ Before running autobuild you need to create a `cef_2526_LIN_64`
 directory in the root of this project by extracting a tar ball
 that you got from elsewhere. For example,
 ```bash
-    wget http://sldev.free.fr/libraries/sources/cef_binary_3.2526.1371.gea9b6c8_linux64-no_tcmalloc-with_codecs.tar.bz2
-    tar xjf cef_binary_3.2526.1371.gea9b6c8_linux64-no_tcmalloc-with_codecs.tar.bz2
+    wget http://depot.alchemyviewer.org/pub/cef/cef_binary_3.2526.1373.gb660893_linux64.zip
+    unzip cef_binary_3.2526.1373.gb660893_linux64.zip
+    ln -s cef_binary_3.2526.1373.gb660893_linux64 cef_2526_LIN_64
 ```

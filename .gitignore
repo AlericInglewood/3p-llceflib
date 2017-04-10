@@ -1,2 +1,4 @@
+cef_2526_LIN_64
 stage
-src/build
+src/build_debug
+src/build_release

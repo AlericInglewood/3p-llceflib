@@ -1,122 +1,84 @@
-# -*- cmake -*-
-
+cmake_minimum_required(VERSION 3.1.0)
 project(llceflib)
 
-cmake_minimum_required(VERSION 3.0)
-cmake_policy(SET CMP0004 OLD)
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}")
+include("macros")
 
-set(ARCH "-m32" CACHE STRING "Achitecture (-m32 or -m64)")
-if ("${ARCH}" STREQUAL "-m64")
-	set(BITS "64")
-	message("Building for 64 bits architecture")
-else ("${ARCH}" STREQUAL "-m64")
-	set(BITS "32")
-	message("Building for 32 bits architecture")
-endif ("${ARCH}" STREQUAL "-m64")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if (WIN32)
-	set(CEF_SOURCES_DIR "cef_2526_WIN_${BITS}")
-else (WIN32)
-	set(CEF_SOURCES_DIR "cef_2526_LIN_${BITS}")
-endif (WIN32)
+set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
 
-# IMPORTANT: for Linux, packages/include and packages/lib/release must contain
-# the files from the glib v2.32 pre-compiled library: the old gtk/atk/pango/
-# glib (v2.28) libraries as provided by LL do not match CEF 3.2454 dependencies
-# (depends on glib v2.32 or newer)
-# For all OSes, the boost header files used to compile the viewer must also be
-# present in packages/include.
-set(PACKAGES_INCLUDE_DIR "packages/include")
-set(PACKAGES_LIB_DIR "packages/lib/release")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-include_directories(
-	${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_SOURCES_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}/../${PACKAGES_INCLUDE_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}/include
-	)
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(CMAKE_SKIP_RPATH TRUE)
+endif()
+
+if(MSVC)
+  set(CEF_LIBS debug ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/build/libcef_dll_wrapper/Debug/libcef_dll_wrapper.lib
+               optimized ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/build/libcef_dll_wrapper/Release/libcef_dll_wrapper.lib
+               debug ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/Debug/libcef.lib
+               optimized ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/Release/libcef.lib)
+elseif(APPLE)
+  set(CEF_LIBS debug ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/libcef_dll_wrapper/Debug/libcef_dll_wrapper.a
+               optimized ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/libcef_dll_wrapper/Release/libcef_dll_wrapper.a
+               debug "${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/Debug/Chromium Embedded Framework.framework"
+               optimized "${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/Release/Chromium Embedded Framework.framework")
+elseif(UNIX)
+  set(CEF_LIBS debug ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/build_debug/libcef_dll/libcef_dll_wrapper.a
+               optimized ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/build_release/libcef_dll/libcef_dll_wrapper.a
+               debug ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/Debug/libcef.so
+               optimized ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/Release/libcef.so)
+endif()
+
+if(APPLE)
+  set(CMAKE_CXX_COMPILER "clang++")
+  set(CMAKE_CXX_FLAGS "-x objective-c++")
+endif(APPLE)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE})
 
 set(llceflib_SOURCE_FILES
-	llbrowserclient.cpp
-	llceflib.cpp
-	llceflibimpl.cpp
-	llrenderhandler.cpp
-	llschemehandler.cpp
-	)
-
-if (WIN32)
-	list(APPEND llceflib_SOURCE_FILES llceflibimpl_win.cpp)
-else (WIN32)
-	list(APPEND llceflib_SOURCE_FILES llceflibimpl_linux.cpp)
-endif (WIN32)
-
-set(llceflib_HEADER_FILES
-	CMakeLists.txt
-
-	llbrowserclient.h
-	llceflib.h
-	llceflibimpl.h
-	llceflibplatform.h
-	llcontexthandler.h
-	llrenderhandler.h
-	llschemehandler.h
-	)
-
-set_source_files_properties(${llceflib_HEADER_FILES}
-							PROPERTIES HEADER_FILE_ONLY TRUE)
-
-list(APPEND llceflib_SOURCE_FILES ${llceflib_HEADER_FILES})
-
-if (WIN32)
-	add_definitions(-DWINVER=0x0501 -D_WIN32_WINNT=0x501)
-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /DNDEBUG /D_NDEBUG")
-	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_HAS_ITERATOR_DEBUGGING=0")
-else (WIN32)
-	add_definitions(-D_REENTRANT)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ARCH} -D_GLIBCXX_USE_CXX11_ABI=0 -std=gnu++11 -fPIC -O2 -fomit-frame-pointer")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ARCH} -fPIC -O2 -fomit-frame-pointer")
-endif (WIN32)
-
-link_directories(
-	${CMAKE_CURRENT_SOURCE_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_SOURCES_DIR}/Release
-	${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_SOURCES_DIR}/build/libcef_dll
-	${CMAKE_CURRENT_SOURCE_DIR}/../${PACKAGES_LIB_DIR}
+    llbrowserclient.cpp
+    llceflib.cpp
+    llceflibimpl.cpp
+    llrenderhandler.cpp
+    llschemehandler.cpp
 )
 
-add_library (llceflib STATIC ${llceflib_SOURCE_FILES})
-if (WIN32)
-	target_link_libraries(llceflib
-		libcef_dll_wrapper.lib
- 		libcef.lib
-		)
-else (WIN32)
-	target_link_libraries(llceflib
-		cef_dll_wrapper
-		cef
-		)
-endif (WIN32)
+if(WIN32)
+  list(APPEND llceflib_SOURCE_FILES llceflibimpl_win.cpp)
+elseif(APPLE)
+  list(APPEND llceflib_SOURCE_FILES llceflibimpl_mac.mm)
+elseif(UNIX)
+  list(APPEND llceflib_SOURCE_FILES llceflibimpl_linux.cpp)
+endif(WIN32)
 
-set(llceflib_host_SOURCE_FILES
-	llceflib_host/llceflib_host.cpp
-	)
+set(llceflib_HEADER_FILES
+    llbrowserclient.h
+    llceflib.h
+    llceflibimpl.h
+    llceflibplatform.h
+    llrenderhandler.h
+    llschemehandler.h
+)
 
-add_executable(llceflib_host ${llceflib_host_SOURCE_FILES})
-if (WIN32)
-	target_link_libraries(llceflib_host
-		libcef_dll_wrapper.lib
- 		libcef.lib
-		)
-else (WIN32)
-	target_link_libraries(llceflib_host
-		cef_dll_wrapper
- 		cef
-		)
-endif (WIN32)
+if (UNIX AND NOT APPLE)
+  add_definitions(-fPIC)
+endif (UNIX AND NOT APPLE)
 
-if (WIN32)
-	set_target_properties(llceflib PROPERTIES COMPILE_FLAGS " /MD")
-	set_target_properties(llceflib PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
-	set_target_properties(llceflib_host PROPERTIES COMPILE_FLAGS "/MT")
-	set_target_properties(llceflib_host PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
-	#set_target_properties(llceflib_host PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS /MANIFEST:NO")
-endif (WIN32)
+add_library(llceflib STATIC ${llceflib_SOURCE_FILES} ${llceflib_HEADER_FILES})
+
+target_link_libraries(llceflib ${CEF_LIBS})
+
+if (MSVC)
+  set_target_properties(llceflib PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+endif (MSVC)
+
+add_subdirectory(llceflib_host)
+if (MSVC)
+  add_subdirectory(tests/win32gl)
+endif (MSVC)

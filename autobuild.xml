@@ -120,10 +120,9 @@
           </map>
           <key>manifest</key>
           <array>
-            <string>LICENSES/llceflib.txt</string>
-            <string>LICENSES/CEF_BSD.txt</string>
-            <string>LICENSES/CEF_LICENSE.txt</string>
             <string>include/cef/llceflib.h</string>
+            <string>LICENSES/*.txt</string>
+            <string>resources/*</string>
           </array>
           <key>name</key>
           <string>common</string>
@@ -169,7 +168,6 @@
           <array>
             <string>lib/release/*</string>
             <string>bin/release/*</string>
-            <string>resources/*</string>
           </array>
           <key>name</key>
           <string>windows</string>
@@ -191,6 +189,9 @@
           </map>
           <key>manifest</key>
           <array>
+            <string>bin/debug/*</string>
+            <string>bin/release/*</string>
+            <string>lib/debug/*</string>
             <string>lib/release/*</string>
           </array>
           <key>name</key>

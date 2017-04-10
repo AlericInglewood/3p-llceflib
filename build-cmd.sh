@@ -41,13 +41,13 @@ version=$(sed -n -E 's/const std::string LLCEFLIB_BASE_VERSION = "([0-9\.]+)";/\
 build=${AUTOBUILD_BUILD_ID:=0}
 echo "${version}.${build}" > "${stage}/VERSION.txt"
 
-pushd "$LLCEFLIB_SOURCE_DIR"
     case "$AUTOBUILD_PLATFORM" in
         "windows")
-            load_vsvars
-            build_sln "llceflib.sln" "Release|Win32"
+            pushd "$LLCEFLIB_SOURCE_DIR"
+                load_vsvars
+                build_sln "llceflib.sln" "Release|Win32"
+            popd
 
-            cd ..
             mkdir -p "$stage/include/cef"
             mkdir -p "$stage/lib/release"
             mkdir -p "$stage/bin/release"
@@ -73,9 +73,11 @@ pushd "$LLCEFLIB_SOURCE_DIR"
             cp -R "$LLCEFLIB_SOURCE_DIR/LICENSES" "$stage"
         ;;
         "darwin")
-            # xcode project is set up to build in the llcef source folder
-            xcodebuild -project llceflib.xcodeproj -scheme LLCefLib -configuration Release -derivedDataPath build_mac
-            cd ..
+            pushd "$LLCEFLIB_SOURCE_DIR"
+                # xcode project is set up to build in the llcef source folder
+                xcodebuild -project llceflib.xcodeproj -scheme LLCefLib -configuration Release -derivedDataPath build_mac
+            popd
+
             mkdir -p "$stage/include/cef"
             mkdir -p "$stage/lib/release"
 
@@ -91,49 +93,69 @@ pushd "$LLCEFLIB_SOURCE_DIR"
             cp -R "$LLCEFLIB_SOURCE_DIR/LICENSES" "$stage"
         ;;
         "linux64")
-          cd ..
-
-          # Build libcef_dll
           pushd "$CEF_SOURCE_DIR_LIN64"
-          mkdir -p build
-          pushd build
-          cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
-          make -j6 libcef_dll_wrapper
-          popd
+              # Build debug version of libcef_dll
+              mkdir -p build_debug
+              pushd build_debug
+                  cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug ..
+                  make -j8 libcef_dll_wrapper
+              popd
+
+              # Build release version of libcef_dll
+              mkdir -p build_release
+              pushd build_release
+                  cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+                  make -j8 libcef_dll_wrapper
+              popd
           popd
 
-          # Build libllceflib.a and llceflib_host
+          # Build debug version of libllceflib.a and llceflib_host
           pushd "$LLCEFLIB_SOURCE_DIR"
-          mkdir -p build
-          pushd build
-          cmake -G "Unix Makefiles" -DARCH:STRING="-m64" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON ..
-          make
+              mkdir -p build_debug
+              pushd build_debug
+                  cmake -G "Unix Makefiles" -DARCH:STRING="-m64" -DCEF_BASE=$CEF_SOURCE_DIR_LIN64 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON ..
+                  make -j8
+              popd
           popd
+          # Build release version of libllceflib.a and llceflib_host
+          pushd "$LLCEFLIB_SOURCE_DIR"
+              mkdir -p build_release
+              pushd build_release
+                  cmake -G "Unix Makefiles" -DARCH:STRING="-m64" -DCEF_BASE=$CEF_SOURCE_DIR_LIN64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON ..
+                  make -j8
+              popd
           popd
 
           mkdir -p "$stage/include/cef"
           mkdir -p "$stage/bin/release"
+          mkdir -p "$stage/bin/debug"
           mkdir -p "$stage/lib/release"
+          mkdir -p "$stage/lib/debug"
           rm -rf "$stage/resources" "$stage/LICENSES"
           mkdir -p "$stage/resources"
           mkdir -p "$stage/LICENSES"
 
-          cp $LLCEFLIB_SOURCE_DIR/build/llceflib_host $stage/bin/release
+          cp $LLCEFLIB_SOURCE_DIR/build_release/bin/llceflib_host $stage/bin/release
+          cp $LLCEFLIB_SOURCE_DIR/build_debug/bin/llceflib_host $stage/bin/debug
           cp $CEF_SOURCE_DIR_LIN64/Release/*_blob.bin $stage/bin/release
+          cp $CEF_SOURCE_DIR_LIN64/Debug/*_blob.bin $stage/bin/debug
           cp $LLCEFLIB_SOURCE_DIR/llceflib.h $stage/include/cef
-          cp $CEF_SOURCE_DIR_LIN64/build/libcef_dll/libcef_dll_wrapper.a $stage/lib/release
-          cp $LLCEFLIB_SOURCE_DIR/build/libllceflib.a $stage/lib/release
+          cp $CEF_SOURCE_DIR_LIN64/build_release/libcef_dll/libcef_dll_wrapper.a $stage/lib/release
+          cp $CEF_SOURCE_DIR_LIN64/build_debug/libcef_dll/libcef_dll_wrapper.a $stage/lib/debug
+          cp $LLCEFLIB_SOURCE_DIR/build_release/lib/libllceflib.a $stage/lib/release
+          cp $LLCEFLIB_SOURCE_DIR/build_debug/lib/libllceflib.a $stage/lib/debug
           cp $CEF_SOURCE_DIR_LIN64/Release/libcef.so $stage/lib/release
+          cp $CEF_SOURCE_DIR_LIN64/Debug/libcef.so $stage/lib/debug
           cp -R $CEF_SOURCE_DIR_LIN64/Resources/* $stage/resources
           cp -R $LLCEFLIB_SOURCE_DIR/LICENSES/* $stage/LICENSES
           mv $stage/LICENSES/LICENSE-source.txt $stage/LICENSES/llceflib.txt
           chmod 664 $stage/LICENSES/*
 
+          # Get version for packaging.
           VERSION_HEADER_FILE="$CEF_SOURCE_DIR_LIN64/include/cef_version.h"
           version=$(sed -n -r 's/#define CEF_VERSION "([[:alnum:].]+)"/\1/p' "${VERSION_HEADER_FILE}")
           echo "${version}" > "${stage}/VERSION.txt"
         ;;
     esac
-popd
 
 pass

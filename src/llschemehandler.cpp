@@ -50,8 +50,7 @@ class ClientSchemeHandler : public CefResourceHandler
 {
     public:
         ClientSchemeHandler(LLCEFLibImpl* parent) :
-            mParent(parent),
-            offset_(0)
+            mParent(parent)
         {
         }
 
@@ -98,7 +97,6 @@ class ClientSchemeHandler : public CefResourceHandler
         LLCEFLibImpl* mParent;
         std::string data_;
         std::string mime_type_;
-        size_t offset_;
 
         IMPLEMENT_REFCOUNTING(ClientSchemeHandler);
 };

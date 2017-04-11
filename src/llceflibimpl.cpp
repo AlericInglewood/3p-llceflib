@@ -27,9 +27,8 @@
  */
 
 #ifdef __linux__
-//#include <cstdlib>
-//#include <sys/types.h>
-//#include <sys/stat.h>
+#include <libgen.h>             // dirname
+#include <unistd.h>             // readlink
 #endif
 
 #include "llceflibimpl.h"
@@ -51,22 +50,22 @@
 // </CV:HB>
 
 #ifdef __APPLE__
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #endif
 
 LLCEFLibImpl::LLCEFLibImpl() :
+    mBrowser(nullptr),
     mViewWidth(0),
     mViewHeight(0),
-    mBrowser(0),
     mRequestedZoom(0.0),
     mSystemFlashEnabled(false),
     mMediaStreamEnabled(false),
     mDebug(false)               // Added <CV:HB>
 {
     // default is second life scheme
-    std::vector<std::string> default_schemes;
-    default_schemes.push_back("secondlife://"); // bah - clang doesn't like the explicit initialization form
-    mCustomSchemes = default_schemes;
+    // <SV:AI>
+    mCustomSchemes = {"secondlife", "x-grid-location-info"};
+    // </SV:AI>
 
     mFlushStoreCallback = new FlushStoreCallback();
 }
@@ -80,6 +79,7 @@ void LLCEFLibImpl::OnBeforeCommandLineProcessing(const CefString& process_type, 
     if (process_type.empty())
     {
         command_line->AppendSwitch("disable-surfaces");     // for PDF files
+        command_line->AppendSwitch("enable-begin-frame-scheduling"); // Synchronize the frame rate between all processes.
 
         if (mMediaStreamEnabled == true)                    // for webcam/media access
         {
@@ -133,12 +133,26 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
     CefSettings settings;
 
 #if defined(WIN32)
-    CefString(&settings.browser_subprocess_path) = "llceflib_host.exe";
+    // <SV:AI>
+    settings.multi_threaded_message_loop = false;
+    std::string host("llceflib_host.exe");
+    cef_string_utf8_to_utf16(host.c_str(), host.size(), &settings.browser_subprocess_path);
+    // </SV:AI>
 #elif defined(__APPLE__)
     NSString* appBundlePath = [[NSBundle mainBundle] bundlePath];
     CefString(&settings.browser_subprocess_path) = [[NSString stringWithFormat: @"%@/Contents/Frameworks/LLCefLib Helper.app/Contents/MacOS/LLCefLib Helper", appBundlePath] UTF8String];
 #elif defined(__linux__)
-    CefString(&settings.browser_subprocess_path) = "llceflib_host";
+    // <SV:AI>
+    std::string plugin_process_path = ".";
+    char path[4096];
+    int len = readlink("/proc/self/exe", path, sizeof(path));
+    if (len > 0)
+    {
+      path[len] = 0;
+      plugin_process_path = dirname(path);
+    }
+    CefString(&settings.browser_subprocess_path) = plugin_process_path + "/llceflib_host";
+    // </SV:AI>
 #endif
 
     // <CV:HB>
@@ -146,6 +160,9 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
     // and which must be set UID root under Linux...
     settings.no_sandbox = true;
     // </CV:HB>
+    // <SV:AI>
+    settings.windowless_rendering_enabled = true;
+    // </SV:AI>
 
     // change settings based on what was passed in
     // Only change user agent if user wants to
@@ -156,21 +173,49 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
     }
 
     // <CV:HB>
+    // <SV:AI>
+    if (!user_settings.locale.empty())
+    {
+    // </SV:AI>
     std::string locale = user_settings.locale;
     cef_string_utf8_to_utf16(locale.c_str(), locale.size(), &settings.locale);
+    // <SV:AI>
+    }
+    // </SV:AI>
     // </CV:HB>
 
     // list of language locale codes used to configure the Accept-Language HTTP header value
 #if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
+    // <SV:AI>
+    if (!user_settings.accept_language_list.empty())
+    {
+    // </SV:AI>
     std::string accept_language_list(user_settings.accept_language_list);
     cef_string_utf8_to_utf16(accept_language_list.c_str(), accept_language_list.size(), &settings.accept_language_list);
+    // <SV:AI>
+    }
+    // </SV:AI>
 #endif
 
     // set path to cache if enabled and set
     if (user_settings.cache_enabled && user_settings.cache_path.length())
     {
         CefString(&settings.cache_path) = user_settings.cache_path;
+        // <SV:AI>
+        std::string cache_path(user_settings.cache_path);
+        cef_string_utf8_to_utf16(cache_path.c_str(), cache_path.size(), &settings.cache_path);
+        // </SV:AI>
     }
+
+    // <SV:AI>
+    settings.log_severity = LOGSEVERITY_DISABLE;
+    if (user_settings.debug_output && !user_settings.log_file.empty())
+    {
+        settings.log_severity = LOGSEVERITY_VERBOSE;
+        std::string log_file(user_settings.log_file);
+        cef_string_utf8_to_utf16(log_file.c_str(), log_file.size(), &settings.log_file);
+    }
+    // </SV:AI>
 
     mSystemFlashEnabled = user_settings.plugins_enabled;
     mMediaStreamEnabled = user_settings.media_stream_enabled;
@@ -251,7 +296,9 @@ bool LLCEFLibImpl::init(LLCEFLib::LLCEFLibSettings& user_settings)
         CefRequestContextSettings contextSettings;
         if (user_settings.cache_enabled && user_settings.cache_path.length())
         {
-            CefString(&contextSettings.cache_path) = user_settings.cache_path;
+            // <SV::AI>
+            cef_string_utf8_to_utf16(user_settings.cache_path.c_str(), user_settings.cache_path.size(), &contextSettings.cache_path);
+            // </SV::AI>
         }
         rc = CefRequestContext::CreateContext(contextSettings, mContextHandler.get());
 #else

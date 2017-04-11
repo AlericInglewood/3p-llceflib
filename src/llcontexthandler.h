@@ -59,7 +59,7 @@ class LLContextHandler: public CefRequestContextHandler
                                 const CefString& plugin_url,
                                 const CefString& top_origin_url,
                                 CefRefPtr<CefWebPluginInfo> plugin_info,
-                                PluginPolicy* plugin_policy)
+                                PluginPolicy* plugin_policy) OVERRIDE
         {
             if (*plugin_policy != PLUGIN_POLICY_ALLOW &&
                     mime_type == "application/pdf")

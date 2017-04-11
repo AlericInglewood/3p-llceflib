@@ -1,6 +1,5 @@
 /**
  * @brief LLCEFLib - Wrapper for CEF SDK for use in LL Web Media Plugin
- * @author Henri Beauchamp 2015
  *
  * $LicenseInfo:firstyear=2001&license=viewerlgpl$
  * Second Life Viewer Source Code
@@ -25,187 +24,86 @@
  */
 
 #include "llceflibimpl.h"
-
 #include "llceflib.h"
+
 #include "llceflibplatform.h"
 
-// See: http://src.chromium.org/viewvc/chrome/trunk/src/ui/events/keycodes/keyboard_code_conversion_x.cc
+uint32_t SDL_to_Win[ 320 ] = {
+    0,   0,   0,   0,   0,   0,   0,   0,   8,   9,   0,   0,  12,  13,   0,   0,   0,   0,   0,  19,   0,   0,   0,   0,   0,   0,   0,  27,   0,   0,   0,   0,
+    32,   0,   0,   0,   0,   0,   0, 222,   0,   0,   0,   0, 188, 189, 190, 191,  48,  49,  50,  51,  52,  53,  54,  55,  56,  57,   0, 186, 226, 187,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 219, 220, 221,   0,   0,
+    223,  65,  66,  67,  68,  69,  70,  71,  72,  73,  74,  75,  76,  77,  78,  79,  80,  81,  82,  83,  84,  85,  86,  87,  88,  89,  90,   0,   0,   0,   0,  46,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    96,  97,  98,  99, 100, 101, 102, 103, 104, 105, 110, 111, 106, 109, 107,   0,   0,  38,  40,  39,  37,  45,  36,  35,  33,  34, 112, 113, 114, 115, 116, 117,
+    118, 119, 120, 121, 122, 123, 124, 125, 126,   0,   0,   0, 144,  20, 145, 161, 160, 163, 162, 165, 164,   0,   0,  91,  92,   0,   0,  47,  44,   0,   3,  93
+};
 
-#define VK_BACK     0x16
+// See SDL_keysym.h (avoiding the dependency on SDL for just one header here)
+enum SDL_KeyPad {
+        SDLK_KP0        = 256,
+        SDLK_KP1        = 257,
+        SDLK_KP2        = 258,
+        SDLK_KP3        = 259,
+        SDLK_KP4        = 260,
+        SDLK_KP5        = 261,
+        SDLK_KP6        = 262,
+        SDLK_KP7        = 263,
+        SDLK_KP8        = 264,
+        SDLK_KP9        = 265,
+        SDLK_KP_PERIOD      = 266,
+        SDLK_KP_DIVIDE      = 267,
+        SDLK_KP_MULTIPLY    = 268,
+        SDLK_KP_MINUS       = 269,
+        SDLK_KP_PLUS        = 270,
+        SDLK_KP_ENTER       = 271,
+        SDLK_KP_EQUALS      = 272
+};
 
-#define VK_MULTIPLY 0x3F
-
-#define VK_NUMPAD7  0x4F
-#define VK_NUMPAD8  0x50
-#define VK_NUMPAD9  0x51
-#define VK_SUBTRACT 0x52
-#define VK_NUMPAD4  0x53
-#define VK_NUMPAD5  0x54
-#define VK_NUMPAD6  0x55
-#define VK_ADD      0x56
-#define VK_NUMPAD1  0x57
-#define VK_NUMPAD2  0x58
-#define VK_NUMPAD3  0x59
-#define VK_NUMPAD0  0x5A
-#define VK_DECIMAL  0x5B
-
-#define VK_ENTER    0x68
-
-#define VK_DIVIDE   0x6A
-
-#define VK_RETURN   0x6D
-
-#define VK_HOME     0x6E
-#define VK_UP       0x6F
-#define VK_PRIOR    0x70    // PageUp
-#define VK_LEFT     0x71
-#define VK_RIGHT    0x72
-#define VK_END      0x73
-#define VK_DOWN     0x74
-#define VK_NEXT     0x75    // PageDown
-#define VK_INSERT   0x76
-#define VK_DELETE   0x77
-
-#define WK_BACK     0x08
-#define WK_PRIOR    0x21
-#define WK_NEXT     0x22
-#define WK_END      0x23
-#define WK_HOME     0x24
-#define WK_LEFT     0x25
-#define WK_UP       0x26
-#define WK_RIGHT    0x27
-#define WK_DOWN     0x28
-#define WK_INSERT   0x2D
-#define WK_DELETE   0x2E
-
-// Not used...
-void LLCEFLibImpl::nativeKeyboardEvent(uint32_t msg, uint32_t wparam,
-                                       uint64_t lparam)
+void LLCEFLibImpl::nativeKeyboardEvent( LLCEFLib::EKeyEvent key_event, uint32_t native_scan_code, uint32_t native_virtual_key, uint32_t native_modifiers )
 {
-}
+    if( !mBrowser || !mBrowser->GetHost())
+        return;
 
-void LLCEFLibImpl::keyboardEvent(LLCEFLib::EKeyEvent key_event,
-                                 uint32_t key_code,
-                                 const char* utf8_text,
-                                 LLCEFLib::EKeyboardModifier modifiers,
-                                 uint32_t native_scan_code,
-                                 uint32_t native_virtual_key,
-                                 uint32_t native_modifiers)
-{
-    if (mBrowser && mBrowser->GetHost())
+    CefKeyEvent event = {};
+    event.is_system_key = false;
+    event.native_key_code = native_virtual_key;
+    event.character = native_virtual_key;
+    event.unmodified_character = native_virtual_key;
+    event.modifiers = native_modifiers;
+
+    if (native_modifiers & EVENTFLAG_ALT_DOWN)
     {
-        CefKeyEvent event;
-        event.is_system_key = false;
-        event.native_key_code = native_virtual_key;
-        // Do not treat DEL and BACKSPACE as characters: they are processed via
-        // the event.windows_key_code member
-        if (native_virtual_key != 0x7f && native_virtual_key != 0x08)
-        {
-            event.character = native_virtual_key;
-        }
-        else
-        {
-            event.character = 0;
-        }
-        event.unmodified_character = native_virtual_key;
+        event.modifiers &= ~EVENTFLAG_ALT_DOWN;
+        event.is_system_key = true;
+    }
 
-        event.modifiers = native_modifiers;
-        if (native_modifiers & EVENTFLAG_ALT_DOWN)
-        {
-#if 0
-            event.modifiers |= EVENTFLAG_IS_LEFT;
-#else
-            event.modifiers &= ~EVENTFLAG_ALT_DOWN;
-            event.is_system_key = true;
-#endif
-        }
-#if 0
-        if ((native_modifiers & EVENTFLAG_SHIFT_DOWN) ||
-            (native_modifiers & EVENTFLAG_CONTROL_DOWN))
-        {
-            event.modifiers |= EVENTFLAG_IS_LEFT;
-        }
-#endif
-        if ((native_scan_code >= VK_NUMPAD7 &&
-             native_scan_code <= VK_DECIMAL) ||
-            native_scan_code == VK_MULTIPLY || native_scan_code == VK_DIVIDE ||
-            native_scan_code == VK_ENTER || native_scan_code == VK_RETURN)
-        {
-            event.modifiers |= EVENTFLAG_IS_KEY_PAD;
-        }
+    if( native_scan_code >= SDLK_KP0 && native_scan_code <= SDLK_KP_EQUALS )
+        event.modifiers |= EVENTFLAG_IS_KEY_PAD;
 
-        switch (native_scan_code)
-        {
-            case VK_BACK:
-                event.windows_key_code = WK_BACK;
-                break;
-            case VK_HOME:
-                event.windows_key_code = WK_HOME;
-                break;
-            case VK_UP:
-                event.windows_key_code = WK_UP;
-                break;
-            case VK_PRIOR:
-                event.windows_key_code = WK_PRIOR;
-                break;
-            case VK_LEFT:
-                event.windows_key_code = WK_LEFT;
-                break;
-            case VK_RIGHT:
-                event.windows_key_code = WK_RIGHT;
-                break;
-            case VK_END:
-                event.windows_key_code = WK_END;
-                break;
-            case VK_DOWN:
-                event.windows_key_code = WK_DOWN;
-                break;
-            case VK_NEXT:
-                event.windows_key_code = WK_NEXT;
-                break;
-            case VK_INSERT:
-                event.windows_key_code = WK_INSERT;
-                break;
-            case VK_DELETE:
-                event.windows_key_code = WK_DELETE;
-                break;
-            default:
-                event.windows_key_code = native_scan_code;
-        }
+    if( native_scan_code < sizeof( SDL_to_Win ) / sizeof( uint32_t ) )
+        event.windows_key_code = SDL_to_Win[ native_scan_code ];
+    else
+        event.windows_key_code = 0;
 
-        if (key_event == LLCEFLib::KE_KEY_DOWN)
+    if (key_event == LLCEFLib::KE_KEY_DOWN)
+    {
+        event.type = KEYEVENT_RAWKEYDOWN;
+        mBrowser->GetHost()->SendKeyEvent(event);
+    }
+    else
+    {
+        if (key_event == LLCEFLib::KE_KEY_UP)
         {
-            event.type = KEYEVENT_RAWKEYDOWN;
+            event.type = KEYEVENT_KEYUP;
             mBrowser->GetHost()->SendKeyEvent(event);
         }
-        else
+        if (event.character)
         {
-            if (key_event == LLCEFLib::KE_KEY_UP)
-            {
-                event.type = KEYEVENT_KEYUP;
-                mBrowser->GetHost()->SendKeyEvent(event);
-            }
-            if (event.character)
-            {
-                event.type = KEYEVENT_CHAR;
-                mBrowser->GetHost()->SendKeyEvent(event);
-            }
+            event.type = KEYEVENT_CHAR;
+            mBrowser->GetHost()->SendKeyEvent(event);
         }
     }
-}
-
-void LLCEFLibImpl::injectUnicodeText(wchar_t, wchar_t, uint32_t, uint32_t)
-{
-    // not used for Linux
-}
-
-void LLCEFLibImpl::nativeKeyboardEventOSX(void*)
-{
-    // not used for Linux
-}
-
-void LLCEFLibImpl::keyboardEventOSX(unsigned int, unsigned int, char const*,
-                                    char const*, bool, unsigned int)
-{
-    // not used on for Linux
 }

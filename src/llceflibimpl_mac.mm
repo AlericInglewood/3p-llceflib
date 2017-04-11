@@ -181,7 +181,7 @@ void LLCEFLibImpl::keyboardEventOSX(uint32_t eventType, uint32_t modifiers, cons
     NSString *strChars = (characters) ? [ NSString stringWithFormat: @"%c", *characters] : @"";
     NSString *strUnmod = (unmodChars) ? [ NSString stringWithFormat: @"%c", *unmodChars] : @"";
 
-    NSEvent *anEvent = [NSEvent keyEventWithType: eventType
+    NSEvent *anEvent = [NSEvent keyEventWithType: (NSEvent)eventType
                                         location: NSMakePoint(0.0f, 0.0f)
                                    modifierFlags: modifiers
                                        timestamp: 0

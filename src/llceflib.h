@@ -100,6 +100,11 @@ class LLCEFLib
             bool media_stream_enabled = true;
             bool cookies_enabled = true;
             bool cache_enabled = true;
+            // <SV:AI>
+            // debug features
+            bool debug_output = false;
+            std::string log_file;
+            // </SV:AI>
             // <CV:HB>
             bool remote_fonts = true;
             bool debug = false;
@@ -113,7 +118,7 @@ class LLCEFLib
 
             // list of language locale codes used to configure the Accept-Language HTTP header value
             // and change the default language of the browser
-            std::string accept_language_list = "en-us";
+            std::string accept_language_list = "en-US";
 
             // initial page zoom factor in linear units (not CEF units)
             double page_zoom_factor = 1.0;
@@ -198,6 +203,7 @@ class LLCEFLib
         void mouseMove(int x, int y);
         void mouseWheel(int deltaX, int deltaY);
 
+#ifndef __linux__       // <SV:AI>
         // construct a Windows keyboard event from component data
         void keyboardEvent(
             EKeyEvent key_event,
@@ -219,6 +225,11 @@ class LLCEFLib
 
         // native keyboard event for OS X
         void nativeKeyboardEventOSX(void* nsEvent);
+#else
+        // <SV:AI>
+        void nativeKeyboardEvent(EKeyEvent key_event, uint32_t native_scan_code, uint32_t native_virtual_key, uint32_t native_modifiers);
+        // </SV:AI>
+#endif
 
         // set/remove focus to/from the virtual browser
         void setFocus(bool focus);

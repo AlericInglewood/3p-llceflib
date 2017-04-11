@@ -278,7 +278,9 @@ void LLBrowserClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 
     if (mBrowserList.empty())
     {
+#ifndef WIN32   // <SV:AI> -- CefRunMessageLoop is not used on windows, but on linux and MacOS it is(?)
         CefQuitMessageLoop();
+#endif
         mParent->onRequestExit();
     }
 }

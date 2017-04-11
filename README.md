@@ -21,7 +21,10 @@ This is basically a fork of [LindenLabs llceflib](https://bitbucket.org/lindenla
   code as possible; changes that made no difference (re-indentation, whitespace, line wrapping,
   comments) where not applied and changes that are only needed for old (pre-C++11) compilers neither
   (ie, in-class{} initialization, nullptr, ...). I also didn't use Henri's changes regarding cache
-  and cookies(cache) paths. Finally, I manually looked over all commits in [alchemy's repository](https://bitbucket.org/alchemyviewer/3p-alceflib)
+  and cookies(cache) paths. The changes by Henri are marked with &lt;CV:HB&gt;, except where it
+  concerns specific linux code where his authorship is implied.
+  
+  Finally, I manually looked over all commits in [alchemy's repository](https://bitbucket.org/alchemyviewer/3p-alceflib)
   that doesn't seem to be based on anything (they didn't make a clone, but just added files to
   a "new" repository) and seems to include a lot of changes from everywhere (most notably LL,
   Henry and NickyD) without doing much creditting; everything is applied manually causing the

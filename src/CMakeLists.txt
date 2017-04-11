@@ -37,7 +37,9 @@ endif()
 if(APPLE)
   set(CMAKE_CXX_COMPILER "clang++")
   set(CMAKE_CXX_FLAGS "-x objective-c++")
-endif(APPLE)
+elseif(UNIX)
+  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE})
 

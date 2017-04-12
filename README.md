@@ -59,11 +59,127 @@ This is basically a fork of [LindenLabs llceflib](https://bitbucket.org/lindenla
 ## Linux
 
 I've tested this (and am using it) for linux64.
-Before running autobuild you need to create a `cef_2526_LIN_64`
-directory in the root of this project by extracting a tar ball
-that you got from elsewhere. For example,
-```bash
-    wget http://depot.alchemyviewer.org/pub/cef/cef_binary_3.2526.1373.gb660893_linux64.zip
-    unzip cef_binary_3.2526.1373.gb660893_linux64.zip
-    ln -s cef_binary_3.2526.1373.gb660893_linux64 cef_2526_LIN_64
-```
+Before running autobuild you need to build CEF3; for that you need at least 6 GB of RAM
+and 40 GB of free disk space.
+
+The following is a blend of [BranchesAndBuilding](https://bitbucket.org/chromiumembedded/cef/wiki/BranchesAndBuilding)
+and [MasterBuildQuickStart](https://bitbucket.org/chromiumembedded/cef/wiki/MasterBuildQuickStart.md)
+from the cef wiki, tuned to work with this repository.
+
+1. Set environment.
+
+  ```bash
+  export AUTOBUILD_PLATFORM_OVERRIDE=linux64
+  export BASE=/path/to/root/of/3p-llceflib
+  export BRANCH=3029
+  export CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox
+  export PATH="$BASE/depot_tools:$PATH"
+  ```
+
+  here `$BASE` should be the directory containing `build-cmd.sh` and `.git`
+  and may not contain spaces.
+
+  `$BRANCH` should be a recent enough branch. See the table of [Current Release Branches](https://bitbucket.org/chromiumembedded/cef/wiki/BranchesAndBuilding#markdown-header-current-release-branches-supported).
+  The branch must be at least 2785 for these instructions to work; if the branch is less than 2840 you must als set `export CEF_USE_GN=1`.
+
+2. Download and run `"~/code/install-build-deps.sh"` to install build dependencies. Answer Y (yes) to all of the questions.
+
+  ```bash
+  cd $BASE
+  curl 'https://chromium.googlesource.com/chromium/src/+/master/build/install-build-deps.sh?format=TEXT' | base64 -d > install-build-deps.sh
+  chmod 755 install-build-deps.sh
+  sudo ./install-build-deps.sh --no-syms --no-arm --no-chromeos-fonts --no-nacl
+  ```
+
+3. Install the `"libgtkglext1-dev"` package required by the cefclient sample application.
+
+  ```bash
+  sudo apt install libgtkglext1-dev
+  ```
+
+4. Download the `depot_tools` using git.
+
+  ```bash
+  cd $BASE
+  git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+  ```
+
+5. Download Chromium source code using the fetch tool included with `depot_tools`.
+   This step only needs to be performed the first time Chromium code is checked out.
+   *This will download > 7GB of git repository*.
+
+  ```bash
+  mkdir -p $BASE/chromium_git/chromium
+  cd $BASE/chromium_git/chromium
+  fetch --nohooks chromium
+  ```
+
+6. Download additional branch and tag information.
+
+  ```bash
+  cd $BASE/chromium_git/chromium/src
+  gclient sync --nohooks --with_branch_heads
+  git fetch
+  git fetch --tags
+  ```
+
+7. Download CEF source code from the CEF Git repository to a "cef" directory inside the Chromium "src" directory.
+
+  ```bash
+  cd $BASE/chromium_git/chromium/src
+  git clone https://bitbucket.org/chromiumembedded/cef.git
+  cd cef
+  git checkout -t origin/$BRANCH
+  ```
+
+8. Check out the correct chromium release version and update the third-party dependencies.
+
+  ```bash
+  cd $BASE/chromium_git/chromium/src
+  git checkout $(sed -n -e "s/.*'\(refs[^']*\)'.*/\1/p" cef/CHROMIUM_BUILD_COMPATIBILITY.txt)
+  gclient sync --jobs 16
+  ```
+
+  Here the `sed` command extracts the refspec from `cef/CHROMIUM_BUILD_COMPATIBILITY.txt`
+  which should look something like `refs/tags/58.0.3029.33`.
+
+9. Create an executable `"$BASE/chromium_git/chromium/src/cef/create.sh"` script by executing the following on the command line:
+
+  ```base
+  cd $BASE/chromium_git/chromium/src/cef
+  cat > create.sh << EOF
+  #!/bin/bash
+  export CEF_USE_GN=1
+  ./cef_create_projects.sh
+  EOF
+  chmod 755 create.sh
+  ```
+
+10. Run the `"create.sh"` script to create Ninja project files. Repeat this step if you change the project configuration or add/remove files in the GN configuration (BUILD.gn file).
+
+  ```bash
+  cd $BASE/chromium_git/chromium/src/cef
+  ./create.sh
+  ```
+
+11. Create a Debug build of CEF/Chromium using Ninja. Edit the CEF source code at `"$BASE/chromium_git/chromium/src/cef"`
+    and repeat this step multiple times to perform incremental builds while developing.
+
+  ```bash
+  cd $BASE/chromium_git/chromium/src
+  ninja -C out/Debug_GN_x64 chrome_sandbox
+  ```
+
+12. Set up the Linux SUID sandbox. This command only needs to be run a single time. It uses sudo which might ask for your password.
+
+  ```bash
+  cd $BASE/chromium_git/chromium/src
+  BUILDTYPE=Debug_GN_x64 ./build/update-linux-sandbox.sh
+  ```
+
+13. Run the cefclient sample application.
+
+  ```bash
+  cd $BASE/chromium_git/chromium/src
+  ./out/Debug_GN_x64/cefclient
+  ```

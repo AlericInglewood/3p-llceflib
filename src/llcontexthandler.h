@@ -57,6 +57,9 @@ class LLContextHandler: public CefRequestContextHandler
 #if CEF_CURRENT_BRANCH >= CEF_BRANCH_2357
         bool OnBeforePluginLoad(const CefString& mime_type,
                                 const CefString& plugin_url,
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3029   // Actually in cef/41a02dbe08efa6e4f8851a810e248f3d8024cfe8
+                                bool /*is_main_frame*/, // I don't think being in the main (top-level) frame matters here.
+#endif
                                 const CefString& top_origin_url,
                                 CefRefPtr<CefWebPluginInfo> plugin_info,
                                 PluginPolicy* plugin_policy) OVERRIDE

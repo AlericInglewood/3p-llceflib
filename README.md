@@ -102,11 +102,11 @@ from the cef wiki, improved, fixed and tuned to work with this repository.
   sudo apt install libgtkglext1-dev
   ```
 
-4. Download the `depot_tools` using git.
+4. Download the `depot_tools` as git submodule.
 
   ```bash
   cd $BASE
-  git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+  git submodule update
   ```
 
 5. Download Chromium source code using the fetch tool included with `depot_tools`.

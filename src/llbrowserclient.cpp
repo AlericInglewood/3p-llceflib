@@ -103,17 +103,6 @@ void LLBrowserClient::OnAfterCreated(CefRefPtr<CefBrowser> browser)
     mBrowserList.push_back(browser);
 }
 
-bool LLBrowserClient::RunModal(CefRefPtr<CefBrowser> browser)
-{
-    CEF_REQUIRE_UI_THREAD();
-
-#ifdef LLCEFLIB_DEBUG
-    std::cout << "LLBrowserClient::RunModal" << std::endl;
-#endif
-
-    return false;
-}
-
 bool LLBrowserClient::DoClose(CefRefPtr<CefBrowser> browser)
 {
     CEF_REQUIRE_UI_THREAD();

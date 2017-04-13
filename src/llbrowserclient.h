@@ -69,7 +69,6 @@ class LLBrowserClient :
                            bool* no_javascript_access) OVERRIDE;
 #endif
         void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
-        bool RunModal(CefRefPtr<CefBrowser> browser) OVERRIDE;
         bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
         void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 

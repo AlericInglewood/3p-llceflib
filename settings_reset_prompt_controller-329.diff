@@ -1,0 +1,14 @@
+diff --git a/chrome/browser/safe_browsing/settings_reset_prompt/settings_reset_prompt_controller.cc b/chrome/browser/safe_browsing/settings_reset_prompt/settings_reset_prompt_controller.cc
+index 1cce55e..c169ba6 100644
+--- a/chrome/browser/safe_browsing/settings_reset_prompt/settings_reset_prompt_controller.cc
++++ b/chrome/browser/safe_browsing/settings_reset_prompt/settings_reset_prompt_controller.cc
+@@ -27,6 +27,9 @@
+ #include "ui/base/l10n/l10n_util.h"
+ #include "url/gurl.h"
+ 
++// Drag in SettingsResetPromptController to solve undefined reference to SettingsResetPromptController::ShowSettingsResetPrompt. -- Aleric
++#include "../../ui/views/settings_reset_prompt_dialog.cc"
++
+ namespace safe_browsing {
+ 
+ namespace {

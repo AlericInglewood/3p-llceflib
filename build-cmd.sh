@@ -16,8 +16,10 @@ CEF_SOURCE_DIR_OSX="cef_2171_OSX_32"
 MSVC_PROPS_FILE="./${LLCEFLIB_SOURCE_DIR}/cef.props"
 CEF_SOURCE_DIR_WIN=$(sed -n 's:.*<CEF_DIR>\(.*\)</CEF_DIR>.*:\1:p' "${MSVC_PROPS_FILE}")
 
-# hard code the linux64 folder name
-CEF_SOURCE_DIR_LIN64="cef_2526_LIN_64"
+# get the linux64 folder name.
+CEF_VERSION_FILE="chromium_git/chromium/src/cef/include/cef_version.h"
+CEF_BRANCH=$(sed -n -e 's/^#define CHROME_VERSION_BUILD \([0-9]*\)$/\1/p' ${CEF_VERSION_FILE})
+CEF_SOURCE_DIR_LIN64="cef_$BRANCH""_LIN_64"
 
 if [ -z "$AUTOBUILD" ] ; then
     fail
@@ -93,6 +95,11 @@ echo "${version}.${build}" > "${stage}/VERSION.txt"
             cp -R "$LLCEFLIB_SOURCE_DIR/LICENSES" "$stage"
         ;;
         "linux64")
+          if [ -z "$CEF_BRANCH" ]; then
+              echo "Could not determine CEF branch."
+              fail
+          fi
+
           pushd "$CEF_SOURCE_DIR_LIN64"
               # Build debug version of libcef_dll
               mkdir -p build_debug

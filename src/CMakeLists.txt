@@ -28,8 +28,8 @@ elseif(APPLE)
                debug "${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/Debug/Chromium Embedded Framework.framework"
                optimized "${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/Release/Chromium Embedded Framework.framework")
 elseif(UNIX)
-  set(CEF_LIBS debug ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/build_debug/libcef_dll/libcef_dll_wrapper.a
-               optimized ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/build_release/libcef_dll/libcef_dll_wrapper.a
+  set(CEF_LIBS debug ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/build_debug/libcef_dll_wrapper/libcef_dll_wrapper.a
+               optimized ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/build_release/libcef_dll_wrapper/libcef_dll_wrapper.a
                debug ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/Debug/libcef.so
                optimized ${CMAKE_CURRENT_SOURCE_DIR}/../${CEF_BASE}/Release/libcef.so)
 endif()

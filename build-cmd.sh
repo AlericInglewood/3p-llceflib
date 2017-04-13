@@ -147,8 +147,8 @@ echo "${version}.${build}" > "${stage}/VERSION.txt"
           cp $CEF_SOURCE_DIR_LIN64/Release/*_blob.bin $stage/bin/release
           cp $CEF_SOURCE_DIR_LIN64/Debug/*_blob.bin $stage/bin/debug
           cp $LLCEFLIB_SOURCE_DIR/llceflib.h $stage/include/cef
-          cp $CEF_SOURCE_DIR_LIN64/build_release/libcef_dll/libcef_dll_wrapper.a $stage/lib/release
-          cp $CEF_SOURCE_DIR_LIN64/build_debug/libcef_dll/libcef_dll_wrapper.a $stage/lib/debug
+          cp $CEF_SOURCE_DIR_LIN64/build_release/libcef_dll_wrapper/libcef_dll_wrapper.a $stage/lib/release
+          cp $CEF_SOURCE_DIR_LIN64/build_debug/libcef_dll_wrapper/libcef_dll_wrapper.a $stage/lib/debug
           cp $LLCEFLIB_SOURCE_DIR/build_release/lib/libllceflib.a $stage/lib/release
           cp $LLCEFLIB_SOURCE_DIR/build_debug/lib/libllceflib.a $stage/lib/debug
           cp $CEF_SOURCE_DIR_LIN64/Release/libcef.so $stage/lib/release

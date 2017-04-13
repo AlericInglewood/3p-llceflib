@@ -62,7 +62,8 @@ I've tested this (and am using it) for linux64.
 Before running autobuild you need to build CEF3; for that you need at least 6 GB of RAM
 and 40 GB of free disk space.
 
-The following is a blend of [BranchesAndBuilding](https://bitbucket.org/chromiumembedded/cef/wiki/BranchesAndBuilding)
+The following is a blend of [AutomatedBuildSetup](https://bitbucket.org/chromiumembedded/cef/wiki/AutomatedBuildSetup),
+[BranchesAndBuilding](https://bitbucket.org/chromiumembedded/cef/wiki/BranchesAndBuilding)
 and [MasterBuildQuickStart](https://bitbucket.org/chromiumembedded/cef/wiki/MasterBuildQuickStart.md)
 from the cef wiki, improved, fixed and tuned to work with this repository.
 
@@ -74,6 +75,10 @@ from the cef wiki, improved, fixed and tuned to work with this repository.
   export AUTOBUILD_PLATFORM_OVERRIDE=linux64
   export CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox
   export PATH="$BASE/depot_tools:$PATH"
+  export CEF_USE_GN=1
+  export GN_DEFINES="is_official_build=true use_sysroot=true use_allocator=none symbol_level=1"
+  export GYP_DEFINES="disable_nacl=1 use_sysroot=1 buildtype=Official use_allocator=none"
+  export CEF_ARCHIVE_FORMAT=tar.bz2
   ```
 
   here `$BASE` should be the directory containing `build-cmd.sh` and `.git`

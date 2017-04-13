@@ -149,7 +149,11 @@ void LLBrowserClient::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefStri
     mParent->onTitleChange(title_str);
 }
 
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3029   // Actually in cef/188326bbc406c2b7997c723db5ba4f4897a553a0
+void LLBrowserClient::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, TransitionType /*transition_type*/)
+#else
 void LLBrowserClient::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
+#endif
 {
     CEF_REQUIRE_UI_THREAD();
     if (frame->IsMain())

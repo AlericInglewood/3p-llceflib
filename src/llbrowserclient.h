@@ -81,7 +81,11 @@ class LLBrowserClient :
 
         // CefLoadHandler overrides
         CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3029   // Actually in cef/188326bbc406c2b7997c723db5ba4f4897a553a0
+        void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, TransitionType transition_type) OVERRIDE;
+#else
         void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;
+#endif
         void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) OVERRIDE;
         void OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl) OVERRIDE;
 

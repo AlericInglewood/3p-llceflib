@@ -56,7 +56,7 @@ This is basically a fork of [LindenLabs llceflib](https://bitbucket.org/lindenla
 
 ## How to update the version of CEF that LLCEFLib builds against
 
-## Linux
+## Linux x86_64
 
 I've tested this (and am using it) for linux64.
 Before running autobuild you need to build CEF3; for that you need at least 6 GB of RAM
@@ -64,14 +64,14 @@ and 40 GB of free disk space.
 
 The following is a blend of [BranchesAndBuilding](https://bitbucket.org/chromiumembedded/cef/wiki/BranchesAndBuilding)
 and [MasterBuildQuickStart](https://bitbucket.org/chromiumembedded/cef/wiki/MasterBuildQuickStart.md)
-from the cef wiki, tuned to work with this repository.
+from the cef wiki, improved, fixed and tuned to work with this repository.
 
 1. Set environment.
 
   ```bash
-  export AUTOBUILD_PLATFORM_OVERRIDE=linux64
   export BASE=/path/to/root/of/3p-llceflib
   export BRANCH=3029
+  export AUTOBUILD_PLATFORM_OVERRIDE=linux64
   export CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox
   export PATH="$BASE/depot_tools:$PATH"
   ```

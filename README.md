@@ -162,24 +162,48 @@ from the cef wiki, tuned to work with this repository.
   ./create.sh
   ```
 
-11. Create a Debug build of CEF/Chromium using Ninja. Edit the CEF source code at `"$BASE/chromium_git/chromium/src/cef"`
+11. Set up the Linux SUID sandbox. These command only needs to be run a single time. It uses sudo which might ask for your password.
+
+  ```bash
+  cd $BASE/chromium_git/chromium/src
+  sudo rm -f "$CHROME_DEVEL_SANDBOX"
+  ninja -C out/Release_GN_x64 chrome_sandbox
+  BUILDTYPE=Release_GN_x64 ./build/update-linux-sandbox.sh
+  ```
+
+12. Create a Debug build of CEF/Chromium using Ninja. Edit the CEF source code at `"$BASE/chromium_git/chromium/src/cef"`
     and repeat this step multiple times to perform incremental builds while developing.
 
   ```bash
   cd $BASE/chromium_git/chromium/src
-  ninja -C out/Debug_GN_x64 chrome_sandbox
+  ninja -C out/Debug_GN_x64 cef
   ```
 
-12. Set up the Linux SUID sandbox. This command only needs to be run a single time. It uses sudo which might ask for your password.
-
-  ```bash
-  cd $BASE/chromium_git/chromium/src
-  BUILDTYPE=Debug_GN_x64 ./build/update-linux-sandbox.sh
-  ```
-
-13. Run the cefclient sample application.
+13. To test if this worked, run the cefclient sample application.
 
   ```bash
   cd $BASE/chromium_git/chromium/src
   ./out/Debug_GN_x64/cefclient
+  ```
+
+14. Create a Release build of CEF/Chromium.
+
+  ```bash
+  cd $BASE/chromium_git/chromium/src
+  ninja -C out/Release_GN_x64 cef
+  ```
+
+15. Create the binary package for CEF.
+
+  ```bash
+  cd $BASE/chromium_git/chromium/src/cef/tools
+  ./make_distrib.sh --ninja-build --x64-build --no-docs --distrib-subdir=cef_"$BRANCH"_LIN_64
+  ```
+
+16. Unpack binary distribution in root of the project.
+
+  ```bash
+  cd $BASE
+  rm -rf cef_"$BRANCH"_LIN_64
+  unzip $BASE/chromium_git/chromium/src/cef/binary_distrib/cef_"$BRANCH"_LIN_64.zip
   ```

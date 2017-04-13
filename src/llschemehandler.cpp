@@ -128,10 +128,17 @@ class ClientSchemeHandlerFactory : public CefSchemeHandlerFactory
 const CefString& schemeName("secondlife");  // scheme name we want to catch
 const CefString& domainName("");            // domain name ignored for non-standard schemes
 
-void RegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar)
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3029   // Actually in cef/07ba48b082f406873597196c267e7042c303a79f
+void RegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar)
 {
-    registrar->AddCustomScheme(schemeName, true, false, false);
+    registrar->AddCustomScheme(schemeName, true, false, false
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3029
+        , false, true                       // Actually in cef/b7b145fa4f839ee89d3ac99f2d4fbad828915dd8
+        , false                             // Actually in cef/54647945f168cb46df034fed5f1c71730be27e4b
+#endif
+        );
 }
+#endif
 
 void RegisterSchemeHandlers(LLCEFLibImpl* parent)
 {

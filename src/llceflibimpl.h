@@ -166,7 +166,11 @@ class LLCEFLibImpl :
         void showDevTools(bool show);
 
         /* virtual */
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3029   // Actually in cef/07ba48b082f406873597196c267e7042c303a79f
+        void OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) OVERRIDE;
+#else
         void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE;
+#endif
 
         CefRefPtr<CefBrowser> getBrowser();
         void setBrowser(CefRefPtr<CefBrowser> browser);

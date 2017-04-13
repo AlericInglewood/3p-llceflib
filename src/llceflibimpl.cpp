@@ -760,12 +760,18 @@ void LLCEFLibImpl::requestExit()
     }
 }
 
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3029   // Actually in cef/07ba48b082f406873597196c267e7042c303a79f
+void LLCEFLibImpl::OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar)
+#else
 void LLCEFLibImpl::OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar)
+#endif
 {
     // removed for now since the scheme handler as implemented is broken in rev 2357
     // now schemes are caught via onBeforeBrowse override - when 2357 is fixed the code
     // should revert to using a scheme hander vs a URL parser
-    //scheme_handler::RegisterCustomSchemes(registrar);
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3029   // Actually in cef/07ba48b082f406873597196c267e7042c303a79f
+    scheme_handler::RegisterCustomSchemes(registrar);
+#endif
 }
 
 void LLCEFLibImpl::setCustomSchemes(std::vector<std::string> custom_schemes)

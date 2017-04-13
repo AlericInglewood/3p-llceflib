@@ -41,8 +41,10 @@ class LLCEFLibImpl;
 namespace scheme_handler
 {
 
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3029   // Actually in cef/07ba48b082f406873597196c267e7042c303a79f
 // Register the scheme.
-void RegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar);
+void RegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar);
+#endif
 
 // Create the scheme handler.
 void RegisterSchemeHandlers(LLCEFLibImpl* parent);

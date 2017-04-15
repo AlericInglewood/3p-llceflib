@@ -18,8 +18,8 @@ CEF_SOURCE_DIR_WIN=$(sed -n 's:.*<CEF_DIR>\(.*\)</CEF_DIR>.*:\1:p' "${MSVC_PROPS
 
 # get the linux64 folder name.
 CEF_VERSION_FILE="chromium_git/chromium/src/cef/include/cef_version.h"
-CEF_BRANCH=$(sed -n -e 's/^#define CHROME_VERSION_BUILD \([0-9]*\)$/\1/p' ${CEF_VERSION_FILE})
-CEF_SOURCE_DIR_LIN64="cef_$BRANCH""_LIN_64"
+CEF_VERSION=$(sed -n -r -e 's/#define CEF_VERSION "([[:alnum:].]+)"/\1/p' "${CEF_VERSION_FILE}")
+CEF_SOURCE_DIR_LIN64="cef_binary_${CEF_VERSION}_linux64"
 
 if [ -z "$AUTOBUILD" ] ; then
     fail
@@ -95,8 +95,8 @@ echo "${version}.${build}" > "${stage}/VERSION.txt"
             cp -R "$LLCEFLIB_SOURCE_DIR/LICENSES" "$stage"
         ;;
         "linux64")
-          if [ -z "$CEF_BRANCH" ]; then
-              echo "Could not determine CEF branch."
+          if [ -z "$CEF_VERSION" ]; then
+              echo "Could not determine CEF version."
               fail
           fi
 
@@ -158,10 +158,8 @@ echo "${version}.${build}" > "${stage}/VERSION.txt"
           mv $stage/LICENSES/LICENSE-source.txt $stage/LICENSES/llceflib.txt
           chmod 664 $stage/LICENSES/*
 
-          # Get version for packaging.
-          VERSION_HEADER_FILE="$CEF_SOURCE_DIR_LIN64/include/cef_version.h"
-          version=$(sed -n -r 's/#define CEF_VERSION "([[:alnum:].]+)"/\1/p' "${VERSION_HEADER_FILE}")
-          echo "${version}" > "${stage}/VERSION.txt"
+          # Save version for packaging.
+          echo "${CEF_VERSION}" > "${stage}/VERSION.txt"
         ;;
     esac
 

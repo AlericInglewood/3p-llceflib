@@ -1,3 +1,6 @@
-[submodule "depot_tools"]
-	path = depot_tools
+[submodule "chromium_git/depot_tools"]
+	path = chromium_git/depot_tools
 	url = https://chromium.googlesource.com/chromium/tools/depot_tools.git
+[submodule "chromium_git/cef"]
+	path = chromium_git/cef
+	url = https://bitbucket.org/chromiumembedded/cef.git

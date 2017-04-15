@@ -1,4 +1,6 @@
-cef_2526_LIN_64
 stage
+tags
 src/build_debug
 src/build_release
+chromium_git/chromium
+cef_binary_3.*_linux64

@@ -95,7 +95,7 @@ from the cef wiki, improved, fixed and tuned to work with this repository.
   sudo ./install-build-deps.sh --no-syms --no-arm --no-chromeos-fonts --no-nacl
   ```
 
-  If you don't trust this script of want the latest version then feel free to recreate it with
+  If you don't trust this script or want the latest version then feel free to recreate it with
 
   ```bash
   curl 'https://chromium.googlesource.com/chromium/src/+/master/build/install-build-deps.sh?format=TEXT' | base64 -d > install-build-deps.sh

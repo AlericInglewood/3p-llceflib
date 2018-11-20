@@ -159,7 +159,7 @@ echo "${version}.${build}" > "${stage}/VERSION.txt"
           chmod 664 $stage/LICENSES/*
 
           # Save version for packaging.
-          echo "${CEF_VERSION}" > "${stage}/VERSION.txt"
+          echo "${CEF_VERSION}" > "${stage}/package_version"
         ;;
     esac
 

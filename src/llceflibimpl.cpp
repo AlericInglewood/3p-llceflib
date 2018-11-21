@@ -47,6 +47,9 @@
 // <CV:HB>
 #include <iostream>             // Needed when mDebug is set.
 // </CV:HB>
+// <CV:AI>
+#include <cmath>                // Needed for fabs.
+// </CV:AI>
 
 #ifdef __APPLE__
 #import <Foundation/Foundation.h>

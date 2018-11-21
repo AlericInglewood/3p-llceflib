@@ -42,7 +42,11 @@ class LLRenderHandler :
 
         // CefRenderHandler interface
     public:
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3578
+        void GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE;
+#else
         bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE;
+#endif
         void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer, int width, int height) OVERRIDE;
         void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type, const CefCursorInfo& custom_cursor_info) OVERRIDE;
         void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE;

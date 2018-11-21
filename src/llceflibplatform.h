@@ -47,6 +47,7 @@
 #define FLIP_OUTPUT_Y
 
 #if 1 // <CV:HB>
+#define CEF_BRANCH_3578     (6) // Added by <SV:AI>
 #define CEF_BRANCH_3029     (5)
 #define CEF_BRANCH_2526     (4)
 #define CEF_BRANCH_2454     (3)
@@ -57,7 +58,7 @@
 #if defined(__APPLE__)
 #define CEF_CURRENT_BRANCH  CEF_BRANCH_2171
 #elif defined(__linux__)
-#define CEF_CURRENT_BRANCH  CEF_BRANCH_3029
+#define CEF_CURRENT_BRANCH  CEF_BRANCH_3578 // Changed from 3029 -> 3578 by <SV:AI>
 #else
 #define CEF_CURRENT_BRANCH  CEF_BRANCH_2526
 #endif

@@ -60,7 +60,11 @@ void LLRenderHandler::resizeFlipBuffer(int width, int height)
 #endif
 }
 
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3578
+void LLRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
+#else
 bool LLRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
+#endif
 {
     int width, height;
     mParent->getSize(width, height);
@@ -72,7 +76,9 @@ bool LLRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
 
     rect = CefRect(0, 0, width, height);
 
+#if CEF_CURRENT_BRANCH < CEF_BRANCH_3578
     return true;
+#endif
 }
 
 void LLRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer, int width, int height)

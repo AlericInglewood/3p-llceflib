@@ -113,7 +113,11 @@ bool LLBrowserClient::DoClose(CefRefPtr<CefBrowser> browser)
     return false;
 }
 
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3578
+bool LLBrowserClient::OnConsoleMessage(CefRefPtr<CefBrowser> browser, cef_log_severity_t /*level*/, const CefString& message, const CefString& source, int line)
+#else
 bool LLBrowserClient::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
+#endif
 {
     CEF_REQUIRE_UI_THREAD();
 
@@ -175,7 +179,11 @@ void LLBrowserClient::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFr
 {
 }
 
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3578
+bool LLBrowserClient::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool /*user_gesture*/, bool is_redirect)
+#else
 bool LLBrowserClient::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
+#endif
 {
     CEF_REQUIRE_UI_THREAD();
     std::string url = request->GetURL();

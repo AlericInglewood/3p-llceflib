@@ -144,7 +144,7 @@ from the cef wiki, improved, fixed and tuned to work with this repository.
 7. Unpack binary distribution in root of the project.
 
   ```bash
-  cd $BASE
+  cd $REPOBASE
   tar xjf chromium_git/chromium/src/cef/binary_distrib/cef_binary_3.$BRANCH.*_linux64.tar.bz2
   ```
 

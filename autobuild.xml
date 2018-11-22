@@ -46,9 +46,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8796ed4ef8b99cc305f2dfa1fe67848e</string>
+              <string>1b7c91b22fd9bf7398324157545de61e</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/boost-1.63.0-linux64-201706220306.tar.bz2</string>
+              <string>https://github.com/AlericInglewood/3p-boost/releases/download/1.68.0-linux64-201811221925/boost-1.68.0-linux64-201811221925.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -79,7 +79,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.63.0</string>
+        <string>1.68.0</string>
       </map>
     </map>
     <key>package_description</key>

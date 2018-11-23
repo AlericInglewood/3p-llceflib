@@ -29,8 +29,6 @@
 
 #include "include/cef_app.h"
 #include "llbrowserclient.h"
-#include "boost/function.hpp"
-
 #include "llceflib.h"
 #include "llceflibplatform.h"
 
@@ -73,48 +71,48 @@ class LLCEFLibImpl :
         void requestExit();
         void shutdown();
 
-        void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int, int, int, bool)> callback);
+        void setOnPageChangedCallback(std::function<void(unsigned char*, int, int, int, int, bool)> callback);
         void onPageChanged(unsigned char*, int, int, int, int, bool);
 
-        void setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback);
+        void setOnCustomSchemeURLCallback(std::function<void(std::string)> callback);
         void onCustomSchemeURL(std::string url);
 
-        void setOnConsoleMessageCallback(boost::function<void(std::string, std::string, int)> callback);
+        void setOnConsoleMessageCallback(std::function<void(std::string, std::string, int)> callback);
         void onConsoleMessage(std::string message, std::string source, int line);
 
-        void setOnAddressChangeCallback(boost::function<void(std::string)> callback);
+        void setOnAddressChangeCallback(std::function<void(std::string)> callback);
         void onAddressChange(std::string new_url);
 
-        void setOnStatusMessageCallback(boost::function<void(std::string)> callback);
+        void setOnStatusMessageCallback(std::function<void(std::string)> callback);
         void onStatusMessage(std::string value);
 
-        void setOnTitleChangeCallback(boost::function<void(std::string)> callback);
+        void setOnTitleChangeCallback(std::function<void(std::string)> callback);
         void onTitleChange(std::string title);
 
         void OnBeforeClose(CefRefPtr<CefBrowser> browser);
 
-        void setOnLoadStartCallback(boost::function<void()> callback);
+        void setOnLoadStartCallback(std::function<void()> callback);
         void onLoadStart();
 
-        void setOnLoadEndCallback(boost::function<void(int)> callback);
+        void setOnLoadEndCallback(std::function<void(int)> callback);
         void onLoadEnd(int httpStatusCode);
 
-        void setOnNavigateURLCallback(boost::function<void(std::string, std::string)> callback);
+        void setOnNavigateURLCallback(std::function<void(std::string, std::string)> callback);
         void onNavigateURL(std::string url, std::string target);
 
-        void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
+        void setOnHTTPAuthCallback(std::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
         bool onHTTPAuth(const std::string host, const std::string realm, std::string& username, std::string& password);
 
-        void setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback);
+        void setOnFileDownloadCallback(std::function<void(const std::string filename)> callback);
         void onFileDownload(const std::string filename);
 
-        void setOnFileDialogCallback(boost::function<const std::string()> callback);
+        void setOnFileDialogCallback(std::function<const std::string()> callback);
         const std::string onFileDialog();
 
-        void setOnRequestExitCallback(boost::function<void()> callback);
+        void setOnRequestExitCallback(std::function<void()> callback);
         void onRequestExit();
 
-        void setOnCursorChangedCallback(boost::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> callback);
+        void setOnCursorChangedCallback(std::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> callback);
         void onCursorChanged(LLCEFLib::ECursorType type, unsigned int cursor);
 
         void mouseButton(LLCEFLib::EMouseButton mouse_button, LLCEFLib::EMouseEvent mouse_event, int x, int y);
@@ -190,20 +188,20 @@ class LLCEFLibImpl :
         double mRequestedZoom;
 
         std::vector<std::string> mCustomSchemes;
-        boost::function<void(unsigned char*, int, int, int, int, bool)> mOnPageChangedCallbackFunc;
-        boost::function<void(std::string)> mOnCustomSchemeURLCallbackFunc;
-        boost::function<void(std::string, std::string, int line)> mOnConsoleMessageCallbackFunc;
-        boost::function<void(std::string)> mOnAddressChangeCallbackFunc;
-        boost::function<void(std::string)> mOnStatusMessageCallbackFunc;
-        boost::function<void(std::string)> mOnTitleChangeCallbackFunc;
-        boost::function<void()> mOnLoadStartCallbackFunc;
-        boost::function<void(int)> mOnLoadEndCallbackFunc;
-        boost::function<void(std::string, std::string)> mOnNavigateURLCallbackFunc;
-        boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> mOnHTTPAuthCallbackFunc;
-        boost::function<void(const std::string filename)> mOnFileDownloadCallbackFunc;
-        boost::function<const std::string()> mOnFileDialogCallbackFunc;
-        boost::function<void()> mOnRequestExitCallbackFunc;
-        boost::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> mOnCursorChangedCallbackFunc;
+        std::function<void(unsigned char*, int, int, int, int, bool)> mOnPageChangedCallbackFunc;
+        std::function<void(std::string)> mOnCustomSchemeURLCallbackFunc;
+        std::function<void(std::string, std::string, int line)> mOnConsoleMessageCallbackFunc;
+        std::function<void(std::string)> mOnAddressChangeCallbackFunc;
+        std::function<void(std::string)> mOnStatusMessageCallbackFunc;
+        std::function<void(std::string)> mOnTitleChangeCallbackFunc;
+        std::function<void()> mOnLoadStartCallbackFunc;
+        std::function<void(int)> mOnLoadEndCallbackFunc;
+        std::function<void(std::string, std::string)> mOnNavigateURLCallbackFunc;
+        std::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> mOnHTTPAuthCallbackFunc;
+        std::function<void(const std::string filename)> mOnFileDownloadCallbackFunc;
+        std::function<const std::string()> mOnFileDialogCallbackFunc;
+        std::function<void()> mOnRequestExitCallbackFunc;
+        std::function<void(LLCEFLib::ECursorType type, unsigned int cursor)> mOnCursorChangedCallbackFunc;
 
         void convertInputCoords(int& x, int& y);
         double convertZoomLevel(double linear_zoom);

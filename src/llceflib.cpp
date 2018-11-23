@@ -85,72 +85,72 @@ void LLCEFLib::setPageZoom(double zoom_val)
     mImpl->setPageZoom(zoom_val);
 }
 
-void LLCEFLib::setOnPageChangedCallback(boost::function<void(unsigned char*, int, int, int, int, bool)> callback)
+void LLCEFLib::setOnPageChangedCallback(std::function<void(unsigned char*, int, int, int, int, bool)> callback)
 {
     mImpl->setOnPageChangedCallback(callback);
 }
 
-void LLCEFLib::setOnCustomSchemeURLCallback(boost::function<void(std::string url)> callback)
+void LLCEFLib::setOnCustomSchemeURLCallback(std::function<void(std::string url)> callback)
 {
     mImpl->setOnCustomSchemeURLCallback(callback);
 }
 
-void LLCEFLib::setOnConsoleMessageCallback(boost::function<void(std::string, std::string, int)> callback)
+void LLCEFLib::setOnConsoleMessageCallback(std::function<void(std::string, std::string, int)> callback)
 {
     mImpl->setOnConsoleMessageCallback(callback);
 }
 
-void LLCEFLib::setOnAddressChangeCallback(boost::function<void(std::string value)> callback)
+void LLCEFLib::setOnAddressChangeCallback(std::function<void(std::string value)> callback)
 {
     mImpl->setOnAddressChangeCallback(callback);
 }
 
-void LLCEFLib::setOnStatusMessageCallback(boost::function<void(std::string value)> callback)
+void LLCEFLib::setOnStatusMessageCallback(std::function<void(std::string value)> callback)
 {
     mImpl->setOnStatusMessageCallback(callback);
 }
 
-void LLCEFLib::setOnTitleChangeCallback(boost::function<void(std::string title)> callback)
+void LLCEFLib::setOnTitleChangeCallback(std::function<void(std::string title)> callback)
 {
     mImpl->setOnTitleChangeCallback(callback);
 }
 
-void LLCEFLib::setOnLoadStartCallback(boost::function<void()> callback)
+void LLCEFLib::setOnLoadStartCallback(std::function<void()> callback)
 {
     mImpl->setOnLoadStartCallback(callback);
 }
 
-void LLCEFLib::setOnRequestExitCallback(boost::function<void()> callback)
+void LLCEFLib::setOnRequestExitCallback(std::function<void()> callback)
 {
     mImpl->setOnRequestExitCallback(callback);
 }
 
-void LLCEFLib::setOnCursorChangedCallback(boost::function<void(LLCEFLib::ECursorType type, unsigned int)> callback)
+void LLCEFLib::setOnCursorChangedCallback(std::function<void(LLCEFLib::ECursorType type, unsigned int)> callback)
 {
     mImpl->setOnCursorChangedCallback(callback);
 }
 
-void LLCEFLib::setOnLoadEndCallback(boost::function<void(int)> callback)
+void LLCEFLib::setOnLoadEndCallback(std::function<void(int)> callback)
 {
     mImpl->setOnLoadEndCallback(callback);
 }
 
-void LLCEFLib::setOnNavigateURLCallback(boost::function<void(std::string url, std::string target)> callback)
+void LLCEFLib::setOnNavigateURLCallback(std::function<void(std::string url, std::string target)> callback)
 {
     mImpl->setOnNavigateURLCallback(callback);
 }
 
-void LLCEFLib::setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string& username, std::string& password)> callback)
+void LLCEFLib::setOnHTTPAuthCallback(std::function<bool(const std::string host, const std::string realm, std::string& username, std::string& password)> callback)
 {
     mImpl->setOnHTTPAuthCallback(callback);
 }
 
-void LLCEFLib::setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback)
+void LLCEFLib::setOnFileDownloadCallback(std::function<void(const std::string filename)> callback)
 {
     mImpl->setOnFileDownloadCallback(callback);
 }
 
-void LLCEFLib::setOnFileDialogCallback(boost::function<const std::string()> callback)
+void LLCEFLib::setOnFileDialogCallback(std::function<const std::string()> callback)
 {
     mImpl->setOnFileDialogCallback(callback);
 }

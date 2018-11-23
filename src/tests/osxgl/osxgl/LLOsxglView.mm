@@ -27,9 +27,6 @@
 
 #include "llCEFLib.h"
 
-#include "boost/function.hpp"
-#include "boost/bind.hpp"
-
 #include <OpenGL/gl.h>
 
 #import <GLKit/GLKit.h>
@@ -94,8 +91,8 @@ static void onRequestExitCallback() {
 
     _llCefLib = new LLCEFLib();
 
-    _llCefLib->setOnPageChangedCallback(boost::bind(onPageChangedCallback, _1, _2, _3, _4, _5, _6));
-    _llCefLib->setOnRequestExitCallback(boost::bind(onRequestExitCallback));
+    _llCefLib->setOnPageChangedCallback(std::bind(onPageChangedCallback, _1, _2, _3, _4, _5, _6));
+    _llCefLib->setOnRequestExitCallback(std::bind(onRequestExitCallback));
 
     LLCEFLib::LLCEFLibSettings settings;
     settings.initial_width = 1024;

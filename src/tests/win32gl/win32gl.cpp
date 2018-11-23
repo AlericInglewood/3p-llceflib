@@ -30,8 +30,7 @@
 
 #include "resource.h"
 
-#include "boost/function.hpp"
-#include "boost/bind.hpp"
+#include <functional>
 
 #include <gl\gl.h>
 #include "../../llCEFLib.h"
@@ -132,11 +131,11 @@ bool init(HWND hWnd)
 {
     mLLCEFLib = new LLCEFLib();
 
-    mLLCEFLib->setOnPageChangedCallback(boost::bind(onPageChangedCallback, _1, _2, _3, _4, _5, _6));
-    mLLCEFLib->setOnNavigateURLCallback(boost::bind(onNavigateURL, _1, _2));
-    mLLCEFLib->setOnRequestExitCallback(boost::bind(onRequestExitCallback));
-    mLLCEFLib->setOnFileDownloadCallback(boost::bind(onFileDownload, _1));
-    mLLCEFLib->setOnFileDialogCallback(boost::bind(onFileDialog));
+    mLLCEFLib->setOnPageChangedCallback(std::bind(onPageChangedCallback, _1, _2, _3, _4, _5, _6));
+    mLLCEFLib->setOnNavigateURLCallback(std::bind(onNavigateURL, _1, _2));
+    mLLCEFLib->setOnRequestExitCallback(std::bind(onRequestExitCallback));
+    mLLCEFLib->setOnFileDownloadCallback(std::bind(onFileDownload, _1));
+    mLLCEFLib->setOnFileDialogCallback(std::bind(onFileDialog));
 
     LLCEFLib::LLCEFLibSettings settings;
     settings.initial_width = gTextureWidth;

@@ -30,10 +30,7 @@
 #include <string>
 #include <memory>
 #include <vector>
-
-// dependency on boost until we move to C++11 (std::function) on OS X
-#include "boost/function.hpp"
-#include "boost/move/unique_ptr.hpp"
+#include <functional>
 
 class LLCEFLibImpl;
 
@@ -270,49 +267,49 @@ class LLCEFLib
 
         // callbacks you can hook up and monitor events
         // called when the contents of a page changes
-        void setOnPageChangedCallback(boost::function<void(unsigned char*, int, int, int, int, bool)> callback);
+        void setOnPageChangedCallback(std::function<void(unsigned char*, int, int, int, int, bool)> callback);
 
         // called when a custome scheme URL is entered (see setCustomSchemes)
-        void setOnCustomSchemeURLCallback(boost::function<void(std::string)> callback);
+        void setOnCustomSchemeURLCallback(std::function<void(std::string)> callback);
 
         // called when a JavaScript console message is to be displayed
-        void setOnConsoleMessageCallback(boost::function<void(std::string, std::string, int)> callback);
+        void setOnConsoleMessageCallback(std::function<void(std::string, std::string, int)> callback);
 
         // called when a browser status message is to be displayed
-        void setOnStatusMessageCallback(boost::function<void(std::string)> callback);
+        void setOnStatusMessageCallback(std::function<void(std::string)> callback);
 
         // called when the URL address changes
-        void setOnAddressChangeCallback(boost::function<void(std::string)> callback);
+        void setOnAddressChangeCallback(std::function<void(std::string)> callback);
 
         // called when the page title (<title>) changes
-        void setOnTitleChangeCallback(boost::function<void(std::string)> callback);
+        void setOnTitleChangeCallback(std::function<void(std::string)> callback);
 
         // called when a page starts to load
-        void setOnLoadStartCallback(boost::function<void()> callback);
+        void setOnLoadStartCallback(std::function<void()> callback);
 
         // called when a page "finishes" loading
-        void setOnLoadEndCallback(boost::function<void(int)> callback);
+        void setOnLoadEndCallback(std::function<void(int)> callback);
 
         // called after you call requestExit() and LLCEFLib is ready to close
-        void setOnRequestExitCallback(boost::function<void()> callback);
+        void setOnRequestExitCallback(std::function<void()> callback);
 
         // called when the cursor changes
-        void setOnCursorChangedCallback(boost::function<void(LLCEFLib::ECursorType type, unsigned int)> callback);
+        void setOnCursorChangedCallback(std::function<void(LLCEFLib::ECursorType type, unsigned int)> callback);
 
         // called when a URL is navigated to (and has a target name)
-        void setOnNavigateURLCallback(boost::function<void(std::string url, std::string target)> callback);
+        void setOnNavigateURLCallback(std::function<void(std::string url, std::string target)> callback);
 
         // called when an HTTP AUTH request is made
-        void setOnHTTPAuthCallback(boost::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
+        void setOnHTTPAuthCallback(std::function<bool(const std::string host, const std::string realm, std::string&, std::string&)> callback);
 
         // called when a file download request is made
-        void setOnFileDownloadCallback(boost::function<void(const std::string filename)> callback);
+        void setOnFileDownloadCallback(std::function<void(const std::string filename)> callback);
 
         // called when the file picker dialog is shown
-        void setOnFileDialogCallback(boost::function<const std::string()> callback);
+        void setOnFileDialogCallback(std::function<const std::string()> callback);
 
     private:
-        boost::movelib::unique_ptr <LLCEFLibImpl> mImpl;
+        std::unique_ptr<LLCEFLibImpl> mImpl;
 };
 
 #endif // _LLCEFLIB

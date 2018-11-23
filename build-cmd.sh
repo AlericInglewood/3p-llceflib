@@ -104,14 +104,14 @@ echo "${version}.${build}" > "${stage}/VERSION.txt"
               # Build debug version of libcef_dll
               mkdir -p build_debug
               pushd build_debug
-                  cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug ..
+                  cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON ..
                   make -j8 libcef_dll_wrapper
               popd
 
               # Build release version of libcef_dll
               mkdir -p build_release
               pushd build_release
-                  cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+                  cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON ..
                   make -j8 libcef_dll_wrapper
               popd
           popd

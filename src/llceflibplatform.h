@@ -44,7 +44,7 @@
 #endif // </CV:HB>
 
 // flip the output in the Y direction so it's compatible with SL
-#define FLIP_OUTPUT_Y
+//#define FLIP_OUTPUT_Y         // Commented out by <SV:AI>
 
 #if 1 // <CV:HB>
 #define CEF_BRANCH_3578     (7) // Added by <SV:AI>

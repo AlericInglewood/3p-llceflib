@@ -113,7 +113,7 @@ bool LLBrowserClient::DoClose(CefRefPtr<CefBrowser> browser)
     return false;
 }
 
-#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3578
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3538
 bool LLBrowserClient::OnConsoleMessage(CefRefPtr<CefBrowser> browser, cef_log_severity_t /*level*/, const CefString& message, const CefString& source, int line)
 #else
 bool LLBrowserClient::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
@@ -179,7 +179,7 @@ void LLBrowserClient::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFr
 {
 }
 
-#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3578
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3538
 bool LLBrowserClient::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool /*user_gesture*/, bool is_redirect)
 #else
 bool LLBrowserClient::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)

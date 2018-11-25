@@ -2,5 +2,5 @@ stage
 tags
 src/build_debug
 src/build_release
-chromium_git/chromium
+chromium_git
 cef_binary_3.*_linux64

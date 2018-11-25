@@ -17,8 +17,9 @@ MSVC_PROPS_FILE="./${LLCEFLIB_SOURCE_DIR}/cef.props"
 CEF_SOURCE_DIR_WIN=$(sed -n 's:.*<CEF_DIR>\(.*\)</CEF_DIR>.*:\1:p' "${MSVC_PROPS_FILE}")
 
 # get the linux64 folder name.
-CEF_VERSION_FILE="chromium_git/chromium/src/cef/include/cef_version.h"
-CEF_VERSION=$(sed -n -r -e 's/#define CEF_VERSION "([[:alnum:].]+)"/\1/p' "${CEF_VERSION_FILE}")
+#CEF_VERSION_FILE="chromium_git/chromium/src/cef/include/cef_version.h"
+#CEF_VERSION=$(sed -n -r -e 's/#define CEF_VERSION "([[:alnum:].]+)"/\1/p' "${CEF_VERSION_FILE}")
+CEF_VERSION="3.3538.1852.gcb937fc"
 CEF_SOURCE_DIR_LIN64="cef_binary_${CEF_VERSION}_linux64"
 
 if [ -z "$AUTOBUILD" ] ; then
@@ -39,9 +40,9 @@ stage="$(pwd)/stage"
 build=${AUTOBUILD_BUILD_ID:=0}
 
 VERSION_HEADER_FILE="$LLCEFLIB_SOURCE_DIR/llceflib.h"
-version=$(sed -n -E 's/const std::string LLCEFLIB_BASE_VERSION = "([0-9\.]+)";/\1/p' "${VERSION_HEADER_FILE}")
+version=$(sed -n -E 's/.*LLCEFLIB_BASE_VERSION = "([0-9\.]+[a-z]?)";.*/\1/p' "${VERSION_HEADER_FILE}")
 build=${AUTOBUILD_BUILD_ID:=0}
-echo "${version}.${build}" > "${stage}/VERSION.txt"
+echo "${CEF_VERSION}" > "${stage}/package_version"
 
     case "$AUTOBUILD_PLATFORM" in
         "windows")
@@ -99,6 +100,10 @@ echo "${version}.${build}" > "${stage}/VERSION.txt"
               echo "Could not determine CEF version."
               fail
           fi
+          if [ ! -d "$CEF_SOURCE_DIR_LIN64" ] ; then
+              echo "No such directory: $CEF_SOURCE_DIR_LIN64; download and unpack from http://opensource.spotify.com/cefbuilds/index.html#linux64_builds"
+              fail
+          fi
 
           pushd "$CEF_SOURCE_DIR_LIN64"
               # Build debug version of libcef_dll
@@ -120,7 +125,7 @@ echo "${version}.${build}" > "${stage}/VERSION.txt"
           pushd "$LLCEFLIB_SOURCE_DIR"
               mkdir -p build_debug
               pushd build_debug
-                  cmake -G "Unix Makefiles" -DARCH:STRING="-m64" -DCEF_BASE=$CEF_SOURCE_DIR_LIN64 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON ..
+                  cmake -G "Unix Makefiles" -DARCH:STRING="-m64" -DCEF_BASE="$CEF_SOURCE_DIR_LIN64" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON ..
                   make -j8
               popd
           popd
@@ -128,7 +133,7 @@ echo "${version}.${build}" > "${stage}/VERSION.txt"
           pushd "$LLCEFLIB_SOURCE_DIR"
               mkdir -p build_release
               pushd build_release
-                  cmake -G "Unix Makefiles" -DARCH:STRING="-m64" -DCEF_BASE=$CEF_SOURCE_DIR_LIN64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON ..
+                  cmake -G "Unix Makefiles" -DARCH:STRING="-m64" -DCEF_BASE="$CEF_SOURCE_DIR_LIN64" -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON ..
                   make -j8
               popd
           popd
@@ -142,24 +147,29 @@ echo "${version}.${build}" > "${stage}/VERSION.txt"
           mkdir -p "$stage/resources"
           mkdir -p "$stage/LICENSES"
 
+          cp -R $CEF_SOURCE_DIR_LIN64/Release/swiftshader $stage/bin/release/swiftshader
+          cp -R $CEF_SOURCE_DIR_LIN64/Debug/swiftshader $stage/bin/debug/swiftshader
+          cp $CEF_SOURCE_DIR_LIN64/Release/*.bin $stage/bin/release
+          cp $CEF_SOURCE_DIR_LIN64/Debug/*.bin $stage/bin/debug
+          cp $CEF_SOURCE_DIR_LIN64/Release/chrome-sandbox $stage/bin/release
+          cp $CEF_SOURCE_DIR_LIN64/Debug/chrome-sandbox $stage/bin/debug
+          cp $CEF_SOURCE_DIR_LIN64/Release/libEGL.so $stage/bin/release
+          cp $CEF_SOURCE_DIR_LIN64/Debug/libEGL.so $stage/bin/debug
+          cp $CEF_SOURCE_DIR_LIN64/Release/libGLESv2.so $stage/bin/release
+          cp $CEF_SOURCE_DIR_LIN64/Debug/libGLESv2.so $stage/bin/debug
+          cp $CEF_SOURCE_DIR_LIN64/Release/libcef.so $stage/lib/release
+          cp $CEF_SOURCE_DIR_LIN64/Debug/libcef.so $stage/lib/debug
           cp $LLCEFLIB_SOURCE_DIR/build_release/bin/llceflib_host $stage/bin/release
           cp $LLCEFLIB_SOURCE_DIR/build_debug/bin/llceflib_host $stage/bin/debug
-          cp $CEF_SOURCE_DIR_LIN64/Release/*_blob.bin $stage/bin/release
-          cp $CEF_SOURCE_DIR_LIN64/Debug/*_blob.bin $stage/bin/debug
           cp $LLCEFLIB_SOURCE_DIR/llceflib.h $stage/include/cef
           cp $CEF_SOURCE_DIR_LIN64/build_release/libcef_dll_wrapper/libcef_dll_wrapper.a $stage/lib/release
           cp $CEF_SOURCE_DIR_LIN64/build_debug/libcef_dll_wrapper/libcef_dll_wrapper.a $stage/lib/debug
           cp $LLCEFLIB_SOURCE_DIR/build_release/lib/libllceflib.a $stage/lib/release
           cp $LLCEFLIB_SOURCE_DIR/build_debug/lib/libllceflib.a $stage/lib/debug
-          cp $CEF_SOURCE_DIR_LIN64/Release/libcef.so $stage/lib/release
-          cp $CEF_SOURCE_DIR_LIN64/Debug/libcef.so $stage/lib/debug
           cp -R $CEF_SOURCE_DIR_LIN64/Resources/* $stage/resources
           cp -R $LLCEFLIB_SOURCE_DIR/LICENSES/* $stage/LICENSES
           mv $stage/LICENSES/LICENSE-source.txt $stage/LICENSES/llceflib.txt
           chmod 664 $stage/LICENSES/*
-
-          # Save version for packaging.
-          echo "${CEF_VERSION}" > "${stage}/package_version"
         ;;
     esac
 

@@ -76,7 +76,7 @@ bool LLRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
 
     rect = CefRect(0, 0, width, height);
 
-#if CEF_CURRENT_BRANCH < CEF_BRANCH_3578
+#if CEF_CURRENT_BRANCH < CEF_BRANCH_3538
     return true;
 #endif
 }

@@ -75,7 +75,7 @@ class LLBrowserClient :
         // CefDisplayhandler overrides
         CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE{ return this; }
         void OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url) OVERRIDE;
-#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3578
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3538
         bool OnConsoleMessage(CefRefPtr<CefBrowser> browser, cef_log_severity_t level, const CefString& message, const CefString& source, int line) OVERRIDE;
 #else
         bool OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line) OVERRIDE;
@@ -95,7 +95,7 @@ class LLBrowserClient :
 
         // CefRequestHandler overrides
         CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE{ return this; }
-#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3578
+#if CEF_CURRENT_BRANCH >= CEF_BRANCH_3538
         bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool user_gesture, bool is_redirect) OVERRIDE;
 #else
         bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;

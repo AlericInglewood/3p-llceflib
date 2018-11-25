@@ -952,7 +952,7 @@ std::string LLCEFLibImpl::makeCompatibleUserAgentString(const std::string base)
 
 void LLCEFLibImpl::convertInputCoords(int& x, int& y)
 {
-#ifdef FLIP_OUTPUT_Y
+#ifdef FLIP_INPUT_Y
     y = mViewHeight - y;
 #endif
 }
